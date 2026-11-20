@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent OS Relationship Hub Wireframe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Plan: field-green + marigold on cool paper; Bricolage Grotesque display, Plex Sans body.
+   Layout: Story mode (hero, sticky chapter rail, 8 chapters) and Screens mode (sidebar + 19 screens), hash routed. */
+
+/* Plan: grayscale wireframe on warm-neutral paper, one green accent, yellow sticky notes for edge cases.
+   Layout: fixed module sidebar + one screen at a time (hash routed), each screen = canvas + numbered notes. */
+:root{
+  --paper:#f4f5f2; --panel:#ffffff; --ink:#1d2320; --mute:#69716c; --line:#c9cfca; --fill:#eceee9;
+  --accent:#1f6f4a; --accent-soft:#d9eee2; --note:#fff1b8; --note-ink:#4f3f00;
+  --good:#1f7a3f; --warn:#a85a07; --bad:#b42318; --hatch:#e3e6e1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14181a; --panel:#1b2023; --ink:#e6eae7; --mute:#94a099; --line:#364039; --fill:#232a27;
+    --accent:#5cc58f; --accent-soft:#1d3a2b; --note:#463b0d; --note-ink:#f3e4a0;
+    --good:#5cc58f; --warn:#e0a45c; --bad:#f08a80; --hatch:#262d2a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14181a; --panel:#1b2023; --ink:#e6eae7; --mute:#94a099; --line:#364039; --fill:#232a27;
+  --accent:#5cc58f; --accent-soft:#1d3a2b; --note:#463b0d; --note-ink:#f3e4a0;
+  --good:#5cc58f; --warn:#e0a45c; --bad:#f08a80; --hatch:#262d2a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+a{color:inherit}
+.top{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+.top b{font-size:15px}
+.top span{color:var(--mute);font-size:12px}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);align-items:start}
+.side{position:sticky;top:46px;max-height:calc(100vh - 46px);overflow:auto;padding:14px 10px 30px;border-right:1px solid var(--line);background:var(--panel)}
+.side h4{font:500 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:14px 8px 5px}
+.side a{display:flex;gap:8px;align-items:center;padding:5px 8px;border-radius:5px;text-decoration:none;font-size:13px}
+.side a:hover{background:var(--fill)}
+.side a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.side a small{font:400 10px var(--mono);color:var(--mute);min-width:18px}
+main{padding:22px 26px 60px;min-width:0}
+.screen[hidden]{display:none}
+.screen>h2{font-size:22px;margin-bottom:4px}
+.lede{color:var(--mute);max-width:78ch;margin:0 0 16px}
+.tag{font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+
+/* wireframe parts */
+.frame{border:1.5px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}
+.bar{display:flex;gap:6px;align-items:center;padding:8px 12px;border-bottom:1.5px solid var(--line);background:var(--fill)}
+.bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.bar em{margin-left:10px;font:400 11px var(--mono);color:var(--mute);font-style:normal}
+.app{padding:16px;display:grid;gap:14px}
+.apphead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.apphead h3{font-size:16px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.g21{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:12px}
+.g12{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:12px}
+.box{border:1.5px solid var(--line);border-radius:8px;padding:12px;background:var(--panel);min-width:0}
+.box.dash{border-style:dashed}
+.box h4{font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mute);margin-bottom:8px;font-weight:500}
+.box p{margin:0 0 6px}
+.muted{color:var(--mute)}
+.small{font-size:12px}
+.btn{display:inline-block;border:1.5px solid var(--ink);border-radius:6px;padding:5px 11px;font:500 12.5px var(--sans);background:transparent;color:var(--ink);cursor:pointer}
+.btn.p{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.s{border-color:var(--line);color:var(--mute)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.field{display:grid;gap:3px;margin-bottom:9px}
+.field label{font-size:11.5px;color:var(--mute)}
+.in{border:1.5px solid var(--line);border-radius:6px;padding:6px 9px;background:var(--panel);min-height:30px;font-size:13px;color:var(--ink)}
+.in.sel::after{content:"▾";float:right;color:var(--mute)}
+.in.area{min-height:58px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);border-radius:99px;padding:2px 10px;font-size:12px;background:var(--panel);cursor:pointer;user-select:none}
+.chip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:500}
+.pill{display:inline-block;border-radius:4px;padding:1px 7px;font:500 10.5px var(--mono);border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.pill.g{border-color:var(--good);color:var(--good)} .pill.w{border-color:var(--warn);color:var(--warn)} .pill.b{border-color:var(--bad);color:var(--bad)} .pill.a{border-color:var(--accent);color:var(--accent)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--mute);text-align:left;padding:6px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.hl td{background:var(--accent-soft)}
+.kpi{border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel)}
+.kpi b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:11.5px;color:var(--mute)}
+.kpi em{font:500 11px var(--mono);font-style:normal;color:var(--good)}
+.ph{background:repeating-linear-gradient(45deg,var(--hatch) 0 7px,transparent 7px 14px);border:1.5px dashed var(--line);border-radius:8px;display:grid;place-items:center;color:var(--mute);font:400 11px var(--mono);text-align:center;padding:10px;min-height:90px}
+.bars{display:grid;gap:7px}
+.bar-row{display:grid;grid-template-columns:110px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:12px}
+.bar-row .t{height:14px;background:var(--fill);border-radius:3px;overflow:hidden}
+.bar-row .t i{display:block;height:100%;background:var(--accent);opacity:.85}
+.bar-row b{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.tabs{display:flex;gap:2px;border-bottom:1.5px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;font:500 12.5px var(--sans);color:var(--mute);padding:7px 12px;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px}
+.tabs button.on{color:var(--accent);border-color:var(--accent)}
+.pane[hidden]{display:none}
+.steps{display:flex;gap:0;flex-wrap:wrap}
+.steps span{flex:1;min-width:110px;text-align:center;padding:6px 4px;font-size:12px;border:1.5px solid var(--line);margin-left:-1.5px;color:var(--mute)}
+.steps span.done{background:var(--fill)} .steps span.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.tl{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl>div{position:relative;padding:0 0 12px 16px}
+.tl>div::before{content:"";position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
+.tl b{font-size:12.5px} .tl small{display:block;color:var(--mute);font-size:11.5px}
+.src{font:500 9.5px var(--mono);border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-right:5px;color:var(--mute)}
+.arrow{display:grid;place-items:center;color:var(--mute);font-size:20px}
+.flowrow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:8px;align-items:stretch}
+.cols4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+.col{border:1.5px solid var(--line);border-radius:8px;padding:10px;background:var(--panel);display:grid;gap:7px;align-content:start}
+.col>h4{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.card{border:1.5px solid var(--line);border-radius:6px;padding:7px 9px;font-size:12.5px;background:var(--panel);text-decoration:none;display:block}
+.card.core{background:var(--accent-soft);border-color:var(--accent)}
+a.card:hover{border-color:var(--accent)}
+.phone{width:290px;max-width:100%;border:2px solid var(--ink);border-radius:26px;padding:12px 10px;background:var(--panel);margin:0 auto}
+.phone .scr{border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper);display:grid;gap:8px;padding:10px;min-height:420px;align-content:start}
+.phone .ph-h{font-weight:600;font-size:13px;border-bottom:1.5px solid var(--line);padding-bottom:6px}
+.msg{max-width:86%;padding:6px 9px;border-radius:10px;font-size:12px;border:1.5px solid var(--line);background:var(--panel)}
+.msg.me{margin-left:auto;background:var(--accent-soft);border-color:var(--accent)}
+.msg small{display:block;color:var(--mute);font-size:10.5px;margin-top:2px}
+.btnrow{display:flex;gap:5px;flex-wrap:wrap}
+.btnrow span{border:1.5px solid var(--accent);color:var(--accent);border-radius:6px;padding:2px 8px;font-size:11.5px;background:var(--panel)}
+.node{border:1.5px solid var(--ink);border-radius:8px;padding:7px 10px;background:var(--panel);font-size:12.5px}
+.node.t{background:var(--accent-soft);border-color:var(--accent)}
+.node.w{border-style:dashed}
+.node small{display:block;color:var(--mute);font-size:11px}
+.branch{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.down{text-align:center;color:var(--mute);line-height:1}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;font-size:12.5px}
+.rule b{font:500 10.5px var(--mono);color:var(--accent);text-transform:uppercase}
+
+/* notes */
+.mk{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--accent);color:#fff;font:600 10.5px var(--mono);font-style:normal;margin-right:5px;vertical-align:1px}
+.notes{margin-top:16px;border:1.5px solid var(--note-ink);border-radius:8px;padding:12px 16px;background:var(--note);color:var(--note-ink)}
+.notes h3{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.notes ol{margin:0;padding-left:0;list-style:none;display:grid;gap:6px;font-size:13px}
+.notes li{display:flex;gap:8px}
+.notes li .n{flex:none;display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--note-ink);color:var(--note);font:600 10.5px var(--mono);margin-top:2px}
+.q{margin-top:10px;border-top:1px dashed var(--note-ink);padding-top:8px;font-size:13px}
+.pager{display:flex;justify-content:space-between;margin-top:18px;gap:10px}
+.pager a{border:1.5px solid var(--line);border-radius:6px;padding:6px 12px;text-decoration:none;font-size:12.5px;background:var(--panel)}
+.pager a:hover{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;max-height:210px;border-right:0;border-bottom:1px solid var(--line)}
+  main{padding:16px}
+  .g3,.g4,.cols4,.g21,.g12{grid-template-columns:1fr 1fr}
+  .flowrow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}
+}
+@media (max-width:620px){.g2,.g3,.g4,.cols4,.g21,.g12{grid-template-columns:1fr}.top span{display:none}}
+
+/* ===== Enhancement layer: field-green + marigold, story components ===== */
+:root{
+  --paper:#f3f6f1; --panel:#ffffff; --ink:#13201a; --mute:#5a695f; --line:#d2dbd3; --fill:#eaf0e9;
+  --accent:#0d6b44; --accent-soft:#dbf0e4; --gold:#e8a21a; --gold-soft:#fff0c4; --note:#fff1c9; --note-ink:#5a4200;
+  --good:#1a7a3e; --warn:#a85a07; --bad:#b42318; --hatch:#e0e8e0;
+  --display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+  --shadow:0 1px 2px rgba(19,32,26,.06),0 10px 28px rgba(19,32,26,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e1511; --panel:#16201b; --ink:#e8efe9; --mute:#9bafa2; --line:#2b3a31; --fill:#1c2923;
+    --accent:#5ad39a; --accent-soft:#17382a; --gold:#f0b43a; --gold-soft:#3a2f10; --note:#3a2f10; --note-ink:#f1d58a;
+    --good:#5ad39a; --warn:#e0a45c; --bad:#f08a80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e1511; --panel:#16201b; --ink:#e8efe9; --mute:#9bafa2; --line:#2b3a31; --fill:#1c2923;
+  --accent:#5ad39a; --accent-soft:#17382a; --gold:#f0b43a; --gold-soft:#3a2f10; --note:#3a2f10; --note-ink:#f1d58a;
+  --good:#5ad39a; --warn:#e0a45c; --bad:#f08a80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* top bar */
+.top{height:46px;padding:0 18px;gap:16px}
+.top b{font-family:var(--display);font-size:16px;letter-spacing:-.01em}
+.top b::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent);margin-right:8px;box-shadow:5px 5px 0 -1px var(--gold)}
+.modes{margin-left:auto;display:flex;gap:4px;background:var(--fill);padding:3px;border-radius:9px}
+.modes a{padding:4px 12px;border-radius:7px;text-decoration:none;font-size:12.5px;font-weight:500;color:var(--mute)}
+.modes a.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* restyled wireframe components */
+.frame{border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.bar{border-bottom:1px solid var(--line);background:linear-gradient(var(--fill),var(--panel))}
+.bar i:nth-child(1){background:#e5675a}.bar i:nth-child(2){background:#e8b43a}.bar i:nth-child(3){background:#5ab97c}
+.box,.kpi,.col{border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(19,32,26,.04)}
+.box.dash{border:1.5px dashed var(--line);box-shadow:none}
+.kpi{border-top:3px solid var(--accent)}
+.kpi b{font-family:var(--display);font-size:26px;letter-spacing:-.02em}
+.card{border:1px solid var(--line);border-radius:8px}
+.card.core{border-color:var(--accent)}
+.btn{border-width:1px;border-radius:8px}
+.btn.p{box-shadow:0 2px 8px color-mix(in srgb,var(--accent) 35%,transparent)}
+.btn.big{padding:10px 20px;font-size:14px;border-radius:10px}
+.in{border-width:1px;border-radius:8px}
+.pill{border-radius:99px;padding:1px 9px}
+.pill.g{background:color-mix(in srgb,var(--good) 13%,transparent)}
+.pill.w{background:color-mix(in srgb,var(--warn) 13%,transparent)}
+.pill.b{background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.pill.a{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.bar-row .t{height:12px;border-radius:99px}
+.bar-row .t i{border-radius:99px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--gold)));opacity:1}
+.steps span{border-width:1px;margin-left:-1px}
+.steps span:first-child{border-radius:8px 0 0 8px}.steps span:last-child{border-radius:0 8px 8px 0}
+.node{border-width:1px;border-radius:10px;box-shadow:0 1px 2px rgba(19,32,26,.05)}
+.node.t{border-color:var(--accent)}
+.phone{border-color:var(--ink);box-shadow:var(--shadow);border-radius:30px}
+.phone .scr{border-radius:18px;border-width:1px}
+.msg{border-width:1px;border-radius:12px}
+.screen>h2{font-family:var(--display);font-size:30px;letter-spacing:-.02em;margin-bottom:6px}
+.tag{color:var(--accent);background:var(--accent-soft);display:inline-block;padding:2px 10px;border-radius:99px}
+.notes{border:1px solid color-mix(in srgb,var(--gold) 70%,var(--note-ink));border-radius:14px}
+.side{background:var(--panel)}
+.side a.on{box-shadow:inset 3px 0 0 var(--accent);border-radius:0 6px 6px 0}
+.pager a{border-radius:10px;border-width:1px}
+.mk{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+
+/* hero */
+.hero{padding:54px 0 24px;background:
+  radial-gradient(900px 340px at 85% -10%,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%),
+  radial-gradient(800px 360px at 0% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%)}
+.eyebrow{font:500 11.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero h1{font-family:var(--display);font-size:clamp(34px,5.2vw,60px);line-height:1.04;letter-spacing:-.03em;max-width:17ch;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--accent);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--gold) 55%,transparent) 62%)}
+.sub{font-size:17px;color:var(--mute);max-width:58ch;margin:16px 0 22px}
+.hstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:30px 0 8px}
+.hstats div{border-left:3px solid var(--gold);padding:2px 0 2px 12px}
+.hstats b{display:block;font:700 28px var(--display);letter-spacing:-.02em}
+.hstats span{font-size:12.5px;color:var(--mute)}
+.hsvg{width:100%;height:auto;margin-top:18px;display:block}
+.hsvg text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+.hsvg .nd{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+.hsvg .nd.out{stroke:var(--accent)}
+.hsvg .ln{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:5 9;opacity:.75;animation:flow 1.6s linear infinite}
+.hsvg .ln.o{stroke:var(--gold)}
+.hsvg .hub{fill:var(--accent)}
+.hsvg .halo{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:.35;animation:halo 2.6s ease-out infinite;transform-origin:480px 190px}
+.hsvg .hub-t{fill:#fff;font-weight:600;font-size:14px;font-family:var(--display)}
+.hsvg .hub-s{fill:#fff;font-size:11px;opacity:.85}
+.hsvg .cap{fill:var(--mute);font:500 10.5px var(--mono);letter-spacing:.08em}
+@keyframes flow{to{stroke-dashoffset:-28}}
+@keyframes halo{from{transform:scale(1);opacity:.45}to{transform:scale(1.5);opacity:0}}
+
+/* cast */
+.cast{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px 0 8px}
+.cast>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 14px var(--display);color:#fff;background:var(--accent);margin-bottom:8px}
+.av.g{background:var(--gold);color:#3a2900}.av.d{background:#37574a}.av.s{background:#2f6a8f}
+.cast b{display:block;font-family:var(--display);font-size:15px}
+.cast small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+
+/* rail */
+.rail{position:sticky;top:46px;z-index:4;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
+.rail .wrap{display:flex;gap:0;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+.rail a{flex:1;min-width:104px;text-decoration:none;display:grid;gap:1px;padding:0 6px;position:relative;color:var(--mute)}
+.rail a i{height:4px;border-radius:99px;background:var(--line);margin-bottom:5px}
+.rail a b{font-size:12px;font-weight:600;white-space:nowrap}
+.rail a small{font:400 10.5px var(--mono)}
+.rail a.done i{background:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.rail a.on i{background:var(--accent)}
+.rail a.on{color:var(--ink)}
+
+/* chapters */
+.chap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;padding:54px 0;border-bottom:1px solid var(--line);scroll-margin-top:96px;align-items:start}
+.chap:last-of-type{border-bottom:0}
+.ctext{position:sticky;top:112px}
+.num{font:700 64px var(--display);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px var(--accent);margin-bottom:6px}
+.when{display:inline-block;font:500 11.5px var(--mono);background:var(--gold-soft);color:var(--note-ink);padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.ctext h2{font-family:var(--display);font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-bottom:10px;font-weight:700}
+.ctext p{color:var(--mute);margin:0 0 10px;font-size:15px}
+.pts{list-style:none;margin:12px 0;padding:0;display:grid;gap:7px}
+.pts li{padding-left:22px;position:relative;font-size:13.5px}
+.pts li::before{content:"";position:absolute;left:2px;top:6px;width:9px;height:9px;border-radius:3px;background:var(--accent)}
+.uses{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.uses span{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--mute);margin-right:4px}
+.uses a{font-size:12px;text-decoration:none;border:1px solid var(--accent);color:var(--accent);padding:2px 10px;border-radius:99px;background:var(--panel)}
+.uses a:hover{background:var(--accent);color:#fff}
+.stage{background:linear-gradient(160deg,var(--panel),var(--fill));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);display:grid;gap:16px;min-width:0}
+.duo{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:18px;align-items:start}
+.duo.rev{grid-template-columns:minmax(0,1fr) minmax(0,290px)}
+.pane{display:grid;gap:10px;min-width:0}
+.lbl{font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;width:fit-content}
+.lbl.f{background:var(--gold-soft);color:var(--note-ink)}
+.lbl.c{background:var(--accent-soft);color:var(--accent)}
+.lbl.r{background:var(--fill);color:var(--mute);border:1px solid var(--line)}
+.stage .phone{width:100%;max-width:270px;margin:0}
+.stage .phone .scr{min-height:300px}
+.wa-h{display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;margin:-10px -10px 2px;padding:9px 12px;font-weight:600;font-size:12.5px}
+.wa-h i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.28);display:block}
+.wa-h small{display:block;font-weight:400;font-size:10px;opacity:.85}
+.callrow{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--panel);font-size:12px}
+.callrow b{color:var(--bad)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e5484d;margin-right:6px;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.feed{display:grid;gap:5px;font-size:12px}
+.feed div{display:grid;grid-template-columns:62px 1fr auto;gap:8px;align-items:center;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.feed div span:first-child{font:400 11px var(--mono);color:var(--mute)}
+.mini4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mini4 .kpi b{font-size:24px}
+.merge{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1.15fr);gap:10px;align-items:center}
+.merge .srcs{display:grid;gap:10px}
+.sc{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel);font-size:12.5px}
+.sc small{display:block;color:var(--mute);font-size:11px}
+.sc b{font-family:var(--display)}
+.profile{border:1.5px solid var(--accent);border-radius:14px;padding:12px;background:var(--panel);box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 18%,transparent)}
+.profile h4{font-family:var(--display);font-size:16px;margin-bottom:2px}
+.profile table td{padding:4px 6px;font-size:12px}
+.arrowbig{font-size:22px;color:var(--accent);text-align:center}
+.wave{display:flex;align-items:center;gap:3px;height:28px}
+.wave i{display:block;width:3px;border-radius:2px;background:var(--accent);height:var(--h,14px);animation:wave 1s ease-in-out infinite;animation-delay:calc(var(--i)*70ms)}
+@keyframes wave{50%{transform:scaleY(.35)}}
+.diff{display:grid;gap:6px;font-size:12.5px}
+.diff div{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.diff s{color:var(--mute)}
+.diff b{color:var(--good)}
+.chainstrip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:6px;align-items:center;font-size:12px}
+.chainstrip>div:not(.sep){border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--panel);text-align:center}
+.chainstrip>div:last-child{border-color:var(--accent);background:var(--accent-soft)}
+.chainstrip small{display:block;color:var(--mute);font-size:10.5px}
+.sep{color:var(--mute)}
+.hz{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative;gap:6px}
+.hz::before{content:"";position:absolute;left:10%;right:10%;top:13px;height:3px;background:var(--line);border-radius:3px}
+.hz div{position:relative;text-align:center;font-size:12px}
+.hz i{display:block;width:26px;height:26px;border-radius:50%;margin:0 auto 6px;background:var(--panel);border:3px solid var(--accent);position:relative;z-index:1}
+.hz div.now i{background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 22%,transparent)}
+.hz b{display:block;font-family:var(--display);font-size:13px}
+.hz small{display:block;color:var(--mute);font-size:11px}
+.gain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.gain>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--accent)}
+.gain>div:nth-child(2){border-top-color:var(--gold)}.gain>div:nth-child(3){border-top-color:#2f6a8f}.gain>div:nth-child(4){border-top-color:#37574a}
+.gain h3{font-family:var(--display);font-size:18px;margin-bottom:8px}
+.gain ul{margin:0;padding-left:16px;font-size:13px;color:var(--mute);display:grid;gap:4px}
+.sechead{padding:44px 0 4px}
+.sechead h2{font-family:var(--display);font-size:32px;letter-spacing:-.02em;margin-bottom:6px}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 8px;counter-reset:ph}
+.phases>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;box-shadow:var(--shadow)}
+.phases>div::before{counter-increment:ph;content:"Phase " counter(ph);font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.phases h3{font-family:var(--display);font-size:17px;margin:4px 0 6px}
+.phases p{margin:0 0 8px;font-size:12.5px;color:var(--mute)}
+.phases a{display:block;font-size:12.5px;text-decoration:none;padding:3px 0;border-top:1px dashed var(--line)}
+.phases a:hover{color:var(--accent)}
+.cta{margin:34px 0 10px;padding:28px;border-radius:20px;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#000));color:#fff;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
+.cta h3{font-family:var(--display);font-size:24px;letter-spacing:-.02em}
+.cta p{margin:4px 0 0;opacity:.85}
+.cta .btn{background:#fff;color:#0d4f33;border-color:#fff;text-decoration:none}
+.foot{color:var(--mute);font-size:12px;padding:10px 0 50px}
+
+/* play animations: elements are visible by default, .play only adds a one-off entrance */
+.chap.play .grow{animation:grow 1.1s cubic-bezier(.2,.7,.2,1) both}
+.chap.play .rise{animation:rise .6s ease-out both;animation-delay:calc(var(--d,0)*120ms)}
+@keyframes grow{from{width:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){
+  .hsvg .ln,.hsvg .halo,.wave i,.live{animation:none}
+  .chap.play .grow,.chap.play .rise{animation:none}
+}
+@media (max-width:980px){
+  .chap{grid-template-columns:1fr;gap:20px;padding:36px 0}
+  .ctext{position:static}
+  .hstats,.cast,.gain,.phases{grid-template-columns:1fr 1fr}
+  .duo,.duo.rev{grid-template-columns:1fr}
+  .stage .phone{margin:0 auto}
+}
+@media (max-width:620px){
+  .hstats,.cast,.gain,.phases{grid-template-columns:1fr}
+  .merge{grid-template-columns:1fr}.arrowbig{transform:rotate(90deg)}
+  .chainstrip{grid-template-columns:1fr}.chainstrip .sep{display:none}
+  .hz{grid-template-columns:1fr 1fr}.hz::before{display:none}
+  .wrap{padding:0 16px}
+  .hsvg{min-width:760px}.hwrap{overflow-x:auto}
+}
+
+a.btn{text-decoration:none}
+</style>
+</head>
+<body>
+<div class="top"><b>Agent OS + Relationship Hub</b><span>Product walkthrough · sample data</span>
+  <div class="modes"><a href="#story" id="mStory">Story</a><a href="#overview" id="mScreens">All 19 screens</a></div></div>
+<div id="storyWrap">
+
+<section class="hero" id="story"><div class="wrap">
+  <div class="eyebrow">Agent OS · Relationship Hub · product walkthrough</div>
+  <h1>From a missed call to a farmer who <em>comes back</em></h1>
+  <p class="sub">Follow one farmer, Ramesh Kale of Mohol, through a full Rabi season. At every step you see what he sees, what the company sees, and which screen makes it possible.</p>
+  <div class="btns"><a class="btn p big" href="#ch1">Start the story</a><a class="btn big" href="#overview">Jump to all 19 screens</a></div>
+  <div class="hstats">
+    <div><b>6</b><span>ways a farmer can enter the hub</span></div>
+    <div><b>1</b><span>profile per farmer, across every channel</span></div>
+    <div><b>4</b><span>channels out: WhatsApp, AI voice, SMS, call centre</span></div>
+    <div><b>19</b><span>screens designed in this walkthrough</span></div>
+  </div>
+  <div class="hwrap"><svg class="hsvg" viewBox="0 0 960 380" role="img" aria-label="Six entry points flow into the Relationship Hub, which feeds campaigns, surveys, journeys and analytics">
+    <text class="cap" x="10" y="14">ENTRY POINTS</text><text class="cap" x="760" y="14">ENGINES AND OUTCOMES</text>
+    <g>
+      <path class="ln" d="M200,45 C320,45 330,190 416,190"/><path class="ln" d="M200,103 C320,103 330,190 416,190"/><path class="ln" d="M200,161 C320,161 330,190 416,190"/>
+      <path class="ln" d="M200,219 C320,219 330,190 416,190"/><path class="ln" d="M200,277 C320,277 330,190 416,190"/><path class="ln" d="M200,335 C320,335 330,190 416,190"/>
+      <path class="ln o" d="M544,190 C640,190 650,70 760,70"/><path class="ln o" d="M544,190 C640,190 650,150 760,150"/><path class="ln o" d="M544,190 C640,190 650,230 760,230"/><path class="ln o" d="M544,190 C640,190 650,310 760,310"/>
+    </g>
+    <g>
+      <rect class="nd" x="10" y="27" width="190" height="36" rx="10"/><text x="24" y="50">Field missed call</text>
+      <rect class="nd" x="10" y="85" width="190" height="36" rx="10"/><text x="24" y="108">Meta and Instagram ads</text>
+      <rect class="nd" x="10" y="143" width="190" height="36" rx="10"/><text x="24" y="166">WhatsApp chatbot</text>
+      <rect class="nd" x="10" y="201" width="190" height="36" rx="10"/><text x="24" y="224">Retailer sale</text>
+      <rect class="nd" x="10" y="259" width="190" height="36" rx="10"/><text x="24" y="282">Bulk data import</text>
+      <rect class="nd" x="10" y="317" width="190" height="36" rx="10"/><text x="24" y="340">IVR and call centre</text>
+    </g>
+    <circle class="halo" cx="480" cy="190" r="64"/><circle class="halo" cx="480" cy="190" r="64" style="animation-delay:1.3s"/>
+    <circle class="hub" cx="480" cy="190" r="64"/>
+    <text class="hub-t" x="480" y="186" text-anchor="middle">Relationship</text><text class="hub-t" x="480" y="204" text-anchor="middle">Hub</text>
+    <text class="hub-s" x="480" y="224" text-anchor="middle">1 farmer · 1 profile</text>
+    <g>
+      <rect class="nd out" x="760" y="52" width="190" height="36" rx="10"/><text x="774" y="75">Omni-channel campaigns</text>
+      <rect class="nd out" x="760" y="132" width="190" height="36" rx="10"/><text x="774" y="155">Season intent surveys</text>
+      <rect class="nd out" x="760" y="212" width="190" height="36" rx="10"/><text x="774" y="235">Journeys and cashback</text>
+      <rect class="nd out" x="760" y="292" width="190" height="36" rx="10"/><text x="774" y="315">Analytics and ROI</text>
+    </g>
+  </svg></div>
+  <div class="cast">
+    <div><div class="av">RK</div><b>Ramesh Kale</b><small>Farmer, Mohol, Solapur. 3.5 acre, plans mustard this Rabi.</small></div>
+    <div><div class="av g">SP</div><b>Sachin Patil</b><small>Field agent. Runs village sessions with one missed-call number.</small></div>
+    <div><div class="av s">PA</div><b>Patil Agro</b><small>Retailer in Mohol. Records every sale in seconds.</small></div>
+    <div><div class="av d">CO</div><b>The company</b><small>Seed and nutrient brand. Wants leads, sales and repeat buyers.</small></div>
+  </div>
+</div></section>
+
+<nav class="rail" id="rail" aria-label="Story chapters"><div class="wrap">
+  <a href="#ch1" data-ch="ch1"><i></i><b>1 Meeting</b><small>3 Nov</small></a>
+  <a href="#ch2" data-ch="ch2"><i></i><b>2 Recognised</b><small>6 Nov</small></a>
+  <a href="#ch3" data-ch="ch3"><i></i><b>3 Questions</b><small>9 Nov</small></a>
+  <a href="#ch4" data-ch="ch4"><i></i><b>4 Intent call</b><small>12 Nov</small></a>
+  <a href="#ch5" data-ch="ch5"><i></i><b>5 Purchase</b><small>14 Nov</small></a>
+  <a href="#ch6" data-ch="ch6"><i></i><b>6 Season</b><small>Nov to Feb</small></a>
+  <a href="#ch7" data-ch="ch7"><i></i><b>7 Results</b><small>March</small></a>
+  <a href="#ch8" data-ch="ch8"><i></i><b>8 Control</b><small>Always on</small></a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- CH1 -->
+<section class="chap" id="ch1">
+  <div class="ctext"><div class="num">01</div><div class="when">3 Nov · Mohol, Solapur</div>
+    <h2>One number on a banner</h2>
+    <p>Sachin Patil runs a mustard seed session under the village tree. His banner shows a single number. Ramesh gives a missed call and keeps listening. Nothing to write, no app to install.</p>
+    <ul class="pts"><li>Each agent owns one number, tied to a territory and a time-boxed event</li><li>The call is captured, de-duplicated and tagged with agent, village, crop and season</li><li>A Marathi message arrives within seconds, or the client can choose silent capture</li></ul>
+    <div class="uses"><span>Screens</span><a href="#agents">Agents and numbers</a><a href="#events">Event setup</a><a href="#capture">Live capture</a></div></div>
+  <div class="stage"><div class="duo">
+    <div class="pane"><span class="lbl f">Farmer sees</span>
+      <div class="phone"><div class="scr">
+        <div class="callrow"><span>1800-xxx-0142<br><small class="muted">Mohol mustard session</small></span><b>Missed 11:42</b></div>
+        <div class="wa-h"><i></i><span>Krishi Mitra<small>Company · verified</small></span></div>
+        <div class="msg rise" style="--d:1">Namaskar Ramesh-ji! Thank you for joining the mustard session in Mohol. Reply 1 for seed details, 2 for the nearest shop, 3 to talk to our agronomist.<small>11:42</small></div>
+        <div class="btnrow rise" style="--d:2"><span>1 Seed details</span><span>2 Nearest shop</span><span>3 Agronomist</span></div>
+      </div></div></div>
+    <div class="pane"><span class="lbl c"><i class="live"></i>Company sees · live</span>
+      <div class="mini4"><div class="kpi"><b class="cnt" data-to="1284">1,284</b><span>Missed calls today</span></div><div class="kpi"><b class="cnt" data-to="946">946</b><span>Unique farmers</span></div></div>
+      <div class="feed">
+        <div class="rise" style="--d:1"><span>11:42:08</span><span>98••• ••210 · Mohol</span><span class="pill g">New</span></div>
+        <div class="rise" style="--d:2"><span>11:42:03</span><span>97••• ••882 · Mohol</span><span class="pill a">Repeat</span></div>
+        <div class="rise" style="--d:3"><span>11:41:51</span><span>90••• ••004 · Ausa</span><span class="pill b">Flagged</span></div>
+      </div>
+      <div class="bars"><div class="bar-row"><span>Mohol</span><div class="t"><i class="grow" style="width:80%"></i></div><b>412</b></div><div class="bar-row"><span>Pandharpur</span><div class="t"><i class="grow" style="width:55%"></i></div><b>288</b></div><div class="bar-row"><span>Ausa</span><div class="t"><i class="grow" style="width:35%"></i></div><b>187</b></div></div>
+    </div></div></div>
+</section>
+
+<!-- CH2 -->
+<section class="chap" id="ch2">
+  <div class="ctext"><div class="num">02</div><div class="when">6 Nov · on his phone</div>
+    <h2>The hub recognises him</h2>
+    <p>Three days later Ramesh scrolls past a mustard seed ad and taps it. The hub matches his phone number to the farmer from the meeting, so the ad lead does not create a second record. It adds a touchpoint to the same profile.</p>
+    <ul class="pts"><li>Two raw leads, one unique farmer, with first and latest source kept</li><li>Every field remembers where it came from and how far to trust it</li><li>Old lists from schemes and dealers can be imported the same way, tagged "unverified" until the farmer responds</li></ul>
+    <div class="uses"><span>Screens</span><a href="#social">Social sources</a><a href="#import">Data import</a><a href="#farmer">Farmer 360</a></div></div>
+  <div class="stage">
+    <div class="merge">
+      <div class="srcs">
+        <div class="sc rise" style="--d:0"><span class="pill a">Field event</span> <b>Mohol session</b><small>3 Nov · agent Sachin Patil · mustard seed</small></div>
+        <div class="sc rise" style="--d:1"><span class="pill a">Meta lead ad</span> <b>Mustard seed Rabi</b><small>6 Nov · form: phone, name, district</small></div>
+        <div class="sc rise" style="--d:2"><span class="pill">Scheme list 2025</span> <b>Imported file</b><small>Unverified until he replies</small></div>
+      </div>
+      <div class="arrowbig">→</div>
+      <div class="profile rise" style="--d:3"><h4>Ramesh Kale</h4><small class="muted">+91 98••• ••210 · Mohol 413213 · Marathi</small>
+        <table><tr><td class="muted">Touchpoints</td><td><b>3 sources, 1 farmer</b></td></tr><tr><td class="muted">First source</td><td>Field event</td></tr><tr><td class="muted">Latest</td><td>Meta lead ad</td></tr><tr><td class="muted">Consent</td><td><span class="pill g">Event wording v2</span></td></tr></table></div>
+    </div>
+    <div class="g3"><div class="kpi"><b>2</b><span>Raw leads</span></div><div class="kpi"><b>1</b><span>Unique farmer</span></div><div class="kpi"><b>0</b><span>Duplicate calls to make</span></div></div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section class="chap" id="ch3">
+  <div class="ctext"><div class="num">03</div><div class="when">9 Nov · WhatsApp</div>
+    <h2>He asks a question, not a favour</h2>
+    <p>Ramesh sends a voice note: which mustard seed suits black soil? The bot answers from approved guidance, then shows nearby shops that have stock. When his wife Sunita sends a photo of a sick onion crop, the bot is unsure and passes it to an agronomist.</p>
+    <ul class="pts"><li>Voice notes, photos and text in Marathi, Hindi or English</li><li>Advice first, product suggestions second, dosage questions go to a person</li><li>Sunita is added as a second person on the same number, so onion advice never lands in his mustard profile</li></ul>
+    <div class="uses"><span>Screens</span><a href="#chatbot">WhatsApp AI chatbot</a><a href="#locator">Stock and where to buy</a><a href="#farmer">Farmer 360</a></div></div>
+  <div class="stage"><div class="duo">
+    <div class="pane"><span class="lbl f">Farmer sees</span>
+      <div class="phone"><div class="scr">
+        <div class="wa-h"><i></i><span>Krishi Mitra<small>online</small></span></div>
+        <div class="msg me">Voice note 0:09 · "Which mustard seed for black soil?"<small>10:14</small></div>
+        <div class="msg rise" style="--d:1">For black soil with borewell water, a hybrid with good oil content and a 110 day cycle works well. Sow in the first fortnight of November.<small>Source: package of practices</small></div>
+        <div class="msg rise" style="--d:2"><b>Shops near Mohol with stock</b><br>Patil Agro · 2 km · in stock<br>Kale Seeds · 5 km · low<small>Stock updated 2 h ago</small></div>
+        <div class="btnrow"><span>Call shop</span><span>Directions</span></div>
+      </div></div></div>
+    <div class="pane"><span class="lbl c">Company sees</span>
+      <div class="box"><h4>Sunita's onion photo</h4>
+        <div class="ph" style="min-height:64px">leaf photo · onion</div>
+        <div class="bars" style="margin-top:8px"><div class="bar-row"><span>Bot confidence</span><div class="t"><i class="grow" style="width:58%"></i></div><b>58%</b></div></div>
+        <p class="small muted" style="margin-top:6px">Below the 70% limit, so it went to the agronomist queue. Reply sent in 12 min.</p></div>
+      <div class="box"><h4>Profile update</h4><div class="diff"><div><span>Person</span><span><b>+ Sunita Kale</b> (spouse)</span></div><div><span>Irrigation</span><span><s>unknown</s> <b>Borewell</b> · inferred from chat</span></div></div></div>
+      <div class="box"><h4>Area signal</h4><p class="small">41 powdery mildew reports near Mohol this week, up 3×. The agronomy team gets an early warning.</p></div>
+    </div></div></div>
+</section>
+
+<!-- CH4 -->
+<section class="chap" id="ch4">
+  <div class="ctext"><div class="num">04</div><div class="when">12 Nov · a phone call</div>
+    <h2>The company asks about his season</h2>
+    <p>An AI voice call in Marathi asks what he will grow, whether he has sown, and whether he has bought seed. Ramesh answers in thirty seconds. The same questions run on WhatsApp for farmers who prefer to type.</p>
+    <ul class="pts"><li>Crop, stage, purchase status and brand captured per season</li><li>Low-confidence answers repeat the question or go to a human</li><li>Totals become a market view: acreage intent and competitor share by district</li></ul>
+    <div class="uses"><span>Screens</span><a href="#intent">Intent survey</a><a href="#campaigns">Campaign builder</a><a href="#segments">Segments</a></div></div>
+  <div class="stage"><div class="duo rev">
+    <div class="pane"><span class="lbl c">Company sees</span>
+      <div class="box"><h4>Live survey · 6,120 reached · 3,980 answered</h4><div class="bars">
+        <div class="bar-row"><span>Mustard</span><div class="t"><i class="grow" style="width:56%"></i></div><b>2,230</b></div>
+        <div class="bar-row"><span>Wheat</span><div class="t"><i class="grow" style="width:31%"></i></div><b>1,240</b></div>
+        <div class="bar-row"><span>Chickpea</span><div class="t"><i class="grow" style="width:9%"></i></div><b>360</b></div></div>
+        <h4 style="margin-top:12px">Seed brand among buyers</h4><div class="bars">
+        <div class="bar-row"><span>Our brand</span><div class="t"><i class="grow" style="width:34%"></i></div><b>34%</b></div>
+        <div class="bar-row"><span>Competitor X</span><div class="t"><i class="grow" style="width:41%"></i></div><b>41%</b></div></div></div>
+      <div class="box"><h4>Ramesh's profile after the call</h4><div class="diff">
+        <div><span>Crop</span><span><s>none</s> <b>Mustard</b> · IVR · high trust</span></div>
+        <div><span>Stage</span><span><s>none</s> <b>Planning</b></span></div>
+        <div><span>Seed</span><span><s>none</s> <b>Not bought yet</b></span></div></div>
+        <p class="small muted" style="margin-top:6px">He now qualifies for "Mustard planners, not yet bought" and gets the offer next.</p></div>
+    </div>
+    <div class="pane"><span class="lbl f">Farmer hears</span>
+      <div class="phone"><div class="scr">
+        <div class="callrow"><span>AI helper · Marathi<br><small class="muted">automated call, announced</small></span><span class="wave"><i style="--i:0;--h:10px"></i><i style="--i:1;--h:20px"></i><i style="--i:2;--h:14px"></i><i style="--i:3;--h:24px"></i><i style="--i:4;--h:12px"></i><i style="--i:5;--h:18px"></i></span></div>
+        <div class="msg">Namaskar. Which crop are you planning this season?</div>
+        <div class="msg me">Mustard. Sowing next week.<small>heard: mustard, planning · 94%</small></div>
+        <div class="msg">Have you bought seed yet?</div>
+        <div class="msg me">Not yet, tomorrow I will go to the shop.<small>heard: not bought · 91%</small></div>
+      </div></div></div>
+  </div></div>
+</section>
+
+<!-- CH5 -->
+<section class="chap" id="ch5">
+  <div class="ctext"><div class="num">05</div><div class="when">14 Nov · Patil Agro, Mohol</div>
+    <h2>The sale becomes a fact</h2>
+    <p>Ramesh buys two kilos of hybrid seed. The retailer scans the bag, types his number, and Ramesh confirms with a one-time code. The sale is now verified, linked to his profile, and his cashback is queued.</p>
+    <ul class="pts"><li>Under ten seconds at the counter, with fix flows for wrong numbers and returns</li><li>Bag QR gives product and batch, so the chain from company to farmer is traceable</li><li>Scheme rules pay once per QR, and unusual volumes are held for review</li></ul>
+    <div class="uses"><span>Screens</span><a href="#retailer">Retailer capture</a><a href="#chain">Company to farmer chain</a><a href="#locator">Stock</a><a href="#schemes">Schemes and cashback</a></div></div>
+  <div class="stage"><div class="duo">
+    <div class="pane"><span class="lbl r">Retailer sees</span>
+      <div class="phone"><div class="scr">
+        <div class="ph-h">Patil Agro · Record sale</div>
+        <div class="callrow"><span>1 · Scan bag QR</span><b style="color:var(--good)">Done</b></div>
+        <div class="msg">Hybrid mustard seed 2 kg<br>Batch M26-114<small>auto-filled</small></div>
+        <div class="callrow"><span>2 · Farmer number</span><b style="color:var(--good)">98••• ••210</b></div>
+        <div class="callrow"><span>3 · Farmer OTP</span><b style="color:var(--good)">Confirmed</b></div>
+        <div class="btns"><span class="btn p">Sale verified · +20 pts</span></div>
+      </div></div></div>
+    <div class="pane"><span class="lbl c">Company sees</span>
+      <div class="chainstrip"><div>Company<small>48,000 bags</small></div><span class="sep">→</span><div>Dealer<small>31,200</small></div><span class="sep">→</span><div>Retailer<small>18,900</small></div><span class="sep">→</span><div>Ramesh<small>verified</small></div></div>
+      <div class="box"><h4>Ramesh's profile</h4><div class="diff">
+        <div><span>Seed</span><span><s>Not bought</s> <b>Bought · our brand</b> · retailer + OTP</span></div>
+        <div><span>Batch</span><span><b>M26-114</b></span></div>
+        <div><span>Cashback</span><span><b>₹ 150 queued</b> · checks passed</span></div></div></div>
+      <div class="box"><h4>Fraud checks on this claim</h4><p class="small"><span class="pill g">QR unused</span> <span class="pill g">Number matches</span> <span class="pill g">Volume normal</span></p></div>
+      <div class="box dash"><h4>Journey started</h4><p class="small">Chapter 6 begins automatically from this sale.</p></div>
+    </div></div></div>
+</section>
+
+<!-- CH6 -->
+<section class="chap" id="ch6">
+  <div class="ctext"><div class="num">06</div><div class="when">15 Nov to 14 Feb · the season</div>
+    <h2>The season follows him</h2>
+    <p>The purchase starts a crop-calendar journey. The company asks when he sowed, then reaches him at the right growth stage with the right advice and the nearest shop for the product he needs.</p>
+    <ul class="pts"><li>Schedule counts from the sowing date he gives, not the purchase date</li><li>Pauses on opt-out, a reversed sale or a crop problem, and sends the problem to an agronomist</li><li>Harvest answers link products to results by region and season</li></ul>
+    <div class="uses"><span>Screens</span><a href="#journey">Purchase journey</a><a href="#campaigns">Campaign builder</a><a href="#farmer">Farmer 360</a></div></div>
+  <div class="stage">
+    <div class="hz">
+      <div><i></i><b>16 Nov</b><small>Sowing date confirmed</small></div>
+      <div class="now"><i></i><b>6 Dec</b><small>D+20 nutrient reminder</small></div>
+      <div><i></i><b>21 Dec</b><small>D+35 pest watch</small></div>
+      <div><i></i><b>14 Feb</b><small>D+90 harvest check-in</small></div>
+      <div><i></i><b>Next Rabi</b><small>Loyalty offer</small></div>
+    </div>
+    <div class="duo">
+      <div class="pane"><span class="lbl f">Farmer sees · 6 Dec</span>
+        <div class="phone"><div class="scr">
+          <div class="wa-h"><i></i><span>Krishi Mitra<small>Company</small></span></div>
+          <div class="msg">Ramesh-ji, your mustard is 20 days old. This is the best time for the nutrient spray. Patil Agro, 2 km away, has it in stock and 10% off this week.<small>09:05</small></div>
+          <div class="btnrow"><span>Show offer code</span><span>Directions</span><span>Ask a question</span></div>
+          <div class="msg me">Thank you, will buy tomorrow<small>09:40</small></div>
+        </div></div></div>
+      <div class="pane"><span class="lbl c">Company sees</span>
+        <div class="box"><h4>Journey: mustard seed buyer</h4><div class="bars">
+          <div class="bar-row"><span>Replied</span><div class="t"><i class="grow" style="width:48%"></i></div><b>48%</b></div>
+          <div class="bar-row"><span>Sowing date</span><div class="t"><i class="grow" style="width:62%"></i></div><b>62%</b></div>
+          <div class="bar-row"><span>Bought nutrient</span><div class="t"><i class="grow" style="width:19%"></i></div><b>19%</b></div></div></div>
+        <div class="box"><h4>Channel used for Ramesh</h4><p class="small">WhatsApp worked, so no voice call is spent. Farmers who ignore WhatsApp for 24 h get an AI voice call, then a call-centre task only if they have more than 3 acres.</p></div>
+      </div>
+    </div></div>
+</section>
+
+<!-- CH7 -->
+<section class="chap" id="ch7">
+  <div class="ctext"><div class="num">07</div><div class="when">March · season review</div>
+    <h2>What the company learns</h2>
+    <p>With purchases verified, the company can finally say which event, channel and agent produced buyers, not just leads. Ramesh answers the harvest check-in and joins the list for next season.</p>
+    <ul class="pts"><li>Cost per verified buyer, the number a client judges the product by</li><li>Agents ranked on unique, converting farmers, not raw calls</li><li>Competitor share and acreage intent by district, ready before the next season</li></ul>
+    <div class="uses"><span>Screens</span><a href="#analytics">Analytics and ROI</a><a href="#segments">Segments</a><a href="#intent">Intent survey</a></div></div>
+  <div class="stage">
+    <div class="g4"><div class="kpi"><b>31,742</b><span>Unique farmers</span></div><div class="kpi"><b>41%</b><span>Gave crop intent</span></div><div class="kpi"><b>18.9%</b><span>Bought, verified</span></div><div class="kpi"><b>₹ 142</b><span>Per verified buyer</span></div></div>
+    <div class="g2">
+      <div class="box"><h4>Funnel</h4><div class="bars">
+        <div class="bar-row"><span>Captured</span><div class="t"><i class="grow" style="width:100%"></i></div><b>31,742</b></div>
+        <div class="bar-row"><span>Consented</span><div class="t"><i class="grow" style="width:88%"></i></div><b>27,904</b></div>
+        <div class="bar-row"><span>Engaged</span><div class="t"><i class="grow" style="width:46%"></i></div><b>14,600</b></div>
+        <div class="bar-row"><span>Gave intent</span><div class="t"><i class="grow" style="width:41%"></i></div><b>13,010</b></div>
+        <div class="bar-row"><span>Bought</span><div class="t"><i class="grow" style="width:19%"></i></div><b>6,000</b></div></div></div>
+      <div class="box"><h4>Agents by quality</h4><div class="tw"><table><tr><th>Agent</th><th>Unique</th><th>Bought</th></tr>
+        <tr><td>S. Patil</td><td>94%</td><td>21% <span class="pill g">High</span></td></tr>
+        <tr><td>A. Jadhav</td><td>88%</td><td>14% <span class="pill a">Good</span></td></tr>
+        <tr><td>V. More</td><td>52%</td><td>3% <span class="pill b">Review</span></td></tr></table></div>
+        <p class="small muted" style="margin-top:8px">Ramesh's harvest reply: "Good crop, will buy again." He moves to the repeat-buyer segment.</p></div>
+    </div></div>
+</section>
+
+<!-- CH8 -->
+<section class="chap" id="ch8">
+  <div class="ctext"><div class="num">08</div><div class="when">Always on · behind every step</div>
+    <h2>Trust, consent and control</h2>
+    <p>Everything above only works if farmers, retailers and clients can trust it. Consent is stored with every record. Roles limit who sees phone numbers. Rules catch fake leads and duplicate payouts before they cost money.</p>
+    <ul class="pts"><li>One opt-out applies on every channel, with do-not-disturb checks before SMS and calls</li><li>Agents see masked numbers, managers see their territory, exports are logged</li><li>Several client companies can share the platform with strict data separation</li></ul>
+    <div class="uses"><span>Screens</span><a href="#admin">Admin and compliance</a><a href="#schemes">Schemes</a><a href="#questions">Decisions to make</a></div></div>
+  <div class="stage"><div class="g3">
+    <div class="box"><h4>Consent log</h4><p class="small"><span class="pill g">3 Nov</span> Missed call, wording v2<br><span class="pill g">15 Nov</span> WhatsApp opt-in, reply "Yes"<br><span class="pill">Not set</span> Promotional SMS</p></div>
+    <div class="box"><h4>Fraud rules</h4><p class="small"><span class="pill b">Held</span> 14 calls from one number in 4 min<br><span class="pill b">Held</span> Same bag QR claimed twice<br><span class="pill w">Review</span> Retailer: 60 sales in 1 h</p></div>
+    <div class="box"><h4>Roles</h4><p class="small"><b>Field agent:</b> masked numbers<br><b>Area manager:</b> own territory<br><b>Admin:</b> all, exports logged<br><b>Retailer:</b> own customers</p></div>
+  </div>
+  <div class="box dash"><h4>Please confirm with legal counsel</h4><p class="small">Consent wording for missed calls, do-not-disturb rules, WhatsApp opt-in and template policy, data protection law, and payout compliance. This walkthrough shows where they apply, not the final legal text.</p></div></div>
+</section>
+
+</div>
+
+<div class="wrap">
+  <div class="sechead"><div class="eyebrow">Outcome</div><h2>Who gains what</h2></div>
+  <div class="gain">
+    <div><h3>Farmer</h3><ul><li>Timely advice in his language</li><li>Cashback and offers he can trust</li><li>Knows which shop has stock</li></ul></div>
+    <div><h3>Field agent</h3><ul><li>Proof of every session</li><li>Credit for unique, converting farmers</li><li>One number, no paperwork</li></ul></div>
+    <div><h3>Retailer</h3><ul><li>Rewards for each logged sale</li><li>Farmers sent to the shop with stock</li><li>Fewer disputes over schemes</li></ul></div>
+    <div><h3>Company</h3><ul><li>Leads become verified buyers</li><li>Cost per buyer, by event and channel</li><li>Competitor and acreage view by district</li></ul></div>
+  </div>
+
+  <div class="sechead"><div class="eyebrow">Suggested build order</div><h2>Start light, add depth where it pays</h2>
+    <p class="lede">A proposal for sequencing. Change it freely as decisions on the last screen are made.</p></div>
+  <div class="phases">
+    <div><h3>Capture and CRM</h3><p>Prove that field events turn into clean leads.</p><a href="#agents">Agents and numbers</a><a href="#events">Event setup</a><a href="#capture">Live capture</a><a href="#farmer">Farmer 360</a><a href="#import">Data import</a></div>
+    <div><h3>Engage</h3><p>Reach farmers on the right channel.</p><a href="#segments">Segments</a><a href="#campaigns">Campaign builder</a><a href="#intent">Intent survey</a><a href="#chatbot">WhatsApp chatbot</a><a href="#social">Social sources</a></div>
+    <div><h3>Distribution</h3><p>Verify sales and reward the chain.</p><a href="#retailer">Retailer capture</a><a href="#journey">Purchase journey</a><a href="#schemes">Schemes and cashback</a><a href="#locator">Where to buy</a></div>
+    <div><h3>Intelligence</h3><p>Prove ROI and see the market.</p><a href="#chain">Dealer and batch tracing</a><a href="#analytics">Analytics and ROI</a><a href="#admin">Admin and compliance</a><a href="#questions">Decisions to make</a></div>
+  </div>
+
+  <div class="cta"><div><h3>Every screen is in the explorer</h3><p>Open any of the 19 screens with its notes and edge cases, and tell me what to change.</p></div><a class="btn big" href="#overview">Open all screens</a></div>
+  <p class="foot">All names, numbers, costs and dates are sample data for illustration. Retailer, agent and brand names are fictional.</p>
+</div>
+
+</div>
+
+<div class="shell" id="screensWrap" hidden>
+<nav class="side" id="nav" aria-label="Screens">
+  <a href="#story" data-back><small>←</small>Back to the story</a>
+  <h4>Start</h4>
+  <a href="#overview"><small>00</small>System map</a>
+  <h4>Capture · Agent OS</h4>
+  <a href="#agents"><small>01</small>Agents and numbers</a>
+  <a href="#events"><small>02</small>Event setup</a>
+  <a href="#capture"><small>03</small>Live capture</a>
+  <a href="#social"><small>04</small>Social and other sources</a>
+  <a href="#import"><small>05</small>Data import</a>
+  <h4>Relationship Hub · CRM</h4>
+  <a href="#farmer"><small>06</small>Farmer 360</a>
+  <a href="#segments"><small>07</small>Segments</a>
+  <h4>Engagement</h4>
+  <a href="#campaigns"><small>08</small>Campaign builder</a>
+  <a href="#intent"><small>09</small>Intent survey</a>
+  <a href="#chatbot"><small>10</small>WhatsApp AI chatbot</a>
+  <a href="#journey"><small>11</small>Purchase journey</a>
+  <h4>Distribution</h4>
+  <a href="#retailer"><small>12</small>Retailer sale capture</a>
+  <a href="#chain"><small>13</small>Company to farmer chain</a>
+  <a href="#locator"><small>14</small>Stock and where to buy</a>
+  <a href="#schemes"><small>15</small>Schemes and cashback</a>
+  <h4>Insight and control</h4>
+  <a href="#analytics"><small>16</small>Analytics and ROI</a>
+  <a href="#admin"><small>17</small>Admin and compliance</a>
+  <a href="#questions"><small>18</small>Decisions to make</a>
+</nav>
+<main>
+<!-- ============ 00 OVERVIEW ============ -->
+<section class="screen" id="overview">
+  <div class="tag">00 · System map</div>
+  <h2>One hub, many doors in, many ways out</h2>
+  <p class="lede">Every channel feeds one farmer profile. Engines on top of the hub decide who to contact, on which channel, and when. Outcomes flow back into the same profile. Click any card to open its screen.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / system-map</em></div>
+  <div class="app">
+    <div class="cols4">
+      <div class="col"><h4>1 · Entry points</h4>
+        <a class="card" href="#capture">Field missed call (Agent OS)</a>
+        <a class="card" href="#social">Meta, Instagram, Facebook ads</a>
+        <a class="card" href="#chatbot">WhatsApp bot (QR, click-to-chat)</a>
+        <a class="card" href="#retailer">Retailer sale record</a>
+        <a class="card" href="#import">Bulk import, schemes, dealer lists</a>
+        <a class="card" href="#social">IVR inbound, call centre, web form</a>
+      </div>
+      <div class="col"><h4>2 · Relationship Hub core</h4>
+        <a class="card core" href="#farmer">Identity and dedupe by phone</a>
+        <a class="card core" href="#farmer">Unified profile: person, household, farm, season</a>
+        <a class="card core" href="#admin">Consent and channel preferences</a>
+        <a class="card core" href="#farmer">Source, attribution, field-level trust</a>
+        <a class="card core" href="#segments">Segments and audiences</a>
+      </div>
+      <div class="col"><h4>3 · Engines</h4>
+        <a class="card" href="#campaigns">Omni-channel campaigns (WhatsApp, AI voice, SMS, call centre)</a>
+        <a class="card" href="#intent">Season intent surveys</a>
+        <a class="card" href="#journey">Purchase-triggered journeys, crop calendar</a>
+        <a class="card" href="#chatbot">AI advisory and diagnosis</a>
+        <a class="card" href="#schemes">Schemes and cashback</a>
+      </div>
+      <div class="col"><h4>4 · Outcomes</h4>
+        <a class="card" href="#analytics">Funnel, channel and agent ROI</a>
+        <a class="card" href="#analytics">Market share and acreage intent</a>
+        <a class="card" href="#locator">Lead handoff to agent, dealer, call centre</a>
+        <a class="card" href="#chatbot">Early warning: pest clusters by area</a>
+        <a class="card" href="#farmer">Profile updated, loop restarts</a>
+      </div>
+    </div>
+    <div class="box dash"><h4>Distribution chain recorded alongside the farmer journey</h4>
+      <div class="flowrow">
+        <a class="card" href="#chain">Company<br><small class="muted">primary sale</small></a><div class="arrow">→</div>
+        <a class="card" href="#chain">Dealer / distributor<br><small class="muted">secondary sale</small></a><div class="arrow">→</div>
+        <a class="card" href="#retailer">Retailer<br><small class="muted">tertiary sale</small></a><div class="arrow">→</div>
+        <a class="card" href="#farmer">Farmer<br><small class="muted">purchase, cashback, follow-up</small></a>
+      </div>
+    </div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Single identity.</b> Every door resolves to the same profile, so a farmer who attended a meeting, clicked an ad and asked the bot shows up once.</span></li>
+    <li><span class="n">2</span><span><b>Consent travels with the record.</b> Each source stamps consent status, so engines only use what they are allowed to use.</span></li>
+    <li><span class="n">3</span><span><b>Start light.</b> Missed call, profile, WhatsApp and voice campaigns can ship first. Dealer inventory and batch tracing can follow.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 01 AGENTS ============ -->
+<section class="screen" id="agents">
+  <div class="tag">01 · Agent OS</div>
+  <h2>Agents and missed-call numbers</h2>
+  <p class="lede">Each field agent owns one number and one territory. This screen manages the pool of numbers and their life cycle.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / agents</em></div>
+  <div class="app">
+    <div class="apphead"><h3>Field agents <span class="pill">86 active</span></h3>
+      <div class="btns"><span class="btn s">Search agent, village, number</span><span class="btn s">Territory: All</span><span class="btn p">+ Add agent</span></div></div>
+    <div class="tw"><table>
+      <tr><th>Agent</th><th>Territory</th><th>Missed-call number</th><th>Status</th><th>Active event</th><th>Leads (7 d)</th><th>Last call</th></tr>
+      <tr class="hl"><td><i class="mk">1</i>Sachin Patil</td><td>Solapur · Mohol, Pandharpur</td><td>1800-xxx-0142</td><td><span class="pill g">Active</span></td><td>Mustard Rabi 26</td><td>312</td><td>4 min ago</td></tr>
+      <tr><td>Anita Jadhav</td><td>Latur · Ausa</td><td>1800-xxx-0143</td><td><span class="pill g">Active</span></td><td>Wheat Rabi 26</td><td>188</td><td>1 h ago</td></tr>
+      <tr><td>Vijay More</td><td>Beed · Georai</td><td>1800-xxx-0144</td><td><span class="pill w">Idle 9 d</span></td><td>None</td><td>0</td><td>9 d ago</td></tr>
+      <tr><td><i class="mk">2</i>Ravi Shinde</td><td>Solapur · Barshi</td><td>1800-xxx-0145</td><td><span class="pill">Transferred</span></td><td>Pending reassign</td><td>41</td><td>3 d ago</td></tr>
+      <tr><td>Unassigned</td><td>Pool</td><td>1800-xxx-0150</td><td><span class="pill a">Available</span></td><td>None</td><td>none</td><td>none</td></tr>
+    </table></div>
+    <div class="g3">
+      <div class="box"><h4><i class="mk">3</i>Number life cycle</h4><div class="chips"><span class="chip on">Available</span><span class="chip">Assigned</span><span class="chip">Parked 30 d</span><span class="chip">Reassigned</span><span class="chip">Retired</span></div>
+        <p class="small muted" style="margin-top:8px">Calls to a parked number get the last owner's campaign or a polite fallback message.</p></div>
+      <div class="box"><h4>Agent detail (selected)</h4><p><b>Sachin Patil</b> · +91 98•••••141</p><p class="small muted">Territory: 42 villages · Languages: Marathi, Hindi · Manager: R. Deshmukh</p><div class="btns"><span class="btn s">Reassign number</span><span class="btn s">Change territory</span></div></div>
+      <div class="box"><h4>Number pool</h4><div class="bars">
+        <div class="bar-row"><span>Assigned</span><div class="t"><i style="width:86%"></i></div><b>86</b></div>
+        <div class="bar-row"><span>Parked</span><div class="t"><i style="width:8%"></i></div><b>8</b></div>
+        <div class="bar-row"><span>Available</span><div class="t"><i style="width:14%"></i></div><b>14</b></div></div></div>
+    </div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>One number per agent</b> gives clean attribution. The number alone does not say crop or season, so events add that context (next screen).</span></li>
+    <li><span class="n">2</span><span><b>Transfers and exits.</b> When an agent leaves or moves territory, past leads stay with the agent of record, new calls follow the new owner.</span></li>
+    <li><span class="n">3</span><span><b>Reuse risk.</b> A farmer may call an old number weeks later. Parking period plus a fallback response avoids attributing the call to the wrong agent.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 02 EVENTS ============ -->
+<section class="screen" id="events">
+  <div class="tag">02 · Agent OS</div>
+  <h2>Event setup</h2>
+  <p class="lede">An event ties an agent's number to a place, crop, season and product for a time window. It also decides what the farmer gets back after the missed call.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / events / new</em></div>
+  <div class="app"><div class="g21">
+    <div class="box">
+      <h4>Event details</h4>
+      <div class="g2">
+        <div class="field"><label>Agent</label><div class="in sel">Sachin Patil</div></div>
+        <div class="field"><label>Missed-call number</label><div class="in">1800-xxx-0142 (locked to agent)</div></div>
+        <div class="field"><label>State / District</label><div class="in sel">Maharashtra / Solapur</div></div>
+        <div class="field"><label><i class="mk">1</i>Village(s) / pin code</label><div class="in sel">Mohol 413213 + 4 villages</div></div>
+        <div class="field"><label>Crop</label><div class="in sel">Mustard</div></div>
+        <div class="field"><label>Season</label><div class="in sel">Rabi 2026</div></div>
+        <div class="field"><label>Product / campaign</label><div class="in sel">Hybrid mustard seed + nutrient kit</div></div>
+        <div class="field"><label><i class="mk">2</i>Capture window</label><div class="in">18 Nov, 10:00 to 21 Nov, 23:59</div></div>
+      </div>
+      <h4 style="margin-top:6px"><i class="mk">3</i>Response after missed call</h4>
+      <div class="chips"><span class="chip">None (capture only)</span><span class="chip on">SMS</span><span class="chip on">WhatsApp</span><span class="chip">AI voice callback</span><span class="chip">IVR menu</span></div>
+      <div class="field" style="margin-top:10px"><label>WhatsApp template (Marathi)</label><div class="in area">Namaskar! Thank you for joining the mustard session. Reply 1 for seed details, 2 for the nearest shop, 3 to talk to our agronomist.</div></div>
+      <div class="field"><label><i class="mk">4</i>Consent line shown on banner and read out</label><div class="in">"By giving a missed call you agree to receive updates from [Company] on call, SMS and WhatsApp."</div></div>
+      <div class="btns"><span class="btn p">Save and activate</span><span class="btn s">Save draft</span></div>
+    </div>
+    <div class="box">
+      <h4>Banner / poster preview</h4>
+      <div class="ph" style="min-height:230px">Poster<br>"Give a missed call<br>1800-xxx-0142"<br><br>[QR code to WhatsApp]<br>Consent line at bottom</div>
+      <h4 style="margin-top:12px">Farmer's phone after the call</h4>
+      <div class="msg">Namaskar! Thank you for joining the mustard session...<small>SMS · 2 s after call</small></div>
+      <p class="small muted" style="margin-top:8px">Estimated reach this event: 400 farmers</p>
+    </div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Territory versus real village.</b> Farmers often travel to a nearby meeting. Capture the event village now and confirm the farmer's own village later through IVR or WhatsApp.</span></li>
+    <li><span class="n">2</span><span><b>Calls after the window.</b> Late calls attach to the most recent event for that number, flagged "late" so they are not counted as event-day leads.</span></li>
+    <li><span class="n">3</span><span><b>Per-client configuration.</b> The same screen supports silent capture or instant messaging, depending on the client.</span></li>
+    <li><span class="n">4</span><span><b>Consent at the source.</b> The wording shown at the meeting is stored with the event, so every lead inherits a consent record with a timestamp.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 03 CAPTURE ============ -->
+<section class="screen" id="capture">
+  <div class="tag">03 · Agent OS</div>
+  <h2>Live capture dashboard</h2>
+  <p class="lede">What the company sees while events are running: raw missed calls, unique farmers, duplicates and suspicious patterns.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / live</em></div>
+  <div class="app">
+    <div class="apphead"><h3>Today · Rabi 2026 mustard</h3><div class="btns"><span class="btn s">Territory: Maharashtra</span><span class="btn s">Agent: All</span><span class="btn s">Export</span></div></div>
+    <div class="g4">
+      <div class="kpi"><b>1,284</b><span>Missed calls</span><br><em>+212 vs yesterday</em></div>
+      <div class="kpi"><b>946</b><span><i class="mk">1</i>Unique farmers</span><br><em>73.7% of calls</em></div>
+      <div class="kpi"><b>211</b><span>Already in hub (repeat)</span></div>
+      <div class="kpi"><b>19</b><span><i class="mk">2</i>Flagged for review</span></div>
+    </div>
+    <div class="g21">
+      <div class="box"><h4>Incoming feed</h4><div class="tw"><table>
+        <tr><th>Time</th><th>Number</th><th>Agent</th><th>Village</th><th>Status</th></tr>
+        <tr><td>11:42:08</td><td>98••• ••210</td><td>S. Patil</td><td>Mohol</td><td><span class="pill g">New</span></td></tr>
+        <tr><td>11:42:03</td><td>97••• ••882</td><td>S. Patil</td><td>Mohol</td><td><span class="pill a">Repeat · 2nd event</span></td></tr>
+        <tr><td>11:41:51</td><td>90••• ••004</td><td>A. Jadhav</td><td>Ausa</td><td><span class="pill b">Flagged · 14 calls / 4 min</span></td></tr>
+        <tr><td>11:41:40</td><td>99••• ••317</td><td>S. Patil</td><td>Mohol</td><td><span class="pill g">New</span></td></tr>
+        <tr><td>11:41:22</td><td>+44 ••• ••91</td><td>V. More</td><td>Georai</td><td><span class="pill w">Invalid region</span></td></tr>
+      </table></div></div>
+      <div class="box"><h4>By village (map)</h4><div class="ph" style="min-height:150px">Map of villages<br>with lead density</div>
+        <div class="bars" style="margin-top:8px">
+          <div class="bar-row"><span>Mohol</span><div class="t"><i style="width:80%"></i></div><b>412</b></div>
+          <div class="bar-row"><span>Pandharpur</span><div class="t"><i style="width:55%"></i></div><b>288</b></div>
+          <div class="bar-row"><span>Ausa</span><div class="t"><i style="width:35%"></i></div><b>187</b></div></div></div>
+    </div>
+    <div class="box dash"><h4><i class="mk">3</i>Quality rules (editable)</h4><div class="g3">
+      <div class="rule"><b>If</b><span>same number calls more than 5 times in 10 min</span><b>Then</b><span>count once, flag</span></div>
+      <div class="rule"><b>If</b><span>agent adds more than 100 new numbers in an hour</span><b>Then</b><span>hold for review</span></div>
+      <div class="rule"><b>If</b><span>number not Indian mobile format</span><b>Then</b><span>mark invalid</span></div></div></div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Raw versus unique.</b> Always show both. Clients decide which number they pay for or incentivize agents on.</span></li>
+    <li><span class="n">2</span><span><b>Fraud signals.</b> Agent-inflated leads, prank callers and bulk patterns surface here before they distort reports.</span></li>
+    <li><span class="n">3</span><span><b>Spike handling.</b> At the end of a meeting calls arrive in bursts. Telephony capacity and a queue for processing must handle several hundred calls in a minute.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 04 SOCIAL ============ -->
+<section class="screen" id="social">
+  <div class="tag">04 · Capture</div>
+  <h2>Social ads and other sources</h2>
+  <p class="lede">Meta lead ads and click-to-WhatsApp ads, plus web forms, IVR and call centre inbound, all land in the same hub with their source attached.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / sources</em></div>
+  <div class="app">
+    <div class="g3">
+      <div class="box"><h4>Connected sources</h4>
+        <p>Meta (Facebook + Instagram) <span class="pill g">Connected</span></p>
+        <p>WhatsApp Business <span class="pill g">Connected</span></p>
+        <p>Toll-free IVR <span class="pill g">Connected</span></p>
+        <p>Website form <span class="pill w">Needs mapping</span></p>
+        <p>Google Ads <span class="pill">Not connected</span></p></div>
+      <div class="box"><h4>Meta lead form → hub field mapping</h4>
+        <div class="rule"><b>Phone</b><span>→ Farmer phone (identity key)</span><b>Name</b><span>→ Person name</span><b>District</b><span>→ Location</span><b>Crop</b><span>→ Crop interest, this season</span></div></div>
+      <div class="box"><h4>Ad leads (7 days)</h4><div class="bars">
+        <div class="bar-row"><span>Lead ads</span><div class="t"><i style="width:70%"></i></div><b>1,940</b></div>
+        <div class="bar-row"><span>Click-to-WA</span><div class="t"><i style="width:45%"></i></div><b>1,210</b></div>
+        <div class="bar-row"><span>Web form</span><div class="t"><i style="width:12%"></i></div><b>330</b></div></div></div>
+    </div>
+    <div class="box"><h4>Latest leads from all sources</h4><div class="tw"><table>
+      <tr><th>Time</th><th>Source</th><th>Campaign</th><th>Phone</th><th>District</th><th>Hub match</th></tr>
+      <tr><td>11:40</td><td><span class="pill a">Meta lead ad</span></td><td>Mustard seed Rabi</td><td>98••• ••210</td><td>Solapur</td><td><span class="pill a"><i class="mk" style="margin:0">1</i> Merged into existing profile</span></td></tr>
+      <tr><td>11:38</td><td><span class="pill a">Click-to-WhatsApp</span></td><td>Wheat nutrient</td><td>88••• ••531</td><td>Latur</td><td><span class="pill g">New farmer</span></td></tr>
+      <tr><td>11:31</td><td><span class="pill a">IVR inbound</span></td><td>Helpline</td><td>70••• ••260</td><td>Unknown</td><td><span class="pill w"><i class="mk" style="margin:0">2</i> Needs location</span></td></tr>
+    </table></div></div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Cross-channel merge.</b> An ad lead that matches a farmer from a field event becomes a new touchpoint, not a new lead. Reports show first source and latest source.</span></li>
+    <li><span class="n">2</span><span><b>Missing data.</b> Inbound sources often have only a phone number. Use progressive profiling to ask for crop and village later.</span></li>
+    <li><span class="n">3</span><span><b>Ad quality.</b> Social leads can include fake or non-farmer numbers. A verification step (OTP or a simple WhatsApp question) can precede heavy outreach.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 05 IMPORT ============ -->
+<section class="screen" id="import">
+  <div class="tag">05 · Capture</div>
+  <h2>Data import and quality</h2>
+  <p class="lede">Bring in the company's existing farmer data (past customers, schemes, dealer lists) safely: clean it, match it to existing profiles, and mark how far it can be trusted and used.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / import / farmers_scheme_2025.xlsx</em></div>
+  <div class="app">
+    <div class="steps"><span class="done">1 Upload</span><span class="done">2 Map columns</span><span class="on">3 Validate and match</span><span>4 Consent and trust</span><span>5 Import</span></div>
+    <div class="g4">
+      <div class="kpi"><b>52,300</b><span>Rows uploaded</span></div>
+      <div class="kpi"><b>47,880</b><span>Valid mobile numbers</span></div>
+      <div class="kpi"><b>9,420</b><span><i class="mk">1</i>Match existing farmers</span></div>
+      <div class="kpi"><b>4,420</b><span>Rejected (see report)</span></div>
+    </div>
+    <div class="g2">
+      <div class="box"><h4>Why rows were rejected</h4><div class="bars">
+        <div class="bar-row"><span>Invalid number</span><div class="t"><i style="width:62%"></i></div><b>2,740</b></div>
+        <div class="bar-row"><span>Duplicate in file</span><div class="t"><i style="width:34%"></i></div><b>1,510</b></div>
+        <div class="bar-row"><span>Blank phone</span><div class="t"><i style="width:3%"></i></div><b>170</b></div></div>
+        <div class="btns" style="margin-top:10px"><span class="btn s">Download rejected rows</span></div></div>
+      <div class="box"><h4><i class="mk">2</i>Conflicts with existing profiles (sample)</h4><div class="tw"><table>
+        <tr><th>Field</th><th>Hub says</th><th>File says</th><th>Keep</th></tr>
+        <tr><td>Crop</td><td>Mustard (self, Nov 26)</td><td>Soybean (Jun 25)</td><td><span class="pill a">Hub (newer)</span></td></tr>
+        <tr><td>Village</td><td>Mohol</td><td>Mohol Rd</td><td><span class="pill">Normalize</span></td></tr></table></div></div>
+    </div>
+    <div class="box dash"><h4><i class="mk">3</i>Trust and consent tagging for this file</h4>
+      <div class="g3"><div class="field"><label>Source</label><div class="in sel">Company scheme enrollment 2025</div></div>
+      <div class="field"><label>Allowed use</label><div class="in sel">Service + promotional (consent on form)</div></div>
+      <div class="field"><label>Trust level</label><div class="in sel">Unverified until farmer replies</div></div></div></div>
+    <div class="btns"><span class="btn s">Back</span><span class="btn p">Continue to consent and trust</span></div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Matching.</b> Match on normalized phone first, then fuzzy name plus village for numbers that changed. Never auto-merge on name alone.</span></li>
+    <li><span class="n">2</span><span><b>Conflict rules.</b> Every field stores source and date, so newer or self-declared values can win automatically.</span></li>
+    <li><span class="n">3</span><span><b>Consent on old lists.</b> Data collected for one purpose may not allow promotions. Each file records allowed use, and campaigns filter on it. Check current legal requirements with your counsel.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 06 FARMER 360 ============ -->
+<section class="screen" id="farmer">
+  <div class="tag">06 · Relationship Hub</div>
+  <h2>Farmer 360 profile</h2>
+  <p class="lede">The single record for a farmer across every channel, season and purchase. Used by agents, call centre and automated campaigns.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / farmers / F-0048213</em></div>
+  <div class="app">
+    <div class="apphead"><div><h3>Ramesh Kale <span class="pill g">WhatsApp opted-in</span> <span class="pill g">Voice OK</span> <span class="pill a">Mustard · Rabi 26</span></h3>
+      <span class="muted small">+91 98••• ••210 · Mohol, Solapur, Maharashtra 413213 · Marathi · first seen 3 Nov via field event</span></div>
+      <div class="btns"><span class="btn s">Call</span><span class="btn s">Send WhatsApp</span><span class="btn s"><i class="mk" style="margin:0 4px 0 0">1</i>Merge or split</span></div></div>
+    <div data-tabs>
+      <div class="tabs"><button class="on" data-tab="t1">Overview</button><button data-tab="t2">Timeline</button><button data-tab="t3">Crops and seasons</button><button data-tab="t4">Purchases</button><button data-tab="t5">Consent</button></div>
+      <div class="pane" data-pane="t1"><div class="g21">
+        <div class="box"><h4><i class="mk">2</i>Attributes · value, source, trust</h4><div class="tw"><table>
+          <tr><th>Attribute</th><th>Value</th><th>Source</th><th>Updated</th><th>Trust</th></tr>
+          <tr><td>Crop this season</td><td>Mustard</td><td><span class="src">IVR</span>self-declared</td><td>12 Nov</td><td><span class="pill g">High</span></td></tr>
+          <tr><td>Acreage</td><td>3.5 acre</td><td><span class="src">AGENT</span>entered</td><td>3 Nov</td><td><span class="pill w">Medium</span></td></tr>
+          <tr><td>Irrigation</td><td>Borewell</td><td><span class="src">BOT</span>inferred</td><td>9 Nov</td><td><span class="pill w">Medium</span></td></tr>
+          <tr><td>Seed status</td><td>Bought, brand: Company A</td><td><span class="src">RETAIL</span>verified sale</td><td>14 Nov</td><td><span class="pill g">Verified</span></td></tr>
+          <tr><td>Village</td><td>Mohol</td><td><span class="src">EVENT</span>event location</td><td>3 Nov</td><td><span class="pill b">Confirm</span></td></tr>
+        </table></div></div>
+        <div class="box"><h4><i class="mk">3</i>People on this number</h4>
+          <p><b>Ramesh Kale</b> <span class="pill a">Primary</span><br><span class="small muted">Mustard, 3.5 acre</span></p>
+          <p><b>Sunita Kale</b> <span class="pill">Spouse</span><br><span class="small muted">Asked bot about onion leaf spots</span></p>
+          <div class="btns"><span class="btn s">+ Add person</span></div>
+          <h4 style="margin-top:12px">Next best action</h4><p class="small">Send nutrient reminder in 6 days (D+20 after sowing).</p></div>
+      </div></div>
+      <div class="pane" data-pane="t2" hidden><div class="box"><h4>Timeline across channels</h4><div class="tl">
+        <div><b><span class="src">FIELD</span>Missed call at Mohol event</b><small>3 Nov · agent S. Patil · mustard seed session</small></div>
+        <div><b><span class="src">META</span>Clicked lead ad, merged</b><small>6 Nov · "Mustard seed Rabi"</small></div>
+        <div><b><span class="src">BOT</span>Asked which seed suits black soil</b><small>9 Nov · advice given, 3 nearby shops shown</small></div>
+        <div><b><span class="src">IVR</span>Intent call answered</b><small>12 Nov · mustard, not yet bought seed</small></div>
+        <div><b><span class="src">RETAIL</span>Purchase recorded by Patil Agro</b><small>14 Nov · hybrid seed 2 kg · cashback pending</small></div>
+        <div><b><span class="src">WA</span>Sowing date asked</b><small>15 Nov · replied "sown 16 Nov"</small></div></div></div></div>
+      <div class="pane" data-pane="t3" hidden><div class="box"><h4>Season history</h4><div class="tw"><table>
+        <tr><th>Season</th><th>Crop</th><th>Acre</th><th>Seed brand</th><th>Outcome</th></tr>
+        <tr><td>Rabi 2026</td><td>Mustard</td><td>3.5</td><td>Company A</td><td>In progress</td></tr>
+        <tr><td>Kharif 2026</td><td>Soybean</td><td>2.0</td><td>Competitor X</td><td>Asked in survey</td></tr>
+        <tr><td>Rabi 2025</td><td>Wheat</td><td>1.5</td><td>Unknown</td><td>none</td></tr></table></div></div></div>
+      <div class="pane" data-pane="t4" hidden><div class="box"><h4>Purchases and rewards</h4><div class="tw"><table>
+        <tr><th>Date</th><th>Product</th><th>Retailer</th><th>Verified by</th><th>Cashback</th></tr>
+        <tr><td>14 Nov</td><td>Hybrid mustard seed 2 kg</td><td>Patil Agro, Mohol</td><td><span class="pill g">Retailer + OTP</span></td><td><span class="pill w">Pending</span></td></tr></table></div></div></div>
+      <div class="pane" data-pane="t5" hidden><div class="box"><h4>Consent and preferences</h4>
+        <p><span class="pill g">Granted</span> Missed call at event, 3 Nov, wording v2</p>
+        <p><span class="pill g">Granted</span> WhatsApp opt-in, 15 Nov (reply "Yes")</p>
+        <p><span class="pill">Not set</span> SMS promotional</p>
+        <p class="small muted">Preferred language: Marathi · Best time: after 7 pm · Frequency: max 2 / week</p>
+        <div class="btns"><span class="btn s">Record opt-out</span><span class="btn s">Export data</span><span class="btn s">Delete on request</span></div></div></div>
+    </div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Merge and split.</b> Two numbers for one farmer should merge, and one shared number should split into people. Both actions are logged and reversible.</span></li>
+    <li><span class="n">2</span><span><b>Field-level trust.</b> Self-declared, inferred and verified values are shown differently, so users know how much to rely on each.</span></li>
+    <li><span class="n">3</span><span><b>Person under the number.</b> Families share phones. Advice about onions should not reach a mustard grower as if it were his.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 07 SEGMENTS ============ -->
+<section class="screen" id="segments">
+  <div class="tag">07 · Relationship Hub</div>
+  <h2>Segments and audiences</h2>
+  <p class="lede">Build audiences from any attribute. The count shows who exists, who has consent, and who is reachable on each channel.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / segments / new</em></div>
+  <div class="app"><div class="g21">
+    <div class="box"><h4>Filters</h4>
+      <div class="rule" style="margin-bottom:8px"><b>Where</b><span>State = Maharashtra · District in Solapur, Latur</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>And</b><span>Crop this season = Mustard</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>And</b><span>Seed status = Not bought yet</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>And not</b><span>Contacted in last 7 days (any channel)</span></div>
+      <div class="rule" style="margin-bottom:10px"><b>And</b><span>Source trust ≥ Medium</span></div>
+      <div class="btns"><span class="btn s">+ Add filter</span><span class="btn s">Add group (OR)</span></div>
+      <h4 style="margin-top:14px">Saved segments</h4>
+      <div class="chips"><span class="chip">Mustard planners, Solapur</span><span class="chip">Competitor buyers, wheat</span><span class="chip">Bought seed, no sowing date</span><span class="chip">Lapsed 2 seasons</span></div></div>
+    <div class="box"><h4><i class="mk">1</i>Audience funnel</h4><div class="bars">
+      <div class="bar-row"><span>Matches</span><div class="t"><i style="width:100%"></i></div><b>8,420</b></div>
+      <div class="bar-row"><span>Consented</span><div class="t"><i style="width:84%"></i></div><b>7,070</b></div>
+      <div class="bar-row"><span>Not suppressed</span><div class="t"><i style="width:78%"></i></div><b>6,570</b></div>
+      <div class="bar-row"><span>On WhatsApp</span><div class="t"><i style="width:56%"></i></div><b>4,710</b></div>
+      <div class="bar-row"><span>Voice reachable</span><div class="t"><i style="width:70%"></i></div><b>5,890</b></div></div>
+      <div class="btns" style="margin-top:12px"><span class="btn p">Use in campaign</span><span class="btn s">Save</span></div></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Reachable, not just total.</b> A big list can hide a small reachable audience. The funnel shows consent, DND, opt-outs and channel eligibility before anyone sends.</span></li>
+    <li><span class="n">2</span><span><b>Cross-company overlap.</b> If the platform serves several companies, each sees only its own farmers. Frequency caps are applied per company unless the platform decides otherwise.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 08 CAMPAIGNS ============ -->
+<section class="screen" id="campaigns">
+  <div class="tag">08 · Engagement</div>
+  <h2>Campaign builder</h2>
+  <p class="lede">One campaign, several channels in sequence, with rules that stop over-contacting. The system tries cheaper channels first and escalates only when needed.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / campaigns / Mustard nutrient offer</em></div>
+  <div class="app">
+    <div class="steps"><span class="done">1 Goal</span><span class="done">2 Audience</span><span class="on">3 Channels</span><span>4 Content</span><span>5 Rules</span><span>6 Review</span></div>
+    <div class="g21">
+      <div class="box"><h4><i class="mk">1</i>Channel sequence</h4>
+        <div class="node t">Start · segment "Mustard planners, Solapur" · 4,710 farmers</div><div class="down">↓</div>
+        <div class="node">WhatsApp template · Marathi<small>Offer + button "Tell me more"</small></div><div class="down">↓ not read in 24 h</div>
+        <div class="node">AI voice call · Marathi<small>2 retries · 10 am to 7 pm · hands off to agent if farmer asks</small></div><div class="down">↓ no answer, high-value only</div>
+        <div class="node w">Call centre task<small>Only farmers above 3 acres</small></div><div class="down">↓</div>
+        <div class="node t">Exit · replied, bought, opted out, or 7 days passed</div></div>
+      <div class="box"><h4><i class="mk">2</i>Rules</h4>
+        <div class="field"><label>Quiet hours</label><div class="in">9 pm to 8 am</div></div>
+        <div class="field"><label>Max contacts per farmer</label><div class="in">2 per week, all channels</div></div>
+        <div class="field"><label>Skip if</label><div class="in">DND, opted out, contacted today</div></div>
+        <div class="field"><label>Budget cap</label><div class="in">₹ 85,000</div></div>
+        <h4 style="margin-top:8px"><i class="mk">3</i>Estimate</h4>
+        <p class="small">WhatsApp: 4,710 × ₹0.8 = ₹3,768<br>AI voice: ~2,000 × 1.5 min = ₹9,000<br>Call centre: ~120 tasks<br><b>Total ≈ ₹14,300</b></p></div>
+    </div>
+    <div class="btns"><span class="btn s">Back</span><span class="btn p">Next: content</span><span class="btn s">A/B test this step</span></div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Fallback logic.</b> Not every farmer uses WhatsApp, and many do not read promotional messages. Voice and call centre catch the rest, in order of cost.</span></li>
+    <li><span class="n">2</span><span><b>Global limits.</b> Quiet hours, frequency caps and opt-outs apply across campaigns, not just inside one.</span></li>
+    <li><span class="n">3</span><span><b>Cost shown before sending.</b> WhatsApp templates and voice minutes cost money, so the estimate appears before launch. Figures here are examples.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 09 INTENT ============ -->
+<section class="screen" id="intent">
+  <div class="tag">09 · Engagement</div>
+  <h2>Season intent survey</h2>
+  <p class="lede">Ask farmers what they plan to grow and buy this season, over AI voice or WhatsApp. Answers update the profile and feed market-share views.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / surveys / Rabi 2026 intent</em></div>
+  <div class="app"><div class="g2">
+    <div class="box"><h4>Question flow (same for voice and WhatsApp)</h4>
+      <div class="node t">Q1 · Which crop will you grow this Rabi?<small>Mustard · Wheat · Chickpea · Other · Not sure</small></div><div class="down">↓</div>
+      <div class="node">Q2 · Have you sown or are you still planning?<small>Sown · Planning · Not growing</small></div><div class="down">↓ if planning or sown</div>
+      <div class="node">Q3 · Have you bought seed?<small>Yes · Not yet · Using own seed</small></div><div class="down">↓ if yes</div>
+      <div class="node">Q4 · Which company's seed?<small>Company A · Competitor X · Competitor Y · Other</small></div><div class="down">↓</div>
+      <div class="node w"><i class="mk">1</i>Q5 (optional) · Which shop did you buy from?</div>
+      <div class="btns" style="margin-top:10px"><span class="btn s">Add question</span><span class="btn s">Edit translations</span></div></div>
+    <div class="box"><h4>Live results · 6,120 reached · 3,980 answered</h4><div class="bars">
+      <div class="bar-row"><span>Mustard</span><div class="t"><i style="width:56%"></i></div><b>2,230</b></div>
+      <div class="bar-row"><span>Wheat</span><div class="t"><i style="width:31%"></i></div><b>1,240</b></div>
+      <div class="bar-row"><span>Chickpea</span><div class="t"><i style="width:9%"></i></div><b>360</b></div>
+      <div class="bar-row"><span>Other</span><div class="t"><i style="width:4%"></i></div><b>150</b></div></div>
+      <h4 style="margin-top:12px">Seed brand among mustard growers who bought</h4><div class="bars">
+      <div class="bar-row"><span>Company A</span><div class="t"><i style="width:34%"></i></div><b>34%</b></div>
+      <div class="bar-row"><span>Competitor X</span><div class="t"><i style="width:41%"></i></div><b>41%</b></div>
+      <div class="bar-row"><span>Others</span><div class="t"><i style="width:25%"></i></div><b>25%</b></div></div>
+      <h4 style="margin-top:12px"><i class="mk">2</i>Sample call transcript (AI voice, Marathi, translated)</h4>
+      <div class="msg">Namaskar, this is [Company]'s farming helper. Which crop are you planning this season?</div>
+      <div class="msg me">Mustard. Sowing next week. <small>Heard: mustard, planning · confidence 94%</small></div></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Self-reported brand.</b> Farmers may not remember or may name the shop's brand. Treat as medium trust until a retailer sale confirms it.</span></li>
+    <li><span class="n">2</span><span><b>Voice reliability.</b> Dialects, noise and "call me later" need handling. Low-confidence answers repeat the question or go to a human instead of writing bad data.</span></li>
+    <li><span class="n">3</span><span><b>Market view.</b> Aggregated answers show acreage intent and competitor share by district before the season peaks. This is data many companies rarely get.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 10 CHATBOT ============ -->
+<section class="screen" id="chatbot">
+  <div class="tag">10 · Engagement</div>
+  <h2>WhatsApp AI chatbot</h2>
+  <p class="lede">Farmers send a leaf photo, a voice note or a question. The bot gives advice, recommends products when relevant, and hands off to an agronomist when unsure.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / chatbot</em></div>
+  <div class="app"><div class="g12">
+    <div class="phone"><div class="scr">
+      <div class="ph-h">Company Krishi Mitra · WhatsApp</div>
+      <div class="msg me">[photo of mustard leaf with white patches]<small>11:02</small></div>
+      <div class="msg me">🎤 Voice note, 8 s · "My leaves have white powder"<small>11:02 · transcribed: Marathi</small></div>
+      <div class="msg"><i class="mk">1</i>Looks like powdery mildew (confidence 82%). Spray at the first signs, in the evening. Avoid overhead irrigation.<small>Source: approved package of practices</small></div>
+      <div class="msg">Products that match this problem near Mohol:<div class="btnrow" style="margin-top:5px"><span>Fungicide A</span><span>Where to buy</span><span>Talk to expert</span></div></div>
+      <div class="msg me">Where to buy<small>11:03</small></div>
+    </div></div>
+    <div style="display:grid;gap:12px">
+      <div class="g2">
+        <div class="box"><h4>Behaviour settings</h4>
+          <p class="small"><b>Languages:</b> Marathi, Hindi, English</p>
+          <p class="small"><b>Inputs:</b> text, voice note, photo</p>
+          <p class="small"><i class="mk">2</i><b>Hand off when:</b> confidence below 70%, pesticide dose asked, farmer is upset, or asks for a person</p>
+          <p class="small"><i class="mk">3</i><b>Product suggestions:</b> only when the problem and crop match, always after advice</p></div>
+        <div class="box"><h4>Knowledge sources</h4>
+          <p class="small">Package of practices · Mustard, Wheat, Chickpea ✓</p>
+          <p class="small">Product catalogue and labels ✓</p>
+          <p class="small">Agronomist FAQs ✓</p>
+          <p class="small">Local pest bulletins <span class="pill w">Out of date</span></p></div>
+      </div>
+      <div class="box"><h4>Agronomist queue</h4><div class="tw"><table>
+        <tr><th>Farmer</th><th>Issue</th><th>Bot confidence</th><th>Waiting</th><th>Action</th></tr>
+        <tr><td>Sunita Kale</td><td>Onion leaf spots</td><td><span class="pill w">58%</span></td><td>12 min</td><td><span class="btn s">Reply</span></td></tr>
+        <tr><td>Ganesh Bhosale</td><td>Wheat yellowing</td><td><span class="pill w">64%</span></td><td>31 min</td><td><span class="btn s">Reply</span></td></tr></table></div></div>
+      <div class="box"><h4><i class="mk">4</i>Problem clusters this week</h4><div class="ph" style="min-height:70px">Map of Solapur district: 41 powdery mildew reports near Mohol (up 3×)</div></div>
+    </div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Show confidence and source.</b> Advice comes from approved material, not free-form guesses.</span></li>
+    <li><span class="n">2</span><span><b>Safe limits.</b> Dosage, banned products and anything risky go to a human. Wrong advice has real cost to the farmer's crop and the company's reputation.</span></li>
+    <li><span class="n">3</span><span><b>Advisory first, sales second.</b> If every answer ends in a product push, farmers stop trusting the bot.</span></li>
+    <li><span class="n">4</span><span><b>Data value.</b> Questions and photos reveal outbreaks early. They also update the profile (crop, problem, stage) for later campaigns.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 11 JOURNEY ============ -->
+<section class="screen" id="journey">
+  <div class="tag">11 · Engagement</div>
+  <h2>Purchase-triggered journey</h2>
+  <p class="lede">A recorded sale starts a timed set of follow-ups based on the crop calendar: confirm sowing, then nutrition, pest watch, harvest advice, and next season.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / journeys / Mustard seed buyer</em></div>
+  <div class="app"><div class="g21">
+    <div class="box">
+      <div class="node t">Trigger · retailer records sale of "Hybrid mustard seed"<small>Farmer phone verified, consent present</small></div><div class="down">↓ + 1 day</div>
+      <div class="node">WhatsApp · thanks + "When will you sow?" <small>Buttons: Today · This week · Already sown</small></div><div class="down">↓</div>
+      <div class="branch">
+        <div class="node"><b>Sowing date given</b><small>Schedule from that date</small></div>
+        <div class="node w"><i class="mk">1</i><b>No reply in 3 days</b><small>Estimate from season default, mark "estimated", one reminder</small></div>
+      </div><div class="down">↓ sowing + 20 days</div>
+      <div class="node">Nutrient reminder · recommended product + nearest shop</div><div class="down">↓ + 35 days</div>
+      <div class="node">Pest and disease watch · "Send a leaf photo if you see spots"</div><div class="down">↓ + 90 days</div>
+      <div class="node">Harvest check-in · "How is the crop? Yield?"<small><i class="mk">2</i>Result stored for product and area comparison</small></div><div class="down">↓ next season</div>
+      <div class="node t">Re-engage with next-season offer and loyalty reward</div></div>
+    <div style="display:grid;gap:12px;align-content:start">
+      <div class="box"><h4>Crop calendar</h4>
+        <div class="field"><label>Crop</label><div class="in sel">Mustard</div></div>
+        <div class="field"><label>Region</label><div class="in sel">Maharashtra · Marathwada</div></div>
+        <p class="small muted">Stage offsets are editable per crop, variety and region.</p></div>
+      <div class="box"><h4><i class="mk">3</i>Pause or stop when</h4>
+        <p class="small">• Farmer opts out<br>• Sale reversed or returned<br>• Farmer reports crop failure (send to agronomist)<br>• Another campaign contacted them today</p></div>
+      <div class="box"><h4>Journey performance</h4><div class="bars">
+        <div class="bar-row"><span>Replied</span><div class="t"><i style="width:48%"></i></div><b>48%</b></div>
+        <div class="bar-row"><span>Bought nutrient</span><div class="t"><i style="width:19%"></i></div><b>19%</b></div></div></div>
+    </div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Purchase date is not sowing date.</b> Ask the farmer and schedule from the answer. Mark estimates clearly.</span></li>
+    <li><span class="n">2</span><span><b>Close the loop.</b> Outcome questions let the company link products to results by region and season.</span></li>
+    <li><span class="n">3</span><span><b>Reversals.</b> A returned or wrongly entered sale must stop or undo the journey and any cashback.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 12 RETAILER ============ -->
+<section class="screen" id="retailer">
+  <div class="tag">12 · Distribution</div>
+  <h2>Retailer sale capture</h2>
+  <p class="lede">The retailer records each sale in a few seconds. This is what verifies the farmer's purchase and starts the follow-up journey. Shown here as a phone view with a few input options.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>retailer app / record sale</em></div>
+  <div class="app"><div class="g3">
+    <div class="phone"><div class="scr">
+      <div class="ph-h">Patil Agro, Mohol · Record sale</div>
+      <div class="ph" style="min-height:70px"><i class="mk">1</i>Scan QR on seed bag</div>
+      <div class="field" style="margin:0"><label>Product (auto-filled)</label><div class="in">Hybrid mustard seed 2 kg · batch M26-114</div></div>
+      <div class="field" style="margin:0"><label>Quantity</label><div class="in">1</div></div>
+      <div class="field" style="margin:0"><label><i class="mk">2</i>Farmer mobile number</label><div class="in">98••• ••210</div></div>
+      <div class="msg">OTP sent to farmer. Farmer confirms purchase and agrees to updates.<small>Farmer enters or replies "YES"</small></div>
+      <div class="btns"><span class="btn p">Confirm sale</span><span class="btn s">Skip farmer details</span></div>
+    </div></div>
+    <div class="box"><h4>Other ways to record a sale</h4>
+      <p><span class="pill a">A</span> Scan QR in the retailer app (above)</p>
+      <p><span class="pill a">B</span> Send a WhatsApp message to the sales bot</p>
+      <p><span class="pill a">C</span> Billing software integration (automatic)</p>
+      <p><span class="pill a">D</span> Farmer scans the bag QR himself</p>
+      <p class="small muted">Which one is offered depends on what the retailer already uses. The aim is under 10 seconds per sale.</p>
+      <h4 style="margin-top:12px"><i class="mk">3</i>If something goes wrong</h4>
+      <p class="small">Farmer has no phone with him · wrong number · farmer buys for a relative · return or exchange. Each has a fix flow with a reason code.</p></div>
+    <div class="box"><h4>Retailer dashboard</h4>
+      <div class="kpi" style="margin-bottom:8px"><b>1,240 pts</b><span>This month · ₹ 620 reward <i class="mk" style="margin:0 0 0 4px">4</i></span></div>
+      <div class="bars"><div class="bar-row"><span>Sales logged</span><div class="t"><i style="width:68%"></i></div><b>34</b></div>
+      <div class="bar-row"><span>Farmers added</span><div class="t"><i style="width:52%"></i></div><b>26</b></div></div>
+      <p class="small muted" style="margin-top:10px">Also shows: scheme details, farmers likely to visit (from campaigns), stock to reorder.</p></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Bag-level QR</b> is the best way to know exactly what was sold and which batch. It needs packaging changes, so it may start with selected products.</span></li>
+    <li><span class="n">2</span><span><b>Farmer confirmation by OTP</b> verifies the number and gives consent at the counter, and stops retailers entering fake sales.</span></li>
+    <li><span class="n">3</span><span><b>Hard cases</b> are common in practice, so corrections are built in, with a log.</span></li>
+    <li><span class="n">4</span><span><b>Why retailers do this:</b> points or cashback and visible benefits. Without them, capture will be patchy.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 13 CHAIN ============ -->
+<section class="screen" id="chain">
+  <div class="tag">13 · Distribution</div>
+  <h2>Company to farmer chain</h2>
+  <p class="lede">Primary, secondary and tertiary sales in one view, so the company sees what actually reached farmers, not only what was shipped to dealers.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / distribution / chain</em></div>
+  <div class="app">
+    <div class="flowrow">
+      <div class="kpi"><b>48,000 bags</b><span>Company → dealers (primary)</span></div><div class="arrow">→</div>
+      <div class="kpi"><b>31,200</b><span>Dealers → retailers (secondary)</span></div><div class="arrow">→</div>
+      <div class="kpi"><b>18,900</b><span>Retailers → farmers (tertiary)</span></div><div class="arrow">→</div>
+      <div class="kpi"><b>12,400</b><span>Farmers with verified profile</span></div>
+    </div>
+    <div class="g21">
+      <div class="box"><h4><i class="mk">1</i>Transactions</h4><div class="tw"><table>
+        <tr><th>Date</th><th>From</th><th>To</th><th>Product · batch</th><th>Qty</th><th>Recorded by</th></tr>
+        <tr><td>14 Nov</td><td>Patil Agro</td><td>Farmer F-0048213</td><td>Mustard seed · M26-114</td><td>1</td><td><span class="pill g">QR + OTP</span></td></tr>
+        <tr><td>12 Nov</td><td>Shree Traders (dealer)</td><td>Patil Agro</td><td>Mustard seed · M26-114</td><td>120</td><td><span class="pill">Invoice upload</span></td></tr>
+        <tr><td>8 Nov</td><td>Company</td><td>Shree Traders</td><td>Mustard seed · M26-114</td><td>2,000</td><td><span class="pill a">ERP sync</span></td></tr>
+        <tr><td>16 Nov</td><td>Patil Agro</td><td>Farmer F-0048390</td><td>Mustard seed · M26-114</td><td>-1</td><td><span class="pill w"><i class="mk" style="margin:0">2</i> Return</span></td></tr>
+      </table></div></div>
+      <div class="box"><h4>Batch lookup</h4><div class="field"><label>Batch</label><div class="in">M26-114</div></div>
+        <p class="small">Produced 2 Oct · 5,000 bags<br>Dealers: 4 · Retailers: 61 · Farmers: 412<br>Returns: 3 · Complaints: 0</p>
+        <p class="small muted"><i class="mk">3</i>Used for recalls and counterfeit checks</p></div>
+    </div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Different capture per level.</b> Company to dealer can sync from ERP. Dealer to retailer often needs invoice upload or billing integration. Retailer to farmer uses the QR flow.</span></li>
+    <li><span class="n">2</span><span><b>Reverse flow.</b> Returns, damaged goods and expiry must adjust stock, sales and cashback.</span></li>
+    <li><span class="n">3</span><span><b>Depth is a choice.</b> Sales-only is lighter. Batch tracing across all levels is heavier and costs more to run in the field.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 14 LOCATOR ============ -->
+<section class="screen" id="locator">
+  <div class="tag">14 · Distribution</div>
+  <h2>Stock and where to buy</h2>
+  <p class="lede">A farmer in Solapur is shown nearby shops that have the product and the current offer. Retailers and dealers keep stock levels fresh.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>farmer view (WhatsApp) + admin stock view</em></div>
+  <div class="app"><div class="g2">
+    <div class="phone"><div class="scr">
+      <div class="ph-h">Krishi Mitra</div>
+      <div class="msg me">Where can I buy Fungicide A? Pin 413213<small>11:03</small></div>
+      <div class="msg">Nearest shops with stock:<br><b>1. Patil Agro, Mohol</b> · 2 km · <span class="pill g">In stock</span> · 10% off this week<br><b>2. Kale Seeds, Mohol Rd</b> · 5 km · <span class="pill w">Low stock</span><br><b>3. Shree Agro, Pandharpur</b> · 31 km<small><i class="mk">1</i>Stock updated 2 h ago</small></div>
+      <div class="btnrow"><span>Call shop</span><span>Directions</span><span>Show offer code</span></div>
+    </div></div>
+    <div class="box"><h4>Retailer stock · Solapur district</h4><div class="tw"><table>
+      <tr><th>Retailer</th><th>Fungicide A</th><th>Updated</th><th>Source</th></tr>
+      <tr><td>Patil Agro</td><td><span class="pill g">62</span></td><td>2 h</td><td>Billing sync</td></tr>
+      <tr><td>Kale Seeds</td><td><span class="pill w">4</span></td><td>1 d</td><td>Retailer entry</td></tr>
+      <tr><td><i class="mk">2</i>Shree Agro</td><td><span class="pill">unknown</span></td><td>9 d</td><td>Stale</td></tr></table></div>
+      <h4 style="margin-top:12px"><i class="mk">3</i>Ranking rules</h4>
+      <p class="small">Distance · stock confirmed · scheme participation · service rating. Rules are visible to retailers.</p></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Fresh or hidden.</b> Showing "in stock" for a shop that ran out damages trust fast. Show how old the data is, and consider checking with the shop before sending a farmer.</span></li>
+    <li><span class="n">2</span><span><b>Stale stock.</b> After a set time, drop the stock claim and just show the shop as a seller.</span></li>
+    <li><span class="n">3</span><span><b>Fairness.</b> Retailers will ask why they are ranked lower. Transparent rules avoid channel conflict.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 15 SCHEMES ============ -->
+<section class="screen" id="schemes">
+  <div class="tag">15 · Distribution</div>
+  <h2>Schemes and cashback</h2>
+  <p class="lede">Define who earns what, check each claim, and pay out. Applies to farmers, retailers and dealers.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / schemes / Rabi mustard cashback</em></div>
+  <div class="app"><div class="g2">
+    <div class="box"><h4>Rule builder</h4>
+      <div class="rule" style="margin-bottom:8px"><b>For</b><span>Farmers in Maharashtra</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>When</b><span>Buys 2 kg or more of Hybrid mustard seed, verified by QR + OTP</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>Between</b><span>1 Nov and 31 Dec 2026</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>Reward</b><span>₹ 150 cashback to UPI</span></div>
+      <div class="rule" style="margin-bottom:8px"><b>Limit</b><span>1 reward per farmer per season</span></div>
+      <div class="rule" style="margin-bottom:10px"><b>Retailer</b><span>₹ 20 per verified sale · bonus at 50 sales</span></div>
+      <div class="btns"><span class="btn p">Publish scheme</span><span class="btn s">Simulate on last month</span></div></div>
+    <div class="box"><h4>Payout queue</h4><div class="tw"><table>
+      <tr><th>Who</th><th>Claim</th><th>Amount</th><th>Check</th><th>Action</th></tr>
+      <tr><td>Ramesh Kale</td><td>Seed 2 kg</td><td>₹150</td><td><span class="pill g">Pass</span></td><td><span class="btn s">Approve</span></td></tr>
+      <tr><td>Patil Agro</td><td>34 sales</td><td>₹680</td><td><span class="pill g">Pass</span></td><td><span class="btn s">Approve</span></td></tr>
+      <tr><td>Farmer 90•••004</td><td>Seed 2 kg</td><td>₹150</td><td><span class="pill b"><i class="mk" style="margin:0">1</i> Same QR claimed twice</span></td><td><span class="btn s">Review</span></td></tr>
+      <tr><td>Shree Agro</td><td>60 sales in 1 h</td><td>₹1,200</td><td><span class="pill b"><i class="mk" style="margin:0">2</i> Volume spike</span></td><td><span class="btn s">Review</span></td></tr></table></div>
+      <p class="small muted" style="margin-top:8px"><i class="mk">3</i>Payout rails: UPI, wallet, or credit note for retailers.</p></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Duplicate claims.</b> Each QR pays out once. Same-device and same-number loops are flagged.</span></li>
+    <li><span class="n">2</span><span><b>Self-dealing.</b> Retailers rewarded per sale may fake entries. Compare volumes against stock received and farmer confirmations.</span></li>
+    <li><span class="n">3</span><span><b>Audit trail.</b> Every rule change, approval and payout is logged. Tax and payout compliance should be reviewed with the client's finance team.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 16 ANALYTICS ============ -->
+<section class="screen" id="analytics">
+  <div class="tag">16 · Insight</div>
+  <h2>Analytics and ROI</h2>
+  <p class="lede">From a missed call to a sale: which events, channels and agents bring farmers who actually buy.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / analytics / Rabi 2026</em></div>
+  <div class="app">
+    <div class="apphead"><h3>Season overview</h3><div class="btns"><span class="btn s">Season: Rabi 2026</span><span class="btn s">Region: Maharashtra</span><span class="btn s">Crop: All</span></div></div>
+    <div class="g4">
+      <div class="kpi"><b>31,742</b><span>Unique farmers</span></div>
+      <div class="kpi"><b>41%</b><span>Gave crop intent</span></div>
+      <div class="kpi"><b>18.9%</b><span>Bought (verified)</span></div>
+      <div class="kpi"><b>₹ 142</b><span><i class="mk">1</i>Cost per verified buyer</span></div>
+    </div>
+    <div class="g2">
+      <div class="box"><h4>Funnel</h4><div class="bars">
+        <div class="bar-row"><span>Captured</span><div class="t"><i style="width:100%"></i></div><b>31,742</b></div>
+        <div class="bar-row"><span>Consented</span><div class="t"><i style="width:88%"></i></div><b>27,904</b></div>
+        <div class="bar-row"><span>Engaged</span><div class="t"><i style="width:46%"></i></div><b>14,600</b></div>
+        <div class="bar-row"><span>Gave intent</span><div class="t"><i style="width:41%"></i></div><b>13,010</b></div>
+        <div class="bar-row"><span>Bought</span><div class="t"><i style="width:19%"></i></div><b>6,000</b></div></div></div>
+      <div class="box"><h4><i class="mk">2</i>Channel performance</h4><div class="tw"><table>
+        <tr><th>Channel</th><th>Reached</th><th>Response</th><th>Cost / response</th></tr>
+        <tr><td>WhatsApp</td><td>18,200</td><td>34%</td><td>₹ 2.4</td></tr>
+        <tr><td>AI voice</td><td>9,800</td><td>52%</td><td>₹ 4.1</td></tr>
+        <tr><td>SMS</td><td>22,000</td><td>6%</td><td>₹ 3.6</td></tr>
+        <tr><td>Call centre</td><td>1,900</td><td>71%</td><td>₹ 38</td></tr></table></div></div>
+    </div>
+    <div class="g2">
+      <div class="box"><h4><i class="mk">3</i>Agents and events</h4><div class="tw"><table>
+        <tr><th>Agent</th><th>Leads</th><th>Unique</th><th>Bought</th><th>Quality</th></tr>
+        <tr><td>S. Patil</td><td>1,240</td><td>94%</td><td>21%</td><td><span class="pill g">High</span></td></tr>
+        <tr><td>A. Jadhav</td><td>980</td><td>88%</td><td>14%</td><td><span class="pill a">Good</span></td></tr>
+        <tr><td>V. More</td><td>1,900</td><td>52%</td><td>3%</td><td><span class="pill b">Review</span></td></tr></table></div></div>
+      <div class="box"><h4>Season on season</h4><div class="bars">
+        <div class="bar-row"><span>Rabi 2025</span><div class="t"><i style="width:38%"></i></div><b>11.8%</b></div>
+        <div class="bar-row"><span>Kharif 2026</span><div class="t"><i style="width:52%"></i></div><b>16.1%</b></div>
+        <div class="bar-row"><span>Rabi 2026</span><div class="t"><i style="width:61%"></i></div><b>18.9%</b></div></div>
+        <p class="small muted" style="margin-top:8px">Also: acreage intent map, competitor share, repeat buyers.</p></div>
+    </div>
+  </div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Cost per verified buyer</b> is the number clients will judge the product by. It needs purchase data from retailers to be real.</span></li>
+    <li><span class="n">2</span><span><b>Channel comparison.</b> Use per-response cost, not only reach, so cheap but silent channels do not look better than they are.</span></li>
+    <li><span class="n">3</span><span><b>Attribution rule.</b> When a farmer touches several agents or channels, decide whether credit goes to first touch, last touch or is split. Numbers in this wireframe are sample data only.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 17 ADMIN ============ -->
+<section class="screen" id="admin">
+  <div class="tag">17 · Control</div>
+  <h2>Admin and compliance</h2>
+  <p class="lede">Who can see what, how consent is stored, and how the platform connects to the client's other systems.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / admin</em></div>
+  <div class="app"><div data-tabs>
+    <div class="tabs"><button class="on" data-tab="a1">Roles</button><button data-tab="a2">Consent and opt-outs</button><button data-tab="a3">Integrations</button><button data-tab="a4">Audit log</button></div>
+    <div class="pane" data-pane="a1"><div class="box"><h4>Role permissions</h4><div class="tw"><table>
+      <tr><th>Permission</th><th>Field agent</th><th>Area manager</th><th>Company admin</th><th>Call centre</th><th>Retailer</th></tr>
+      <tr><td>See own leads</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>n/a</td></tr>
+      <tr><td>See farmer phone numbers</td><td>Masked</td><td>Territory</td><td>All</td><td>Assigned</td><td>Own customers</td></tr>
+      <tr><td>Launch campaigns</td><td>-</td><td>Approve</td><td>✓</td><td>-</td><td>-</td></tr>
+      <tr><td>Export data</td><td>-</td><td>Limited</td><td>✓ logged</td><td>-</td><td>-</td></tr>
+      <tr><td>Approve payouts</td><td>-</td><td>-</td><td>✓</td><td>-</td><td>-</td></tr></table></div>
+      <p class="small muted" style="margin-top:8px"><i class="mk">1</i>Several client companies on one platform means strict data separation between them.</p></div></div>
+    <div class="pane" data-pane="a2" hidden><div class="g2">
+      <div class="box"><h4>Consent log (sample)</h4><div class="tw"><table>
+        <tr><th>Farmer</th><th>What</th><th>When</th><th>Evidence</th></tr>
+        <tr><td>F-0048213</td><td>Contact by call, SMS, WhatsApp</td><td>3 Nov 11:42</td><td>Event E-221, wording v2</td></tr>
+        <tr><td>F-0048390</td><td>Opt-out all promotions</td><td>16 Nov 09:10</td><td>Replied STOP on WhatsApp</td></tr></table></div></div>
+      <div class="box"><h4><i class="mk">2</i>Rules</h4><p class="small">• One opt-out applies to every channel unless the farmer limits it<br>• Do-not-disturb checks before SMS and voice<br>• WhatsApp opt-in and template approval tracked<br>• AI voice calls announce they are automated<br>• Data retention and deletion on request<br>• Review with legal counsel for current Indian rules</p></div></div></div>
+    <div class="pane" data-pane="a3" hidden><div class="box"><h4>Integrations</h4><div class="tw"><table>
+      <tr><th>System</th><th>Direction</th><th>Status</th></tr>
+      <tr><td>Client CRM / ERP</td><td>Both ways</td><td><span class="pill g">Live</span></td></tr>
+      <tr><td>Dealer billing</td><td>In</td><td><span class="pill w">Partial</span></td></tr>
+      <tr><td>Telephony (missed call, IVR)</td><td>In / out</td><td><span class="pill g">Live</span> <i class="mk">3</i>backup carrier</td></tr>
+      <tr><td>WhatsApp Business, Meta Ads</td><td>Both ways</td><td><span class="pill g">Live</span></td></tr>
+      <tr><td>UPI payouts</td><td>Out</td><td><span class="pill">Planned</span></td></tr></table></div></div></div>
+    <div class="pane" data-pane="a4" hidden><div class="box"><h4>Audit log</h4><div class="tl">
+      <div><b>Export of 4,710 farmers by admin R. Deshmukh</b><small>18 Nov 11:20 · segment "Mustard planners, Solapur"</small></div>
+      <div><b>Scheme "Rabi mustard cashback" published</b><small>17 Nov 16:05 · admin A. Rao</small></div>
+      <div><b>Farmers F-0048213 and F-0051109 merged</b><small>16 Nov 12:44 · call centre, reason "same person"</small></div></div></div></div>
+  </div></div></div>
+  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+    <li><span class="n">1</span><span><b>Data separation</b> between companies, and masked numbers for roles that do not need them, limit misuse.</span></li>
+    <li><span class="n">2</span><span><b>Legal checks.</b> This wireframe lists likely areas (consent, do-not-disturb, WhatsApp policy, data protection law). Confirm exact requirements with counsel.</span></li>
+    <li><span class="n">3</span><span><b>Resilience.</b> A telephony outage during a field event loses leads for good, so a backup route matters.</span></li>
+  </ol></aside>
+</section>
+
+<!-- ============ 18 QUESTIONS ============ -->
+<section class="screen" id="questions">
+  <div class="tag">18 · Decisions</div>
+  <h2>Decisions to make</h2>
+  <p class="lede">Open questions that came out of the discussion. Each one changes what gets built or how.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><em>decisions</em></div>
+  <div class="app"><div class="tw"><table>
+    <tr><th>#</th><th>Question</th><th>Why it matters</th><th>Leaning</th></tr>
+    <tr><td>1</td><td>Is one phone number one farmer, or do we model people under a number?</td><td>Dedupe, advice relevance, counts</td><td>Person layer under the number</td></tr>
+    <tr><td>2</td><td>Who gets credit when a farmer meets two agents: first, last or both?</td><td>Agent incentives, reports</td><td>First touch for lead, shared in analytics</td></tr>
+    <tr><td>3</td><td>How do retailers record sales today, and what will they actually use?</td><td>Purchase verification</td><td>Start with QR or WhatsApp, add billing sync</td></tr>
+    <tr><td>4</td><td>Sales-only tracking, or full inventory and batch tracing?</td><td>Cost and field effort</td><td>Sales-only first</td></tr>
+    <tr><td>5</td><td>Is imported data "unverified" until the farmer responds?</td><td>Consent, trust, safe use</td><td>Yes</td></tr>
+    <tr><td>6</td><td>Is a missed call enough consent, and what wording is shown?</td><td>Legal exposure</td><td>Explicit wording on banner, stored per event</td></tr>
+    <tr><td>7</td><td>One company per tenant, or shared retailers and farmers across companies?</td><td>Data isolation, retailer experience</td><td>Isolated, with a combined retailer view as an option</td></tr>
+    <tr><td>8</td><td>How far should the chatbot go: advice only, or product recommendation and cashback too?</td><td>Trust, liability</td><td>Advice first, product after, doses to a human</td></tr>
+    <tr><td>9</td><td>How is stock kept fresh enough to show "in stock"?</td><td>Farmer trust</td><td>Show age of data, drop claim when stale</td></tr>
+    <tr><td>10</td><td>Which metric proves success to a client: cost per verified buyer, repeat rate, or acreage share?</td><td>Pricing, reporting design</td><td>Cost per verified buyer</td></tr>
+  </table></div></div></div>
+  <aside class="notes"><h3>Notes</h3><div class="q">Tell me which of these you have already decided, and which screens need more detail or different flows. I will update the wireframe.</div></aside>
+</section>
+
+
+<div class="pager" id="pager"></div>
+</main>
+</div>
+<script>
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var storyWrap=document.getElementById('storyWrap'),screensWrap=document.getElementById('screensWrap');
+  var screens=[].slice.call(document.querySelectorAll('.screen'));
+  var links=[].slice.call(document.querySelectorAll('#nav a')).filter(function(a){return !a.hasAttribute('data-back')});
+  var order=links.map(function(a){return a.getAttribute('href').slice(1)});
+  var mS=document.getElementById('mStory'),mA=document.getElementById('mScreens');
+  function route(){
+    var id=(location.hash||'').slice(1),i=order.indexOf(id);
+    if(i>=0){
+      storyWrap.hidden=true;screensWrap.hidden=false;
+      screens.forEach(function(s){s.hidden=(s.id!==id)});
+      links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+id)});
+      var h='';
+      h+= i>0 ? '<a href="#'+order[i-1]+'">← '+links[i-1].textContent.replace(/^\d+/,'')+'</a>' : '<a href="#story">← Back to the story</a>';
+      if(i<order.length-1) h+='<a href="#'+order[i+1]+'">'+links[i+1].textContent.replace(/^\d+/,'')+' →</a>';
+      document.getElementById('pager').innerHTML=h;
+      mS.classList.remove('on');mA.classList.add('on');
+      window.scrollTo(0,0);
+    }else{
+      var wasHidden=storyWrap.hidden;
+      storyWrap.hidden=false;screensWrap.hidden=true;
+      mS.classList.add('on');mA.classList.remove('on');
+      var el=id&&document.getElementById(id);
+      if(el&&storyWrap.contains(el)){ if(id==='story'){window.scrollTo(0,0)} else {el.scrollIntoView({behavior:(reduce||wasHidden)?'auto':'smooth',block:'start'})} }
+      else if(wasHidden||!id){window.scrollTo(0,0)}
+    }
+  }
+  window.addEventListener('hashchange',route);
+  route();
+
+  /* chapter rail + entrance animations */
+  var chaps=[].slice.call(document.querySelectorAll('.chap'));
+  var rail=[].slice.call(document.querySelectorAll('#rail a'));
+  function setActive(id){
+    var seen=true;
+    rail.forEach(function(a){
+      var me=a.getAttribute('data-ch')===id;
+      a.classList.toggle('on',me);
+      if(me) seen=false;
+      a.classList.toggle('done',seen&&!me);
+    });
+  }
+  if('IntersectionObserver' in window){
+    var playIO=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting&&!e.target.classList.contains('play')){e.target.classList.add('play');countUp(e.target)}
+    })},{threshold:0.25});
+    var actIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting) setActive(e.target.id)})},{rootMargin:'-40% 0px -50% 0px'});
+    chaps.forEach(function(c){playIO.observe(c);actIO.observe(c)});
+  }
+  function countUp(root){
+    if(reduce) return;
+    [].forEach.call(root.querySelectorAll('.cnt'),function(n){
+      var to=+n.getAttribute('data-to'),t0=null;
+      function step(t){ if(!t0)t0=t; var p=Math.min(1,(t-t0)/900),v=Math.round(to*(1-Math.pow(1-p,3)));
+        n.textContent=v.toLocaleString('en-IN'); if(p<1)requestAnimationFrame(step); else n.textContent=to.toLocaleString('en-IN'); }
+      requestAnimationFrame(step);
+    });
+  }
+
+  /* tabs and chips inside screens */
+  [].forEach.call(document.querySelectorAll('[data-tabs]'),function(w){
+    var btns=[].slice.call(w.querySelectorAll('[data-tab]')),panes=[].slice.call(w.querySelectorAll('[data-pane]'));
+    btns.forEach(function(b){b.addEventListener('click',function(){
+      btns.forEach(function(x){x.classList.toggle('on',x===b)});
+      panes.forEach(function(p){p.hidden=(p.getAttribute('data-pane')!==b.getAttribute('data-tab'))});
+    })});
+  });
+  [].forEach.call(document.querySelectorAll('.chips .chip'),function(c){c.addEventListener('click',function(){c.classList.toggle('on')})});
+})();
+</script>
+</body>
+</html>
