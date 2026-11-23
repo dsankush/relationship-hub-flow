@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent OS Relationship Hub Wireframe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Plan: field-green + marigold on cool paper; Bricolage Grotesque display, Plex Sans body.
-   Layout: Story mode (hero, sticky chapter rail, 8 chapters) and Screens mode (sidebar + 19 screens), hash routed. */
+/* Agent OS Relationship Hub: illustrated story (8 chapters) + 19 screens.
+   Tokens in :root. Story mode and Screens mode are hash routed (#ch1 ... #farmer). */
 
 /* Plan: grayscale wireframe on warm-neutral paper, one green accent, yellow sticky notes for edge cases.
    Layout: fixed module sidebar + one screen at a time (hash routed), each screen = canvas + numbered notes. */
@@ -156,53 +156,124 @@ a.card:hover{border-color:var(--accent)}
 }
 @media (max-width:620px){.g2,.g3,.g4,.cols4,.g21,.g12{grid-template-columns:1fr}.top span{display:none}}
 
-/* ===== Enhancement layer: field-green + marigold, story components ===== */
+/* ===== v2: illustrated, light on text ===== */
 :root{
-  --paper:#f3f6f1; --panel:#ffffff; --ink:#13201a; --mute:#5a695f; --line:#d2dbd3; --fill:#eaf0e9;
-  --accent:#0d6b44; --accent-soft:#dbf0e4; --gold:#e8a21a; --gold-soft:#fff0c4; --note:#fff1c9; --note-ink:#5a4200;
-  --good:#1a7a3e; --warn:#a85a07; --bad:#b42318; --hatch:#e0e8e0;
-  --display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
-  --shadow:0 1px 2px rgba(19,32,26,.06),0 10px 28px rgba(19,32,26,.08);
+  --paper:#F2F7F5; --panel:#ffffff; --ink:#14302A; --mute:#54675F; --line:#D3DED8; --fill:#E8F0EC;
+  --accent:#0D6B44; --accent-soft:#DCF3E4; --gold:#F2A71B; --gold-soft:#FFF1C9; --note:#FFF1C9; --note-ink:#5A4200;
+  --good:#1A7A3E; --warn:#A85A07; --bad:#B42318; --hatch:#E0E8E0; --sky:#D6ECF3;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif; --display:"Bricolage Grotesque","Inter",system-ui,sans-serif;
+  --shadow:0 1px 2px rgba(20,48,42,.06),0 12px 30px rgba(20,48,42,.09);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0e1511; --panel:#16201b; --ink:#e8efe9; --mute:#9bafa2; --line:#2b3a31; --fill:#1c2923;
-    --accent:#5ad39a; --accent-soft:#17382a; --gold:#f0b43a; --gold-soft:#3a2f10; --note:#3a2f10; --note-ink:#f1d58a;
-    --good:#5ad39a; --warn:#e0a45c; --bad:#f08a80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+    --paper:#0E1511; --panel:#16201B; --ink:#E8EFE9; --mute:#9BAFA2; --line:#2B3A31; --fill:#1C2923;
+    --accent:#5AD39A; --accent-soft:#17382A; --gold:#F0B43A; --gold-soft:#3A2F10; --note:#3A2F10; --note-ink:#F1D58A;
+    --good:#5AD39A; --warn:#E0A45C; --bad:#F08A80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0e1511; --panel:#16201b; --ink:#e8efe9; --mute:#9bafa2; --line:#2b3a31; --fill:#1c2923;
-  --accent:#5ad39a; --accent-soft:#17382a; --gold:#f0b43a; --gold-soft:#3a2f10; --note:#3a2f10; --note-ink:#f1d58a;
-  --good:#5ad39a; --warn:#e0a45c; --bad:#f08a80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+  --paper:#0E1511; --panel:#16201B; --ink:#E8EFE9; --mute:#9BAFA2; --line:#2B3A31; --fill:#1C2923;
+  --accent:#5AD39A; --accent-soft:#17382A; --gold:#F0B43A; --gold-soft:#3A2F10; --note:#3A2F10; --note-ink:#F1D58A;
+  --good:#5AD39A; --warn:#E0A45C; --bad:#F08A80; --hatch:#243029; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35);
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;font-size:15px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--paper)}
+body{font-family:var(--sans);background:var(--paper)}
+a.btn{text-decoration:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 
 /* top bar */
-.top{height:46px;padding:0 18px;gap:16px}
-.top b{font-family:var(--display);font-size:16px;letter-spacing:-.01em}
-.top b::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent);margin-right:8px;box-shadow:5px 5px 0 -1px var(--gold)}
-.modes{margin-left:auto;display:flex;gap:4px;background:var(--fill);padding:3px;border-radius:9px}
-.modes a{padding:4px 12px;border-radius:7px;text-decoration:none;font-size:12.5px;font-weight:500;color:var(--mute)}
-.modes a.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.top{height:48px;padding:0 20px;gap:16px}
+.top b{font-family:var(--display);font-size:17px;letter-spacing:-.01em}
+.top b::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--gold);margin-right:9px;box-shadow:6px 4px 0 -1px var(--accent)}
+.modes{margin-left:auto;display:flex;gap:4px;background:var(--fill);padding:3px;border-radius:10px}
+.modes a{padding:5px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;color:var(--mute)}
+.modes a.on{background:var(--panel);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.14)}
 
-/* restyled wireframe components */
-.frame{border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
-.bar{border-bottom:1px solid var(--line);background:linear-gradient(var(--fill),var(--panel))}
-.bar i:nth-child(1){background:#e5675a}.bar i:nth-child(2){background:#e8b43a}.bar i:nth-child(3){background:#5ab97c}
-.box,.kpi,.col{border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(19,32,26,.04)}
+/* hero */
+.hswrap{overflow-x:auto;background:var(--sky)}
+.hs{position:relative;width:100%;min-width:760px;aspect-ratio:1280/800;overflow:hidden}
+.hs-in{position:absolute;left:0;top:0;width:1280px;height:800px;transform-origin:0 0}
+.herobar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:26px 24px 8px}
+.btn.big{padding:12px 24px;font-size:15px;border-radius:12px;font-weight:600}
+.btn.p{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 35%,transparent)}
+.btn.o{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+
+/* rail */
+.rail{position:sticky;top:48px;z-index:4;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);border-top:1px solid var(--line);margin-top:22px}
+.rail .wrap{display:flex;overflow-x:auto;padding-top:9px;padding-bottom:9px}
+.rail a{flex:1;min-width:92px;text-decoration:none;display:grid;gap:3px;padding:0 5px;color:var(--mute)}
+.rail a i{height:5px;border-radius:99px;background:var(--line)}
+.rail a b{font-size:12.5px;font-weight:600;white-space:nowrap}
+.rail a.done i{background:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.rail a.on i{background:var(--accent)}
+.rail a.on{color:var(--ink)}
+
+/* chapters */
+.chap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;align-items:center;padding:60px 0;scroll-margin-top:104px}
+.chap.flip .art{order:2}
+.art{border-radius:34px;overflow:hidden;background:var(--sky);box-shadow:var(--shadow);border:6px solid var(--panel)}
+.art svg{display:block;width:100%;height:auto}
+.ctext .when{display:inline-block;font:600 12.5px var(--sans);background:var(--gold-soft);color:var(--note-ink);padding:5px 13px;border-radius:99px;margin-bottom:14px}
+.ctext h2{font-family:var(--display);font-size:clamp(36px,4.6vw,56px);line-height:1;letter-spacing:-.035em;font-weight:700;margin-bottom:12px}
+.ctext .ln{font-size:19px;color:var(--mute);margin:0;max-width:30ch;line-height:1.4}
+.ui{display:flex;flex-direction:column;gap:10px;margin:24px 0 22px}
+.bub{align-self:flex-start;max-width:380px;padding:11px 16px;border-radius:4px 18px 18px 18px;background:#DCF3E4;color:#0D3D2A;font-size:15px;line-height:1.4}
+.bub.me{align-self:flex-end;border-radius:18px 4px 18px 18px}
+.bub.in{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+.prow{display:flex;gap:8px;flex-wrap:wrap}
+.pl2{padding:8px 15px;border-radius:99px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:600}
+.pl2.g{background:#1F9D63;border-color:#1F9D63;color:#fff}
+.pl2.y{background:var(--gold-soft);border-color:transparent;color:var(--note-ink)}
+.sl{display:flex;align-items:center;gap:11px;padding:10px 14px;border-radius:14px;background:var(--panel);border:1px solid var(--line);font-size:15px;font-weight:500}
+.sl.y{background:var(--gold-soft);border-color:transparent;color:var(--note-ink);font-weight:600}
+.tk{flex:none;width:22px;height:22px;border-radius:50%;background:#1F9D63;display:grid;place-items:center}
+.tk.y{background:var(--gold);color:#5A4200;font:700 12px var(--sans)}
+.kp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kp div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.kp b{display:block;font:700 28px var(--display);letter-spacing:-.03em;color:var(--accent)}
+.kp span{font-size:13px;color:var(--mute)}
+.go{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.go a{font-size:13px;font-weight:600;text-decoration:none;border:1.5px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:99px;background:var(--panel)}
+.go a:hover{background:var(--accent);color:#fff}
+.go small{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--mute);margin-right:2px}
+
+/* closing */
+.sechead{padding:50px 0 6px;text-align:center}
+.sechead h2{font-family:var(--display);font-size:clamp(30px,4vw,44px);letter-spacing:-.03em}
+.gain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.gain>div{background:var(--panel);border-radius:22px;padding:20px;box-shadow:var(--shadow);border-top:6px solid var(--accent)}
+.gain>div:nth-child(2){border-top-color:var(--gold)}.gain>div:nth-child(3){border-top-color:#2F6A8F}.gain>div:nth-child(4){border-top-color:#37574A}
+.gain h3{font-family:var(--display);font-size:20px;margin-bottom:8px}
+.gain p{margin:0;color:var(--mute);font-size:14px;line-height:1.45}
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 8px;counter-reset:ph}
+.phases>a{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px 20px;text-decoration:none;position:relative;display:block}
+.phases>a:hover{border-color:var(--accent)}
+.phases>a::before{counter-increment:ph;content:counter(ph);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font:700 15px var(--display);margin-bottom:10px}
+.phases h3{font-family:var(--display);font-size:19px;margin-bottom:4px}
+.phases p{margin:0;font-size:13.5px;color:var(--mute)}
+.cta{margin:44px 0 12px;border-radius:30px;overflow:hidden;position:relative;background:var(--sky) url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201200%20180'%20preserveAspectRatio='none'%3E%3Ccircle%20cx='1090'%20cy='52'%20r='34'%20fill='%23F7B731'%20opacity='.35'/%3E%3Ccircle%20cx='1090'%20cy='52'%20r='24'%20fill='%23F7B731'/%3E%3Crect%20x='760'%20y='34'%20width='110'%20height='24'%20rx='12'%20fill='%23fff'%20opacity='.85'/%3E%3Crect%20x='786'%20y='22'%20width='58'%20height='26'%20rx='13'%20fill='%23fff'%20opacity='.85'/%3E%3Cpath%20d='M0%20128%20C200%2098%20400%20138%20600%20118%20C800%2098%201000%20133%201200%20113%20L1200%20180%20L0%20180Z'%20fill='%23B9DDB0'/%3E%3Cpath%20d='M0%20152%20C250%20132%20500%20162%20800%20142%20C950%20134%201100%20147%201200%20139%20L1200%20180%20L0%20180Z'%20fill='%238CC48F'/%3E%3C/svg%3E") bottom/100% 100% no-repeat;padding:52px 32px 96px;text-align:center;color:#14302A}
+.cta h3{font-family:var(--display);font-size:clamp(28px,4vw,42px);letter-spacing:-.03em;margin-bottom:8px}
+.cta p{margin:0 0 20px;color:#2A5A4D}
+.foot{color:var(--mute);font-size:12.5px;padding:14px 0 54px;text-align:center}
+
+/* screens mode */
+.side{background:var(--panel)}
+.side a{font-size:13.5px}
+.side a.on{box-shadow:inset 3px 0 0 var(--accent);border-radius:0 8px 8px 0}
+main{padding:26px 30px 70px}
+.screen>.shead{position:relative;border-radius:30px;padding:26px 34px 74px;margin-bottom:20px;background:var(--sky) url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201200%20180'%20preserveAspectRatio='none'%3E%3Ccircle%20cx='1090'%20cy='52'%20r='34'%20fill='%23F7B731'%20opacity='.35'/%3E%3Ccircle%20cx='1090'%20cy='52'%20r='24'%20fill='%23F7B731'/%3E%3Crect%20x='760'%20y='34'%20width='110'%20height='24'%20rx='12'%20fill='%23fff'%20opacity='.85'/%3E%3Crect%20x='786'%20y='22'%20width='58'%20height='26'%20rx='13'%20fill='%23fff'%20opacity='.85'/%3E%3Cpath%20d='M0%20128%20C200%2098%20400%20138%20600%20118%20C800%2098%201000%20133%201200%20113%20L1200%20180%20L0%20180Z'%20fill='%23B9DDB0'/%3E%3Cpath%20d='M0%20152%20C250%20132%20500%20162%20800%20142%20C950%20134%201100%20147%201200%20139%20L1200%20180%20L0%20180Z'%20fill='%238CC48F'/%3E%3C/svg%3E") bottom/100% 100% no-repeat;color:#14302A;min-height:170px}
+.shead .tag{background:#fff;color:#0D6B44;margin-bottom:8px}
+.shead h2{font-family:var(--display);font-size:clamp(30px,4vw,42px);letter-spacing:-.03em;margin:0 0 4px;color:#14302A}
+.shead .lede{color:#2A5A4D;margin:0;max-width:60ch;font-size:15.5px}
+.frame{border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.bar{background:linear-gradient(var(--fill),var(--panel));border-bottom:1px solid var(--line)}
+.bar i:nth-child(1){background:#E5675A}.bar i:nth-child(2){background:#E8B43A}.bar i:nth-child(3){background:#5AB97C}
+.box,.kpi,.col{border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(20,48,42,.04)}
 .box.dash{border:1.5px dashed var(--line);box-shadow:none}
-.kpi{border-top:3px solid var(--accent)}
-.kpi b{font-family:var(--display);font-size:26px;letter-spacing:-.02em}
-.card{border:1px solid var(--line);border-radius:8px}
-.card.core{border-color:var(--accent)}
-.btn{border-width:1px;border-radius:8px}
-.btn.p{box-shadow:0 2px 8px color-mix(in srgb,var(--accent) 35%,transparent)}
-.btn.big{padding:10px 20px;font-size:14px;border-radius:10px}
-.in{border-width:1px;border-radius:8px}
+.kpi{border-top:4px solid var(--accent)}
+.kpi b{font-family:var(--display);font-size:27px;letter-spacing:-.02em}
+.btn{border-width:1px;border-radius:9px}
 .pill{border-radius:99px;padding:1px 9px}
 .pill.g{background:color-mix(in srgb,var(--good) 13%,transparent)}
 .pill.w{background:color-mix(in srgb,var(--warn) 13%,transparent)}
@@ -211,474 +282,627 @@ body{background:var(--paper)}
 .bar-row .t{height:12px;border-radius:99px}
 .bar-row .t i{border-radius:99px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--gold)));opacity:1}
 .steps span{border-width:1px;margin-left:-1px}
-.steps span:first-child{border-radius:8px 0 0 8px}.steps span:last-child{border-radius:0 8px 8px 0}
-.node{border-width:1px;border-radius:10px;box-shadow:0 1px 2px rgba(19,32,26,.05)}
-.node.t{border-color:var(--accent)}
-.phone{border-color:var(--ink);box-shadow:var(--shadow);border-radius:30px}
-.phone .scr{border-radius:18px;border-width:1px}
-.msg{border-width:1px;border-radius:12px}
-.screen>h2{font-family:var(--display);font-size:30px;letter-spacing:-.02em;margin-bottom:6px}
-.tag{color:var(--accent);background:var(--accent-soft);display:inline-block;padding:2px 10px;border-radius:99px}
-.notes{border:1px solid color-mix(in srgb,var(--gold) 70%,var(--note-ink));border-radius:14px}
-.side{background:var(--panel)}
-.side a.on{box-shadow:inset 3px 0 0 var(--accent);border-radius:0 6px 6px 0}
-.pager a{border-radius:10px;border-width:1px}
+.node{border-width:1px;border-radius:12px}
+.phone{border-radius:30px;box-shadow:var(--shadow)}
+.in{border-width:1px;border-radius:9px}
 .mk{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+.screen:not(.shownotes) .mk{display:none}
+.notes{margin-top:18px;border:1px solid color-mix(in srgb,var(--gold) 70%,var(--note-ink));border-radius:18px;background:var(--note);color:var(--note-ink);padding:0}
+.notes summary{cursor:pointer;padding:13px 20px;font:600 13.5px var(--sans);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.notes summary::-webkit-details-marker{display:none}
+.notes summary::after{content:"Show";font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.notes[open] summary::after{content:"Hide"}
+.notes ol{padding:0 20px 16px;margin:0}
+.pager a{border-radius:12px;border-width:1px}
 
-/* hero */
-.hero{padding:54px 0 24px;background:
-  radial-gradient(900px 340px at 85% -10%,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%),
-  radial-gradient(800px 360px at 0% 0%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 70%)}
-.eyebrow{font:500 11.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-.hero h1{font-family:var(--display);font-size:clamp(34px,5.2vw,60px);line-height:1.04;letter-spacing:-.03em;max-width:17ch;font-weight:700}
-.hero h1 em{font-style:normal;color:var(--accent);background:linear-gradient(transparent 62%,color-mix(in srgb,var(--gold) 55%,transparent) 62%)}
-.sub{font-size:17px;color:var(--mute);max-width:58ch;margin:16px 0 22px}
-.hstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:30px 0 8px}
-.hstats div{border-left:3px solid var(--gold);padding:2px 0 2px 12px}
-.hstats b{display:block;font:700 28px var(--display);letter-spacing:-.02em}
-.hstats span{font-size:12.5px;color:var(--mute)}
-.hsvg{width:100%;height:auto;margin-top:18px;display:block}
-.hsvg text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
-.hsvg .nd{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
-.hsvg .nd.out{stroke:var(--accent)}
-.hsvg .ln{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:5 9;opacity:.75;animation:flow 1.6s linear infinite}
-.hsvg .ln.o{stroke:var(--gold)}
-.hsvg .hub{fill:var(--accent)}
-.hsvg .halo{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:.35;animation:halo 2.6s ease-out infinite;transform-origin:480px 190px}
-.hsvg .hub-t{fill:#fff;font-weight:600;font-size:14px;font-family:var(--display)}
-.hsvg .hub-s{fill:#fff;font-size:11px;opacity:.85}
-.hsvg .cap{fill:var(--mute);font:500 10.5px var(--mono);letter-spacing:.08em}
-@keyframes flow{to{stroke-dashoffset:-28}}
-@keyframes halo{from{transform:scale(1);opacity:.45}to{transform:scale(1.5);opacity:0}}
+/* scene prefix css */
+/* ===== v3: product-UI polish for the 19 screens ===== */
+.shead .tag{display:inline-block;font:700 12px var(--sans);letter-spacing:.02em;text-transform:none;padding:5px 13px;border-radius:99px;background:#fff;color:#0D6B44;margin-bottom:10px}
+.shead{overflow:hidden}
+.shead .emb{position:absolute;right:46px;bottom:34px;width:118px;height:118px;border-radius:30px;background:#fff;box-shadow:0 10px 28px rgba(20,48,42,.18);display:grid;place-items:center;transform:rotate(4deg)}
+.shead .emb svg{width:64px;height:64px;stroke:#0D6B44;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.shead .emb::after{content:"";position:absolute;inset:-9px;border:2px dashed rgba(255,255,255,.9);border-radius:38px}
+.shead h2,.shead .lede{max-width:calc(100% - 190px)}
+/* chrome: soften the browser bar */
+.frame{background:var(--panel);border:0;box-shadow:var(--shadow);border-radius:26px;overflow:hidden}
+.bar{padding:10px 18px;border:0;background:var(--fill)}
+.bar em{font:500 12px var(--sans);color:var(--mute)}
+.app{padding:22px}
+/* labels: friendly sans instead of mono caps */
+.box h4,.col>h4,.side h4,th,.notes h3,.rule b,.src,.ph,.pill,.kpi em,.side a small,.bar em{font-family:var(--sans)!important}
+.box h4,.col>h4{font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.box h4::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+.box h4:has(.mk)::before{display:none}
+.box:nth-child(3n+2) h4::before{background:var(--gold)}
+.box:nth-child(3n) h4::before{background:#2F6A8F}
+.box{background:var(--panel);border:0;border-radius:20px;padding:18px;box-shadow:0 1px 3px rgba(20,48,42,.07),0 8px 22px rgba(20,48,42,.06)}
+.box.dash{background:transparent;box-shadow:none;border:2px dashed var(--line)}
+.col{background:var(--fill);border:0;border-radius:20px}
+th{text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--mute);border-bottom:1px solid var(--line)}
+td{border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+tr:last-child td{border-bottom:0}
+/* kpis as colourful tiles */
+.kpi{border:0;border-top:0;border-radius:20px;padding:16px 18px;background:linear-gradient(145deg,var(--accent-soft),var(--panel));box-shadow:0 1px 3px rgba(20,48,42,.07)}
+.kpi:nth-child(4n+2){background:linear-gradient(145deg,var(--gold-soft),var(--panel))}
+.kpi:nth-child(4n+3){background:linear-gradient(145deg,#DDEBF5,var(--panel))}
+.kpi:nth-child(4n+4){background:linear-gradient(145deg,#FBE3DE,var(--panel))}
+.kpi b{font-size:32px;color:var(--ink)}
+.kpi span{color:var(--mute);font-size:13px}
+/* nodes / flows */
+.node{border:0;border-radius:16px;background:var(--fill);padding:11px 15px;font-weight:500;font-size:14px;position:relative}
+.node small{display:block;font-weight:400;color:var(--mute);font-size:12.5px;margin-top:2px}
+.node.t{background:var(--accent);color:#fff}.node.t small{color:rgba(255,255,255,.8)}
+.node.w{background:var(--gold-soft);color:var(--note-ink);border:0}
+.node[style*="dashed"],.node.dash{background:transparent;border:2px dashed var(--line)}
+.down{color:var(--accent);font-weight:600;font-size:12.5px;text-align:center;padding:2px 0}
+.steps{display:flex;gap:6px;margin-bottom:18px}
+.steps span{flex:1;border:0;margin:0;border-radius:99px;background:var(--fill);color:var(--mute);padding:8px 10px;text-align:center;font-weight:600;font-size:13px}
+.steps span.done{background:var(--accent-soft);color:var(--accent)}
+.steps span.on{background:var(--accent);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 35%,transparent)}
+/* pills, chips, buttons, inputs */
+.pill{border:0;font-weight:600;font-size:12px;padding:3px 10px;background:var(--fill);color:var(--mute)}
+.pill.g{background:#DCF3E4;color:#14683A}.pill.w{background:#FFEBC2;color:#8A4B00}.pill.b{background:#FBDDD8;color:#A3281B}.pill.a{background:#D8ECF8;color:#1F5C85}
+.btn{border:0;border-radius:99px;background:var(--fill);color:var(--ink);font-weight:600;padding:8px 16px}
+.btn.p{background:var(--accent);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--accent) 30%,transparent)}
+.btn.s{padding:6px 13px;font-size:13px}
+.in,.field .in{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:9px 12px}
+.in.sel{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.chip{border:0;background:var(--fill);border-radius:99px;padding:6px 13px;font-weight:600;font-size:13px}
+.chip.on{background:var(--accent);color:#fff}
+.src{border:0;background:var(--fill);border-radius:6px;padding:1px 6px}
+/* chart bars */
+.bar-row .t{height:14px;background:var(--fill);border-radius:99px;overflow:hidden}
+.bar-row .t i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#1F9D63,#6FB87A)}
+.bar-row:nth-child(3n+2) .t i{background:linear-gradient(90deg,#F2A71B,#F7C85A)}
+.bar-row:nth-child(3n) .t i{background:linear-gradient(90deg,#2F6A8F,#5FA0C4)}
+.bars{gap:10px}
+.bars i,.bars b{border-radius:10px 10px 4px 4px}
+/* phones and chat */
+.phone{background:var(--ink);border:0;padding:9px;border-radius:34px}
+.phone .scr,.phone>div{border-radius:26px}
+.msg{border-radius:4px 16px 16px 16px;background:#fff;border:0;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.msg.me{background:#DCF3E4;border-radius:16px 4px 16px 16px}
+.ph{border:2px dashed var(--line);border-radius:16px;background:var(--fill)}
+.rule{border:0;border-radius:14px;background:var(--fill)}
+.rule b{text-transform:none;letter-spacing:0;font-size:12.5px}
+.card{border:0;border-radius:18px;background:var(--fill);box-shadow:none}
+.card.core{background:var(--accent-soft)}
+.side{background:var(--panel);border-right:0;box-shadow:1px 0 0 var(--line)}
+.side h4{text-transform:none;letter-spacing:0;font-size:12px;font-weight:700;color:var(--accent)}
+.side a small{color:var(--mute)}
+.notes h3{text-transform:none;font-size:14px}
+@media (max-width:980px){.shead .emb{display:none}.shead h2,.shead .lede{max-width:none}}
+.ph{border:0;color:#2A5A4D;font-weight:600;font-size:12.5px;background:
+ radial-gradient(circle at 28% 38%,#E5675A 0 5px,transparent 6px),radial-gradient(circle at 62% 56%,#F2A71B 0 5px,transparent 6px),radial-gradient(circle at 48% 26%,#2F6A8F 0 5px,transparent 6px),radial-gradient(circle at 74% 30%,#E5675A 0 4px,transparent 5px),
+ radial-gradient(ellipse at 20% 80%,#B9DDB0 0 35%,transparent 36%),radial-gradient(ellipse at 80% 85%,#A5D3A0 0 40%,transparent 41%),linear-gradient(#DCEEF3,#E6F2EA);position:relative;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.shead .emb{right:150px}
+/* ===== v4: real imagery inside the screens ===== */
+.im{display:block;width:100%;height:auto;border-radius:14px}
+.msg.media{padding:4px;background:#DCF3E4}.msg.media .im{border-radius:11px}.msg.media small{padding:2px 6px 2px;display:block}
+.msg .vn{display:flex;align-items:center;gap:8px}.msg .vn b{font:600 11px var(--sans);color:var(--mute)}
+.msg .tr{display:block;margin-top:5px;font-style:italic;font-size:13px}
+.prod{display:flex;align-items:center;gap:10px;margin:8px 0 4px;padding:8px;background:var(--fill);border-radius:12px}
+.prod .im{width:36px;border-radius:0}.prod b{display:block;font-size:13.5px}.prod em{font-style:normal;color:var(--mute);font-size:12px}
+.figure{display:grid;place-items:center;padding:6px}.figure .im.poster{width:100%;max-width:270px;box-shadow:0 12px 28px rgba(20,48,42,.22);transform:rotate(-1.5deg);border-radius:14px}
+.im.map{border-radius:16px}
+.scanwrap{position:relative;margin-bottom:6px}.scanwrap .mk{position:absolute;left:8px;top:8px;z-index:2}
+.scanbox svg{width:100%;height:auto;display:block;border-radius:12px}
+.scanline{animation:scanmove 2.4s ease-in-out infinite alternate}
+@keyframes scanmove{from{transform:translateY(-34px)}to{transform:translateY(34px)}}
+.scanhint{text-align:center;font-size:12px;color:var(--mute);margin-top:5px}
+.prodrow{display:flex;align-items:center;gap:10px}.prodrow .im.sm{width:44px;border-radius:0;flex:none}.prodrow em{display:block;font-style:normal;color:var(--mute);font-size:12px}
+.named{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.named .av{width:52px;height:52px;flex:none}
+@media (prefers-reduced-motion:reduce){.scanline{animation:none}}
 
-/* cast */
-.cast{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px 0 8px}
-.cast>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
-.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 14px var(--display);color:#fff;background:var(--accent);margin-bottom:8px}
-.av.g{background:var(--gold);color:#3a2900}.av.d{background:#37574a}.av.s{background:#2f6a8f}
-.cast b{display:block;font-family:var(--display);font-size:15px}
-.cast small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
-
-/* rail */
-.rail{position:sticky;top:46px;z-index:4;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
-.rail .wrap{display:flex;gap:0;overflow-x:auto;padding-top:8px;padding-bottom:8px}
-.rail a{flex:1;min-width:104px;text-decoration:none;display:grid;gap:1px;padding:0 6px;position:relative;color:var(--mute)}
-.rail a i{height:4px;border-radius:99px;background:var(--line);margin-bottom:5px}
-.rail a b{font-size:12px;font-weight:600;white-space:nowrap}
-.rail a small{font:400 10.5px var(--mono)}
-.rail a.done i{background:color-mix(in srgb,var(--accent) 45%,var(--line))}
-.rail a.on i{background:var(--accent)}
-.rail a.on{color:var(--ink)}
-
-/* chapters */
-.chap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:36px;padding:54px 0;border-bottom:1px solid var(--line);scroll-margin-top:96px;align-items:start}
-.chap:last-of-type{border-bottom:0}
-.ctext{position:sticky;top:112px}
-.num{font:700 64px var(--display);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px var(--accent);margin-bottom:6px}
-.when{display:inline-block;font:500 11.5px var(--mono);background:var(--gold-soft);color:var(--note-ink);padding:3px 10px;border-radius:99px;margin-bottom:10px}
-.ctext h2{font-family:var(--display);font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-bottom:10px;font-weight:700}
-.ctext p{color:var(--mute);margin:0 0 10px;font-size:15px}
-.pts{list-style:none;margin:12px 0;padding:0;display:grid;gap:7px}
-.pts li{padding-left:22px;position:relative;font-size:13.5px}
-.pts li::before{content:"";position:absolute;left:2px;top:6px;width:9px;height:9px;border-radius:3px;background:var(--accent)}
-.uses{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:14px}
-.uses span{font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--mute);margin-right:4px}
-.uses a{font-size:12px;text-decoration:none;border:1px solid var(--accent);color:var(--accent);padding:2px 10px;border-radius:99px;background:var(--panel)}
-.uses a:hover{background:var(--accent);color:#fff}
-.stage{background:linear-gradient(160deg,var(--panel),var(--fill));border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);display:grid;gap:16px;min-width:0}
-.duo{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:18px;align-items:start}
-.duo.rev{grid-template-columns:minmax(0,1fr) minmax(0,290px)}
-.pane{display:grid;gap:10px;min-width:0}
-.lbl{font:600 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;width:fit-content}
-.lbl.f{background:var(--gold-soft);color:var(--note-ink)}
-.lbl.c{background:var(--accent-soft);color:var(--accent)}
-.lbl.r{background:var(--fill);color:var(--mute);border:1px solid var(--line)}
-.stage .phone{width:100%;max-width:270px;margin:0}
-.stage .phone .scr{min-height:300px}
-.wa-h{display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;margin:-10px -10px 2px;padding:9px 12px;font-weight:600;font-size:12.5px}
-.wa-h i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.28);display:block}
-.wa-h small{display:block;font-weight:400;font-size:10px;opacity:.85}
-.callrow{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--panel);font-size:12px}
-.callrow b{color:var(--bad)}
-.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e5484d;margin-right:6px;animation:blink 1.4s infinite}
-@keyframes blink{50%{opacity:.25}}
-.feed{display:grid;gap:5px;font-size:12px}
-.feed div{display:grid;grid-template-columns:62px 1fr auto;gap:8px;align-items:center;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.feed div span:first-child{font:400 11px var(--mono);color:var(--mute)}
-.mini4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.mini4 .kpi b{font-size:24px}
-.merge{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1.15fr);gap:10px;align-items:center}
-.merge .srcs{display:grid;gap:10px}
-.sc{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel);font-size:12.5px}
-.sc small{display:block;color:var(--mute);font-size:11px}
-.sc b{font-family:var(--display)}
-.profile{border:1.5px solid var(--accent);border-radius:14px;padding:12px;background:var(--panel);box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 18%,transparent)}
-.profile h4{font-family:var(--display);font-size:16px;margin-bottom:2px}
-.profile table td{padding:4px 6px;font-size:12px}
-.arrowbig{font-size:22px;color:var(--accent);text-align:center}
-.wave{display:flex;align-items:center;gap:3px;height:28px}
-.wave i{display:block;width:3px;border-radius:2px;background:var(--accent);height:var(--h,14px);animation:wave 1s ease-in-out infinite;animation-delay:calc(var(--i)*70ms)}
-@keyframes wave{50%{transform:scaleY(.35)}}
-.diff{display:grid;gap:6px;font-size:12.5px}
-.diff div{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.diff s{color:var(--mute)}
-.diff b{color:var(--good)}
-.chainstrip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:6px;align-items:center;font-size:12px}
-.chainstrip>div:not(.sep){border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--panel);text-align:center}
-.chainstrip>div:last-child{border-color:var(--accent);background:var(--accent-soft)}
-.chainstrip small{display:block;color:var(--mute);font-size:10.5px}
-.sep{color:var(--mute)}
-.hz{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative;gap:6px}
-.hz::before{content:"";position:absolute;left:10%;right:10%;top:13px;height:3px;background:var(--line);border-radius:3px}
-.hz div{position:relative;text-align:center;font-size:12px}
-.hz i{display:block;width:26px;height:26px;border-radius:50%;margin:0 auto 6px;background:var(--panel);border:3px solid var(--accent);position:relative;z-index:1}
-.hz div.now i{background:var(--accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 22%,transparent)}
-.hz b{display:block;font-family:var(--display);font-size:13px}
-.hz small{display:block;color:var(--mute);font-size:11px}
-.gain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
-.gain>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);border-top:4px solid var(--accent)}
-.gain>div:nth-child(2){border-top-color:var(--gold)}.gain>div:nth-child(3){border-top-color:#2f6a8f}.gain>div:nth-child(4){border-top-color:#37574a}
-.gain h3{font-family:var(--display);font-size:18px;margin-bottom:8px}
-.gain ul{margin:0;padding-left:16px;font-size:13px;color:var(--mute);display:grid;gap:4px}
-.sechead{padding:44px 0 4px}
-.sechead h2{font-family:var(--display);font-size:32px;letter-spacing:-.02em;margin-bottom:6px}
-.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 8px;counter-reset:ph}
-.phases>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;box-shadow:var(--shadow)}
-.phases>div::before{counter-increment:ph;content:"Phase " counter(ph);font:600 10.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
-.phases h3{font-family:var(--display);font-size:17px;margin:4px 0 6px}
-.phases p{margin:0 0 8px;font-size:12.5px;color:var(--mute)}
-.phases a{display:block;font-size:12.5px;text-decoration:none;padding:3px 0;border-top:1px dashed var(--line)}
-.phases a:hover{color:var(--accent)}
-.cta{margin:34px 0 10px;padding:28px;border-radius:20px;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#000));color:#fff;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
-.cta h3{font-family:var(--display);font-size:24px;letter-spacing:-.02em}
-.cta p{margin:4px 0 0;opacity:.85}
-.cta .btn{background:#fff;color:#0d4f33;border-color:#fff;text-decoration:none}
-.foot{color:var(--mute);font-size:12px;padding:10px 0 50px}
-
-/* play animations: elements are visible by default, .play only adds a one-off entrance */
-.chap.play .grow{animation:grow 1.1s cubic-bezier(.2,.7,.2,1) both}
-.chap.play .rise{animation:rise .6s ease-out both;animation-delay:calc(var(--d,0)*120ms)}
-@keyframes grow{from{width:0}}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}}
-@media (prefers-reduced-motion:reduce){
-  .hsvg .ln,.hsvg .halo,.wave i,.live{animation:none}
-  .chap.play .grow,.chap.play .rise{animation:none}
-}
 @media (max-width:980px){
-  .chap{grid-template-columns:1fr;gap:20px;padding:36px 0}
-  .ctext{position:static}
-  .hstats,.cast,.gain,.phases{grid-template-columns:1fr 1fr}
-  .duo,.duo.rev{grid-template-columns:1fr}
-  .stage .phone{margin:0 auto}
+  .chap{grid-template-columns:1fr;gap:22px;padding:40px 0}
+  .chap.flip .art{order:0}
+  .gain,.phases{grid-template-columns:1fr 1fr}
+  main{padding:18px}
 }
 @media (max-width:620px){
-  .hstats,.cast,.gain,.phases{grid-template-columns:1fr}
-  .merge{grid-template-columns:1fr}.arrowbig{transform:rotate(90deg)}
-  .chainstrip{grid-template-columns:1fr}.chainstrip .sep{display:none}
-  .hz{grid-template-columns:1fr 1fr}.hz::before{display:none}
+  .gain,.phases,.kp{grid-template-columns:1fr}
   .wrap{padding:0 16px}
-  .hsvg{min-width:760px}.hwrap{overflow-x:auto}
+  .screen>.shead{padding:22px 20px 70px}
 }
 
-a.btn{text-decoration:none}
+
+
+.cloud{position:absolute;animation:drift 70s linear infinite alternate}
+.cloud i{position:absolute;display:block;background:#fff;border-radius:50%}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(140px)}}
+.rays{transform-origin:1076px 118px;animation:spin 60s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bird{animation:fly 26s linear infinite}
+@keyframes fly{from{transform:translate(-60px,0)}50%{transform:translate(640px,-26px)}to{transform:translate(1340px,6px)}}
+.stopcard{position:absolute;top:250px;width:214px;box-sizing:border-box;padding:16px 18px;border-radius:22px;background:#fff;box-shadow:0 10px 24px rgba(20,48,42,.14);animation:cardLit 22s ease-in-out infinite}
+.badge{position:absolute;width:68px;height:68px;border-radius:50%;background:#14302A;border:5px solid #fff;box-sizing:border-box;display:grid;place-items:center;animation:badgeLit 22s ease-in-out infinite}
+@keyframes cardLit{0%{transform:translateY(0);box-shadow:0 10px 24px rgba(20,48,42,.14)}2%,9%{transform:translateY(-12px);box-shadow:0 24px 38px rgba(20,48,42,.24)}12%,100%{transform:translateY(0);box-shadow:0 10px 24px rgba(20,48,42,.14)}}
+@keyframes badgeLit{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(242,167,27,0)}2%,9%{transform:scale(1.16);box-shadow:0 0 0 12px rgba(242,167,27,.5)}12%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(242,167,27,0)}}
+.d1{animation-delay:2s}.d2{animation-delay:5.7s}.d3{animation-delay:9.3s}.d4{animation-delay:12.9s}.d5{animation-delay:16.5s}
+.walker{position:absolute;left:0;top:0;width:40px;height:64px;display:none;offset-path:path("M-30 575 C40 575 90 555 150 555 S330 525 395 525 S580 555 640 555 S830 525 885 525 S1070 555 1130 555 S1250 575 1310 575");offset-rotate:0deg;animation:walk 22s linear infinite}
+@supports (offset-path:path("M0 0 L1 1")){.walker{display:block}}
+@keyframes walk{0%{offset-distance:0%;opacity:0}2%{opacity:1}90%{offset-distance:100%;opacity:1}95%{offset-distance:100%;opacity:0}100%{offset-distance:0%;opacity:0}}
+.person{transform:translateY(-14px);animation:bob .6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-17px)}}
+.leg{transform-box:fill-box;transform-origin:50% 0;animation:step .6s ease-in-out infinite alternate}
+.leg2{animation-direction:alternate-reverse}
+@keyframes step{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
+@media (prefers-reduced-motion:reduce){.cloud,.rays,.bird,.stopcard,.badge,.walker,.person,.leg{animation:none}.walker{display:none}}
+
+
+
+.s1-ring{transform-box:fill-box;transform-origin:center;animation:s1-ring 2.4s ease-out infinite}
+@keyframes s1-ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+.s1-sway{transform-box:fill-box;transform-origin:50% 0;animation:s1-sway 5s ease-in-out infinite alternate}
+@keyframes s1-sway{from{transform:rotate(-1.2deg)}to{transform:rotate(1.2deg)}}
+.s1-cl{animation:s1-drift 40s linear infinite alternate}
+@keyframes s1-drift{from{transform:translateX(0)}to{transform:translateX(60px)}}
+@media (prefers-reduced-motion:reduce){.s1-ring,.s1-sway,.s1-cl{animation:none}}
+
+
+
+.s2-ring{transform-box:fill-box;transform-origin:center;animation:s2-ring 2.6s ease-out infinite}
+@keyframes s2-ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}
+.s2-flow{stroke-dasharray:6 8;animation:s2-flow 1.4s linear infinite}
+@keyframes s2-flow{to{stroke-dashoffset:-28}}
+.s2-pop{transform-box:fill-box;transform-origin:center;animation:s2-pop 3.2s ease-in-out infinite}
+@keyframes s2-pop{0%,12%{transform:scale(.4);opacity:0}24%{transform:scale(1.18);opacity:1}34%,90%{transform:scale(1);opacity:1}100%{transform:scale(.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){.s2-ring,.s2-flow,.s2-pop{animation:none}}
+
+
+
+.s3-ring{transform-box:fill-box;transform-origin:center;animation:s3-ring 2.2s ease-out infinite}
+@keyframes s3-ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.s3-b{transform-box:fill-box;transform-origin:center;animation:s3-wv 1s ease-in-out infinite alternate}
+@keyframes s3-wv{from{transform:scaleY(.35)}to{transform:scaleY(1.15)}}
+.s3-glow{animation:s3-glow 4s ease-in-out infinite alternate}
+@keyframes s3-glow{from{opacity:.65}to{opacity:1}}
+.s3-puff{transform-box:fill-box;transform-origin:center;animation:s3-puff 4s ease-out infinite}
+@keyframes s3-puff{0%{transform:translate(0,0) scale(.6);opacity:.8}100%{transform:translate(10px,-38px) scale(1.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.s3-ring,.s3-b,.s3-glow,.s3-puff{animation:none}}
+
+
+
+.s4-scan{animation:s4-scan 2.4s ease-in-out infinite alternate}
+@keyframes s4-scan{from{transform:translateY(0)}to{transform:translateY(44px)}}
+.s4-pop{transform-box:fill-box;transform-origin:center;animation:s4-pop 4.8s ease-in-out infinite}
+@keyframes s4-pop{0%,38%{transform:scale(.4);opacity:0}48%{transform:scale(1.2);opacity:1}56%,92%{transform:scale(1);opacity:1}100%{transform:scale(.4);opacity:0}}
+.s4-coin{animation:s4-coin 3s ease-out infinite}
+@keyframes s4-coin{0%,30%{transform:translateY(0);opacity:0}40%{opacity:1}100%{transform:translateY(-52px);opacity:0}}
+.s4-otp{transform-box:fill-box;transform-origin:center;animation:s4-otp 4.8s ease-in-out infinite}
+@keyframes s4-otp{0%,18%{transform:scale(.5);opacity:0}28%{transform:scale(1.1);opacity:1}36%,90%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.s4-scan,.s4-pop,.s4-coin,.s4-otp{animation:none}}
+
+
+
+.s5-plant{transform-origin:0 0;animation:s5-grow 8s ease-in-out infinite}
+@keyframes s5-grow{0%{transform:scale(.25)}70%,92%{transform:scale(1)}100%{transform:scale(.25)}}
+.s5-bar{transform-box:fill-box;transform-origin:0 50%;animation:s5-fillbar 8s ease-in-out infinite}
+@keyframes s5-fillbar{0%{transform:scaleX(0)}70%,92%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.s5-plant,.s5-bar{animation:none}}
+
+
+.sv-b{transform-box:fill-box;transform-origin:center;animation:sv-wv 1s ease-in-out infinite alternate}
+@keyframes sv-wv{from{transform:scaleY(.35)}to{transform:scaleY(1.15)}}
+.sv-flow{stroke-dasharray:6 8;animation:sv-flow 1.4s linear infinite}
+@keyframes sv-flow{to{stroke-dashoffset:-28}}
+.sv-pick{transform-box:fill-box;transform-origin:center;animation:sv-pick 3.6s ease-in-out infinite}
+@keyframes sv-pick{0%,30%{transform:scale(1)}45%{transform:scale(1.07)}60%,100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.sv-b,.sv-flow,.sv-pick{animation:none}}
+
+
+.rs-bar{transform-box:fill-box;transform-origin:50% 100%;animation:rs-up 6s ease-in-out infinite}
+@keyframes rs-up{0%{transform:scaleY(.2)}40%,90%{transform:scaleY(1)}100%{transform:scaleY(.2)}}
+.rs-tile{animation:rs-bob 3s ease-in-out infinite alternate}
+@keyframes rs-bob{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.rs-bar,.rs-tile{animation:none}}
+
+
+.ct-flow{stroke-dasharray:6 8;animation:ct-flow 1.4s linear infinite}
+@keyframes ct-flow{to{stroke-dashoffset:-28}}
+.ct-ring{transform-box:fill-box;transform-origin:center;animation:ct-ring 3s ease-out infinite}
+@keyframes ct-ring{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.35);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ct-flow,.ct-ring{animation:none}}
+
 </style>
 </head>
 <body>
-<div class="top"><b>Agent OS + Relationship Hub</b><span>Product walkthrough · sample data</span>
+<div class="top"><b>Agent OS Relationship Hub</b>
   <div class="modes"><a href="#story" id="mStory">Story</a><a href="#overview" id="mScreens">All 19 screens</a></div></div>
+
 <div id="storyWrap">
+<section id="story">
+  <div class="hswrap"><div class="hs" id="hs"><div class="hs-in" id="hsin"><div style="position:relative;width:1280px;height:800px;overflow:hidden;background:#D6ECF3;font-family:Inter,system-ui,sans-serif;color:#14302A">
 
-<section class="hero" id="story"><div class="wrap">
-  <div class="eyebrow">Agent OS · Relationship Hub · product walkthrough</div>
-  <h1>From a missed call to a farmer who <em>comes back</em></h1>
-  <p class="sub">Follow one farmer, Ramesh Kale of Mohol, through a full Rabi season. At every step you see what he sees, what the company sees, and which screen makes it possible.</p>
-  <div class="btns"><a class="btn p big" href="#ch1">Start the story</a><a class="btn big" href="#overview">Jump to all 19 screens</a></div>
-  <div class="hstats">
-    <div><b>6</b><span>ways a farmer can enter the hub</span></div>
-    <div><b>1</b><span>profile per farmer, across every channel</span></div>
-    <div><b>4</b><span>channels out: WhatsApp, AI voice, SMS, call centre</span></div>
-    <div><b>19</b><span>screens designed in this walkthrough</span></div>
+  <!-- clouds -->
+  <div class="cloud" style="left:420px;top:128px;width:170px;height:60px"><i style="left:0;top:22px;width:80px;height:38px"></i><i style="left:30px;top:2px;width:70px;height:56px"></i><i style="left:76px;top:16px;width:94px;height:44px"></i></div>
+  <div class="cloud" style="left:840px;top:206px;width:130px;height:50px;animation-duration:90s"><i style="left:0;top:18px;width:62px;height:32px"></i><i style="left:24px;top:2px;width:56px;height:46px"></i><i style="left:60px;top:14px;width:70px;height:36px"></i></div>
+  <div class="cloud" style="left:40px;top:236px;width:120px;height:46px;animation-duration:80s"><i style="left:0;top:16px;width:56px;height:30px"></i><i style="left:20px;top:2px;width:52px;height:42px"></i><i style="left:54px;top:12px;width:66px;height:34px"></i></div>
+
+  <svg aria-hidden="true" width="1280" height="800" viewBox="0 0 1280 800" style="position:absolute;left:0;top:0">
+    <!-- sun -->
+    <g class="rays" stroke="#F7B731" stroke-width="5" stroke-linecap="round">
+      <line x1="1146" y1="118" x2="1168" y2="118"/><line x1="1136.6" y1="153" x2="1155.7" y2="164"/><line x1="1111" y1="178.6" x2="1122" y2="197.7"/>
+      <line x1="1076" y1="188" x2="1076" y2="210"/><line x1="1041" y1="178.6" x2="1030" y2="197.7"/><line x1="1015.4" y1="153" x2="996.3" y2="164"/>
+      <line x1="1006" y1="118" x2="984" y2="118"/><line x1="1015.4" y1="83" x2="996.3" y2="72"/><line x1="1041" y1="57.4" x2="1030" y2="38.3"/>
+      <line x1="1076" y1="48" x2="1076" y2="26"/><line x1="1111" y1="57.4" x2="1122" y2="38.3"/><line x1="1136.6" y1="83" x2="1155.7" y2="72"/>
+    </g>
+    <circle cx="1076" cy="118" r="56" fill="#F7B731"/>
+    <circle cx="1076" cy="118" r="44" fill="#FBCB4E"/>
+    <!-- birds -->
+    <g class="bird" fill="none" stroke="#14302A" stroke-width="2.5" stroke-linecap="round"><path d="M0 214 q8 -9 16 0 q8 -9 16 0"/></g>
+    <g class="bird" style="animation-delay:-9s;animation-duration:32s" fill="none" stroke="#14302A" stroke-width="2.5" stroke-linecap="round"><path d="M0 26 q6 -7 12 0 q6 -7 12 0"/></g>
+    <!-- hills -->
+    <path d="M0 470 C150 430 300 460 450 440 C650 415 800 455 1000 430 C1120 415 1200 435 1280 425 L1280 800 L0 800 Z" fill="#CDE8D8"/>
+    <path d="M0 520 C200 470 380 500 560 480 C760 458 960 500 1280 470 L1280 800 L0 800 Z" fill="#B9DDB0"/>
+    <!-- houses -->
+    <g>
+      <rect x="296" y="482" width="40" height="28" fill="#FFFFFF"/><polygon points="290,483 316,462 342,483" fill="#E0674F"/><rect x="310" y="492" width="10" height="18" fill="#8A6A4A"/>
+      <rect x="1000" y="472" width="46" height="30" fill="#FFFFFF"/><polygon points="994,473 1023,450 1052,473" fill="#E0674F"/><rect x="1017" y="484" width="11" height="18" fill="#8A6A4A"/>
+    </g>
+    <!-- trees -->
+    <g>
+      <rect x="86" y="468" width="8" height="30" fill="#6B4A2B"/><circle cx="90" cy="452" r="26" fill="#4E9E62"/><circle cx="106" cy="462" r="18" fill="#5DB071"/>
+      <rect x="1196" y="458" width="8" height="30" fill="#6B4A2B"/><circle cx="1200" cy="442" r="26" fill="#4E9E62"/><circle cx="1184" cy="452" r="18" fill="#5DB071"/>
+      <rect x="566" y="456" width="7" height="26" fill="#6B4A2B"/><circle cx="569" cy="442" r="22" fill="#4E9E62"/>
+      <rect x="840" y="466" width="7" height="26" fill="#6B4A2B"/><circle cx="843" cy="452" r="20" fill="#5DB071"/>
+    </g>
+    <path d="M0 600 C240 560 420 610 640 585 C860 560 1040 600 1280 575 L1280 800 L0 800 Z" fill="#8CC48F"/>
+    <path d="M0 690 C300 670 600 705 900 685 C1050 676 1170 682 1280 690 L1280 800 L0 800 Z" fill="#F2BE2E"/>
+    <path d="M0 735 C300 715 600 750 900 730 C1050 721 1170 727 1280 735 L1280 800 L0 800 Z" fill="#E6AA1A"/>
+    <path d="M0 772 C300 755 600 785 900 768 C1050 760 1170 765 1280 772 L1280 800 L0 800 Z" fill="#D69612"/>
+    <!-- road -->
+    <path d="M-30 575 C40 575 90 555 150 555 S330 525 395 525 S580 555 640 555 S830 525 885 525 S1070 555 1130 555 S1250 575 1310 575" fill="none" stroke="#C9B676" stroke-width="64" stroke-linecap="round"/>
+    <path d="M-30 575 C40 575 90 555 150 555 S330 525 395 525 S580 555 640 555 S830 525 885 525 S1070 555 1130 555 S1250 575 1310 575" fill="none" stroke="#EBD9A6" stroke-width="58" stroke-linecap="round"/>
+    <path d="M-30 575 C40 575 90 555 150 555 S330 525 395 525 S580 555 640 555 S830 525 885 525 S1070 555 1130 555 S1250 575 1310 575" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="14 12"/>
+  </svg>
+
+  <!-- headline -->
+  <div style="position:absolute;left:64px;top:50px">
+    <div style="font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#2A5A4D">One farmer · one season</div>
+    <h1 style="margin:8px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:58px;line-height:1.04;letter-spacing:-0.03em">Ramesh's season,<br>in five stops.</h1>
   </div>
-  <div class="hwrap"><svg class="hsvg" viewBox="0 0 960 380" role="img" aria-label="Six entry points flow into the Relationship Hub, which feeds campaigns, surveys, journeys and analytics">
-    <text class="cap" x="10" y="14">ENTRY POINTS</text><text class="cap" x="760" y="14">ENGINES AND OUTCOMES</text>
-    <g>
-      <path class="ln" d="M200,45 C320,45 330,190 416,190"/><path class="ln" d="M200,103 C320,103 330,190 416,190"/><path class="ln" d="M200,161 C320,161 330,190 416,190"/>
-      <path class="ln" d="M200,219 C320,219 330,190 416,190"/><path class="ln" d="M200,277 C320,277 330,190 416,190"/><path class="ln" d="M200,335 C320,335 330,190 416,190"/>
-      <path class="ln o" d="M544,190 C640,190 650,70 760,70"/><path class="ln o" d="M544,190 C640,190 650,150 760,150"/><path class="ln o" d="M544,190 C640,190 650,230 760,230"/><path class="ln o" d="M544,190 C640,190 650,310 760,310"/>
-    </g>
-    <g>
-      <rect class="nd" x="10" y="27" width="190" height="36" rx="10"/><text x="24" y="50">Field missed call</text>
-      <rect class="nd" x="10" y="85" width="190" height="36" rx="10"/><text x="24" y="108">Meta and Instagram ads</text>
-      <rect class="nd" x="10" y="143" width="190" height="36" rx="10"/><text x="24" y="166">WhatsApp chatbot</text>
-      <rect class="nd" x="10" y="201" width="190" height="36" rx="10"/><text x="24" y="224">Retailer sale</text>
-      <rect class="nd" x="10" y="259" width="190" height="36" rx="10"/><text x="24" y="282">Bulk data import</text>
-      <rect class="nd" x="10" y="317" width="190" height="36" rx="10"/><text x="24" y="340">IVR and call centre</text>
-    </g>
-    <circle class="halo" cx="480" cy="190" r="64"/><circle class="halo" cx="480" cy="190" r="64" style="animation-delay:1.3s"/>
-    <circle class="hub" cx="480" cy="190" r="64"/>
-    <text class="hub-t" x="480" y="186" text-anchor="middle">Relationship</text><text class="hub-t" x="480" y="204" text-anchor="middle">Hub</text>
-    <text class="hub-s" x="480" y="224" text-anchor="middle">1 farmer · 1 profile</text>
-    <g>
-      <rect class="nd out" x="760" y="52" width="190" height="36" rx="10"/><text x="774" y="75">Omni-channel campaigns</text>
-      <rect class="nd out" x="760" y="132" width="190" height="36" rx="10"/><text x="774" y="155">Season intent surveys</text>
-      <rect class="nd out" x="760" y="212" width="190" height="36" rx="10"/><text x="774" y="235">Journeys and cashback</text>
-      <rect class="nd out" x="760" y="292" width="190" height="36" rx="10"/><text x="774" y="315">Analytics and ROI</text>
-    </g>
-  </svg></div>
-  <div class="cast">
-    <div><div class="av">RK</div><b>Ramesh Kale</b><small>Farmer, Mohol, Solapur. 3.5 acre, plans mustard this Rabi.</small></div>
-    <div><div class="av g">SP</div><b>Sachin Patil</b><small>Field agent. Runs village sessions with one missed-call number.</small></div>
-    <div><div class="av s">PA</div><b>Patil Agro</b><small>Retailer in Mohol. Records every sale in seconds.</small></div>
-    <div><div class="av d">CO</div><b>The company</b><small>Seed and nutrient brand. Wants leads, sales and repeat buyers.</small></div>
+
+  <!-- connectors -->
+  <div style="position:absolute;left:148px;top:406px;height:115px;border-left:3px dotted #14302A"></div>
+  <div style="position:absolute;left:393px;top:406px;height:85px;border-left:3px dotted #14302A"></div>
+  <div style="position:absolute;left:638px;top:406px;height:115px;border-left:3px dotted #14302A"></div>
+  <div style="position:absolute;left:883px;top:406px;height:85px;border-left:3px dotted #14302A"></div>
+  <div style="position:absolute;left:1128px;top:406px;height:115px;border-left:3px dotted #14302A"></div>
+
+  <!-- stop 1 -->
+  <div class="stopcard d1" style="left:43px">
+    <div style="display:inline-block;padding:3px 10px;border-radius:99px;background:#FFF1C9;color:#5A4200;font-size:12px;font-weight:600">3 Nov</div>
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-top:8px">Meets</div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:12px;background:#F1F5F3;font-size:13px;font-weight:500"><span style="width:9px;height:9px;border-radius:50%;background:#E5484D;flex:none"></span>Missed call · 0142</div>
   </div>
-</div></section>
+  <div class="badge d1" style="left:116px;top:521px">
+    <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+  </div>
 
-<nav class="rail" id="rail" aria-label="Story chapters"><div class="wrap">
-  <a href="#ch1" data-ch="ch1"><i></i><b>1 Meeting</b><small>3 Nov</small></a>
-  <a href="#ch2" data-ch="ch2"><i></i><b>2 Recognised</b><small>6 Nov</small></a>
-  <a href="#ch3" data-ch="ch3"><i></i><b>3 Questions</b><small>9 Nov</small></a>
-  <a href="#ch4" data-ch="ch4"><i></i><b>4 Intent call</b><small>12 Nov</small></a>
-  <a href="#ch5" data-ch="ch5"><i></i><b>5 Purchase</b><small>14 Nov</small></a>
-  <a href="#ch6" data-ch="ch6"><i></i><b>6 Season</b><small>Nov to Feb</small></a>
-  <a href="#ch7" data-ch="ch7"><i></i><b>7 Results</b><small>March</small></a>
-  <a href="#ch8" data-ch="ch8"><i></i><b>8 Control</b><small>Always on</small></a>
-</div></nav>
+  <!-- stop 2 -->
+  <div class="stopcard d2" style="left:288px">
+    <div style="display:inline-block;padding:3px 10px;border-radius:99px;background:#FFF1C9;color:#5A4200;font-size:12px;font-weight:600">6 Nov</div>
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-top:8px">Is recognised</div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:12px;background:#F1F5F3;font-size:13px;font-weight:600"><div style="display:flex"><div style="width:24px;height:24px;border-radius:50%;background:#2F6A8F;border:2px solid #F1F5F3"></div><div style="width:24px;height:24px;border-radius:50%;background:#F2A71B;border:2px solid #F1F5F3;margin-left:-8px"></div></div>2 leads, 1 farmer</div>
+  </div>
+  <div class="badge d2" style="left:361px;top:491px">
+    <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+  </div>
 
+  <!-- stop 3 -->
+  <div class="stopcard d3" style="left:533px">
+    <div style="display:inline-block;padding:3px 10px;border-radius:99px;background:#FFF1C9;color:#5A4200;font-size:12px;font-weight:600">9 Nov</div>
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-top:8px">Asks</div>
+    <div style="margin-top:10px;padding:9px 12px;border-radius:4px 14px 14px 14px;background:#DCF3E4;font-size:13px;line-height:1.35">Which seed for black soil?</div>
+  </div>
+  <div class="badge d3" style="left:606px;top:521px">
+    <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
+  </div>
+
+  <!-- stop 4 -->
+  <div class="stopcard d4" style="left:778px">
+    <div style="display:inline-block;padding:3px 10px;border-radius:99px;background:#FFF1C9;color:#5A4200;font-size:12px;font-weight:600">14 Nov</div>
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-top:8px">Buys</div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:12px;background:#DCF3E4;font-size:13px;font-weight:600;color:#0D5236"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D5236" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Sale verified</div>
+  </div>
+  <div class="badge d4" style="left:851px;top:491px">
+    <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+  </div>
+
+  <!-- stop 5 -->
+  <div class="stopcard d5" style="left:1023px">
+    <div style="display:inline-block;padding:3px 10px;border-radius:99px;background:#FFF1C9;color:#5A4200;font-size:12px;font-weight:600">Dec to Feb</div>
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-top:8px">Grows</div>
+    <div style="margin-top:10px;padding:9px 12px;border-radius:4px 14px 14px 14px;background:#DCF3E4;font-size:13px;line-height:1.35">Day 20: time for nutrients</div>
+  </div>
+  <div class="badge d5" style="left:1096px;top:521px">
+    <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V10M12 10c0-4 3-6 7-6 0 4-2 7-7 6zM12 14c0-3-2-5-6-5 0 3 2 5 6 5z"/></svg>
+  </div>
+
+  <!-- Ramesh walking the road -->
+  <div class="walker">
+    <div class="person">
+      <div style="position:absolute;left:-6px;top:-24px;padding:2px 9px;border-radius:99px;background:#fff;font-size:12px;font-weight:600;box-shadow:0 2px 6px rgba(20,48,42,.2)">Ramesh</div>
+      <svg aria-hidden="true" width="40" height="64" viewBox="0 0 40 64">
+        <rect class="leg" x="12" y="48" width="7" height="15" rx="3.5" fill="#14302A"/>
+        <rect class="leg leg2" x="22" y="48" width="7" height="15" rx="3.5" fill="#14302A"/>
+        <rect x="10" y="29" width="22" height="24" rx="9" fill="#1F5BD8"/>
+        <circle cx="21" cy="21" r="8.5" fill="#B97A50"/>
+        <path d="M8 17 Q21 0 34 17 Z" fill="#F2A71B"/>
+        <rect x="5" y="16" width="32" height="4" rx="2" fill="#D98E0A"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- footer line -->
+  <div style="position:absolute;left:0;right:0;top:700px;display:flex;justify-content:center">
+    <div style="display:flex;align-items:center;gap:12px;padding:13px 26px;border-radius:99px;background:#fff;box-shadow:0 10px 24px rgba(20,48,42,.18);font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:20px;letter-spacing:-0.01em"><span style="width:12px;height:12px;border-radius:50%;background:#1F9D63"></span>One farmer. One profile. Every channel.</div>
+  </div>
+
+</div></div></div></div>
+  <div class="herobar"><a class="btn p big" href="#ch1">Start the story</a><a class="btn o big" href="#overview">Open all 19 screens</a></div>
+</section>
+<nav class="rail" id="rail" aria-label="Story chapters"><div class="wrap"><a href="#ch1" data-ch="ch1"><i></i><b>Meets</b></a><a href="#ch2" data-ch="ch2"><i></i><b>Recognised</b></a><a href="#ch3" data-ch="ch3"><i></i><b>Asks</b></a><a href="#ch4" data-ch="ch4"><i></i><b>Survey</b></a><a href="#ch5" data-ch="ch5"><i></i><b>Buys</b></a><a href="#ch6" data-ch="ch6"><i></i><b>Grows</b></a><a href="#ch7" data-ch="ch7"><i></i><b>Learns</b></a><a href="#ch8" data-ch="ch8"><i></i><b>Safe</b></a></div></nav>
 <div class="wrap">
+<section class="chap" id="ch1"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="A farmers meeting under a banyan tree with a banner showing one missed-call number">
+    <circle cx="396" cy="58" r="34" fill="#F7B731" opacity=".35"/><circle cx="396" cy="58" r="24" fill="#F7B731"/>
+    <g class="s1-cl" fill="#fff" opacity=".9"><rect x="40" y="46" width="86" height="22" rx="11"/><rect x="62" y="34" width="46" height="26" rx="13"/></g>
+    <path d="M0 232 C120 212 240 244 360 226 C410 219 440 224 460 228 L460 300 L0 300 Z" fill="#B9DDB0"/>
+    <path d="M0 262 C140 246 300 272 460 252 L460 300 L0 300 Z" fill="#8CC48F"/>
+    <!-- banyan tree -->
+    <g class="s1-sway">
+      <rect x="108" y="150" width="26" height="110" fill="#6B4A2B"/>
+      <circle cx="120" cy="118" r="62" fill="#3F8F57"/><circle cx="76" cy="150" r="42" fill="#4E9E62"/><circle cx="166" cy="146" r="44" fill="#4E9E62"/><circle cx="120" cy="86" r="38" fill="#5DB071"/>
+      <line x1="72" y1="176" x2="72" y2="246" stroke="#6B4A2B" stroke-width="3"/><line x1="170" y1="174" x2="170" y2="246" stroke="#6B4A2B" stroke-width="3"/>
+    </g>
+    <!-- banner -->
+    <line x1="256" y1="148" x2="256" y2="246" stroke="#6B4A2B" stroke-width="5" stroke-linecap="round"/>
+    <line x1="422" y1="148" x2="422" y2="246" stroke="#6B4A2B" stroke-width="5" stroke-linecap="round"/>
+    <rect x="256" y="148" width="166" height="64" rx="6" fill="#FFFFFF"/>
+    <rect x="256" y="148" width="166" height="10" rx="5" fill="#0F6B46"/>
+    <text x="339" y="178" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#14302A" letter-spacing="1">GIVE A MISSED CALL</text>
+    <text x="339" y="201" text-anchor="middle" font-family="Inter,sans-serif" font-size="18" font-weight="700" fill="#0F6B46">1800-xxx-0142</text>
+    <!-- people -->
+    <g>
+      <rect x="139" y="236" width="22" height="26" rx="9" fill="#1F5BD8"/><circle cx="150" cy="226" r="9" fill="#B97A50"/><path d="M138 223 Q150 207 162 223Z" fill="#F2A71B"/>
+      <rect x="174" y="236" width="22" height="26" rx="9" fill="#E0674F"/><circle cx="185" cy="226" r="9" fill="#C98B5F"/>
+      <line x1="226" y1="244" x2="247" y2="232" stroke="#F4F4F0" stroke-width="6" stroke-linecap="round"/>
+      <rect x="207" y="236" width="22" height="26" rx="9" fill="#F4F4F0"/><circle cx="218" cy="226" r="9" fill="#B97A50"/><path d="M206 223 Q218 208 230 223Z" fill="#0F6B46"/>
+      <rect x="269" y="236" width="22" height="26" rx="9" fill="#2F6A8F"/><circle cx="280" cy="226" r="9" fill="#C98B5F"/>
+      <rect x="309" y="236" width="22" height="26" rx="9" fill="#1F9D63"/><circle cx="320" cy="226" r="9" fill="#B97A50"/><path d="M308 223 Q320 207 332 223Z" fill="#F2A71B"/>
+      <rect x="331" y="238" width="9" height="15" rx="2.5" fill="#14302A"/>
+      <circle class="s1-ring" cx="335.5" cy="245" r="6" fill="none" stroke="#E5484D" stroke-width="2"/>
+      <circle class="s1-ring" cx="335.5" cy="245" r="6" fill="none" stroke="#E5484D" stroke-width="2" style="animation-delay:.8s"/>
+      <rect x="349" y="236" width="22" height="26" rx="9" fill="#F2A71B"/><circle cx="360" cy="226" r="9" fill="#C98B5F"/>
+      <rect x="389" y="236" width="22" height="26" rx="9" fill="#E0674F"/><circle cx="400" cy="226" r="9" fill="#B97A50"/><path d="M388 223 Q400 207 412 223Z" fill="#F2A71B"/>
+    </g>
+  </svg></div><div class="ctext"><span class="when">3 Nov · Mohol</span><h2>Meets</h2><p class="ln">A banner, a number, one missed call.</p><div class="ui"><div class="sl"><span class="tk y" style="background:#E5484D"></span>Missed call · 1800-xxx-0142</div><div class="bub">Namaskar Ramesh-ji! Thanks for joining the mustard session.</div></div><div class="go"><small>Screens</small><a href="#events">Event setup</a><a href="#capture">Live capture</a></div></div></section>
+<section class="chap flip" id="ch2"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="An event lead, an ad lead and an old list merge into one farmer profile">
+    <defs><clipPath id="av"><circle cx="230" cy="150" r="56"/></clipPath></defs>
+    <path d="M0 268 C120 248 340 280 460 256 L460 300 L0 300 Z" fill="#B9DDB0"/>
+    <circle cx="230" cy="150" r="124" fill="#fff" opacity=".3"/>
+    <circle cx="230" cy="150" r="88" fill="#fff" opacity=".45"/>
+    <path class="s2-flow" d="M148 83 C190 83 186 150 174 150" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="s2-flow" d="M148 217 C190 217 186 150 174 150" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="s2-flow" d="M312 150 L288 150" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+    <circle class="s2-ring" cx="230" cy="150" r="56" fill="none" stroke="#1F9D63" stroke-width="3"/>
+    <circle cx="230" cy="150" r="56" fill="#fff"/>
+    <g clip-path="url(#av)">
+      <rect x="170" y="94" width="120" height="112" fill="#E8F3EE"/>
+      <path d="M180 212 Q184 168 230 168 Q276 168 280 212 Z" fill="#1F5BD8"/>
+      <circle cx="230" cy="142" r="18" fill="#B97A50"/>
+      <path d="M208 136 Q230 112 252 136 Z" fill="#F2A71B"/>
+      <rect x="204" y="134" width="52" height="5" rx="2.5" fill="#D98E0A"/>
+    </g>
+    <g class="s2-pop"><circle cx="276" cy="108" r="15" fill="#1F9D63" stroke="#fff" stroke-width="3"/><path d="M269 108 l5 5 l9 -10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
 
-<!-- CH1 -->
-<section class="chap" id="ch1">
-  <div class="ctext"><div class="num">01</div><div class="when">3 Nov · Mohol, Solapur</div>
-    <h2>One number on a banner</h2>
-    <p>Sachin Patil runs a mustard seed session under the village tree. His banner shows a single number. Ramesh gives a missed call and keeps listening. Nothing to write, no app to install.</p>
-    <ul class="pts"><li>Each agent owns one number, tied to a territory and a time-boxed event</li><li>The call is captured, de-duplicated and tagged with agent, village, crop and season</li><li>A Marathi message arrives within seconds, or the client can choose silent capture</li></ul>
-    <div class="uses"><span>Screens</span><a href="#agents">Agents and numbers</a><a href="#events">Event setup</a><a href="#capture">Live capture</a></div></div>
-  <div class="stage"><div class="duo">
-    <div class="pane"><span class="lbl f">Farmer sees</span>
-      <div class="phone"><div class="scr">
-        <div class="callrow"><span>1800-xxx-0142<br><small class="muted">Mohol mustard session</small></span><b>Missed 11:42</b></div>
-        <div class="wa-h"><i></i><span>Krishi Mitra<small>Company · verified</small></span></div>
-        <div class="msg rise" style="--d:1">Namaskar Ramesh-ji! Thank you for joining the mustard session in Mohol. Reply 1 for seed details, 2 for the nearest shop, 3 to talk to our agronomist.<small>11:42</small></div>
-        <div class="btnrow rise" style="--d:2"><span>1 Seed details</span><span>2 Nearest shop</span><span>3 Agronomist</span></div>
-      </div></div></div>
-    <div class="pane"><span class="lbl c"><i class="live"></i>Company sees · live</span>
-      <div class="mini4"><div class="kpi"><b class="cnt" data-to="1284">1,284</b><span>Missed calls today</span></div><div class="kpi"><b class="cnt" data-to="946">946</b><span>Unique farmers</span></div></div>
-      <div class="feed">
-        <div class="rise" style="--d:1"><span>11:42:08</span><span>98••• ••210 · Mohol</span><span class="pill g">New</span></div>
-        <div class="rise" style="--d:2"><span>11:42:03</span><span>97••• ••882 · Mohol</span><span class="pill a">Repeat</span></div>
-        <div class="rise" style="--d:3"><span>11:41:51</span><span>90••• ••004 · Ausa</span><span class="pill b">Flagged</span></div>
-      </div>
-      <div class="bars"><div class="bar-row"><span>Mohol</span><div class="t"><i class="grow" style="width:80%"></i></div><b>412</b></div><div class="bar-row"><span>Pandharpur</span><div class="t"><i class="grow" style="width:55%"></i></div><b>288</b></div><div class="bar-row"><span>Ausa</span><div class="t"><i class="grow" style="width:35%"></i></div><b>187</b></div></div>
-    </div></div></div>
-</section>
+    <rect x="24" y="66" width="124" height="34" rx="17" fill="#fff"/><circle cx="43" cy="83" r="5" fill="#E0674F"/><text x="55" y="88" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Event · 3 Nov</text>
+    <rect x="24" y="200" width="124" height="34" rx="17" fill="#fff"/><circle cx="43" cy="217" r="5" fill="#1F5BD8"/><text x="55" y="222" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Meta ad · 6 Nov</text>
+    <rect x="312" y="133" width="124" height="34" rx="17" fill="#fff"/><circle cx="331" cy="150" r="5" fill="#F2A71B"/><text x="343" y="155" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Old list · 2025</text>
+  </svg></div><div class="ctext"><span class="when">6 Nov · on his phone</span><h2>Is recognised</h2><p class="ln">Same number, same farmer. No duplicates.</p><div class="ui"><div class="prow"><span class="pl2">Event</span><span class="pl2">Ad</span><span class="pl2">Old list</span><span class="pl2 g">1 farmer</span></div></div><div class="go"><small>Screens</small><a href="#farmer">Farmer 360</a><a href="#import">Data import</a></div></div></section>
+<section class="chap" id="ch3"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="A farmer sends a voice note and gets advice and a nearby shop on his phone">
+    <circle cx="70" cy="56" r="34" fill="#F7B731" opacity=".35"/><circle cx="70" cy="56" r="23" fill="#F7B731"/>
+    <rect x="120" y="34" width="80" height="20" rx="10" fill="#fff" opacity=".9"/><rect x="140" y="24" width="42" height="24" rx="12" fill="#fff" opacity=".9"/>
+    <path d="M0 246 C100 232 200 258 300 244 C360 236 420 244 460 240 L460 300 L0 300 Z" fill="#B9DDB0"/>
+    <path d="M0 270 C140 256 300 280 460 262 L460 300 L0 300 Z" fill="#8CC48F"/>
+    <!-- house -->
+    <rect x="160" y="118" width="16" height="34" fill="#B8503B"/>
+    <circle class="s3-puff" cx="168" cy="112" r="6" fill="#fff"/>
+    <circle class="s3-puff" cx="168" cy="112" r="6" fill="#fff" style="animation-delay:2s"/>
+    <rect x="36" y="170" width="160" height="92" fill="#fff"/>
+    <polygon points="26,172 116,110 206,172" fill="#E0674F"/>
+    <rect x="98" y="208" width="32" height="54" fill="#8A6A4A"/><circle cx="123" cy="236" r="2.5" fill="#F7B731"/>
+    <rect class="s3-glow" x="52" y="190" width="30" height="30" rx="3" fill="#FFE9A6"/>
+    <rect class="s3-glow" x="150" y="190" width="30" height="30" rx="3" fill="#FFE9A6" style="animation-delay:1.5s"/>
+    <!-- farmer -->
+    <circle class="s3-ring" cx="236" cy="196" r="12" fill="none" stroke="#E5484D" stroke-width="2"/>
+    <circle cx="236" cy="196" r="13" fill="#fff"/>
+    <rect x="233" y="189" width="6" height="11" rx="3" fill="#14302A"/><path d="M230 197 a6 6 0 0 0 12 0" fill="none" stroke="#14302A" stroke-width="1.6" stroke-linecap="round"/><line x1="236" y1="203" x2="236" y2="207" stroke="#14302A" stroke-width="1.6" stroke-linecap="round"/>
+    <rect x="225" y="238" width="22" height="26" rx="9" fill="#1F5BD8"/><circle cx="236" cy="228" r="9" fill="#B97A50"/><path d="M224 225 Q236 209 248 225Z" fill="#F2A71B"/>
+    <!-- phone -->
+    <rect x="270" y="30" width="150" height="240" rx="26" fill="#14302A"/>
+    <rect x="278" y="40" width="134" height="220" rx="18" fill="#F1F5F3"/>
+    <rect x="288" y="60" width="114" height="38" rx="12" fill="#DCF3E4"/>
+    <polygon points="299,72 299,86 311,79" fill="#1F9D63"/>
+    <rect class="s3-b" x="320" y="73" width="4" height="12" rx="2" fill="#1F9D63"/>
+    <rect class="s3-b" x="329" y="69" width="4" height="20" rx="2" fill="#1F9D63" style="animation-delay:.12s"/>
+    <rect class="s3-b" x="338" y="72" width="4" height="14" rx="2" fill="#1F9D63" style="animation-delay:.24s"/>
+    <rect class="s3-b" x="347" y="67" width="4" height="24" rx="2" fill="#1F9D63" style="animation-delay:.36s"/>
+    <rect class="s3-b" x="356" y="73" width="4" height="12" rx="2" fill="#1F9D63" style="animation-delay:.48s"/>
+    <rect class="s3-b" x="365" y="70" width="4" height="18" rx="2" fill="#1F9D63" style="animation-delay:.6s"/>
+    <rect class="s3-b" x="374" y="75" width="4" height="8" rx="2" fill="#1F9D63" style="animation-delay:.72s"/>
+    <rect x="288" y="108" width="120" height="62" rx="12" fill="#fff"/>
+    <rect x="298" y="121" width="98" height="7" rx="3.5" fill="#D5DED9"/><rect x="298" y="135" width="82" height="7" rx="3.5" fill="#D5DED9"/><rect x="298" y="149" width="60" height="7" rx="3.5" fill="#D5DED9"/>
+    <rect x="288" y="182" width="118" height="30" rx="15" fill="#1F9D63"/>
+    <text x="347" y="201" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#fff">2 km · in stock</text>
+  </svg></div><div class="ctext"><span class="when">9 Nov · WhatsApp</span><h2>Asks</h2><p class="ln">Voice note in. Advice and a nearby shop out.</p><div class="ui"><div class="bub me in">Which seed for black soil?</div><div class="bub">A 110 day hybrid works well. Sow in early November.</div><div class="prow"><span class="pl2 g">Patil Agro · 2 km · in stock</span></div></div><div class="go"><small>Screens</small><a href="#chatbot">WhatsApp chatbot</a><a href="#locator">Where to buy</a></div></div></section>
+<section class="chap flip" id="ch4"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="An automated call asks which crop and the answers fill his profile"><path d="M0 246 C100 232 200 258 300 244 C360 236 420 244 460 240 L460 300 L0 300 Z" fill="#B9DDB0"/><path d="M0 270 C140 256 300 280 460 262 L460 300 L0 300 Z" fill="#8CC48F"/>
+<circle cx="60" cy="44" r="34" fill="#F7B731" opacity=".35"/><circle cx="60" cy="44" r="23" fill="#F7B731"/>
+<rect x="368" y="22" width="70" height="20" rx="10" fill="#fff" opacity=".9"/><rect x="384" y="12" width="38" height="22" rx="11" fill="#fff" opacity=".9"/>
+<path class="sv-flow" d="M302 150 C314 150 312 95 322 95" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<path class="sv-flow" d="M302 150 C314 150 312 139 322 139" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<path class="sv-flow" d="M302 150 C314 150 312 183 322 183" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="150" y="20" width="160" height="270" rx="28" fill="#14302A"/>
+<rect x="158" y="30" width="144" height="250" rx="20" fill="#F1F5F3"/>
+<circle cx="230" cy="64" r="20" fill="#1F9D63"/>
+<text x="230" y="70" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="700" fill="#fff">AI</text>
+<text x="230" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Krishi helper</text>
+<rect class="sv-b" x="190" y="118" width="4" height="12" rx="2" fill="#1F9D63"/>
+<rect class="sv-b" x="200" y="112" width="4" height="24" rx="2" fill="#1F9D63" style="animation-delay:.1s"/>
+<rect class="sv-b" x="210" y="116" width="4" height="16" rx="2" fill="#1F9D63" style="animation-delay:.2s"/>
+<rect class="sv-b" x="220" y="108" width="4" height="32" rx="2" fill="#1F9D63" style="animation-delay:.3s"/>
+<rect class="sv-b" x="230" y="114" width="4" height="20" rx="2" fill="#1F9D63" style="animation-delay:.4s"/>
+<rect class="sv-b" x="240" y="110" width="4" height="28" rx="2" fill="#1F9D63" style="animation-delay:.5s"/>
+<rect class="sv-b" x="250" y="117" width="4" height="14" rx="2" fill="#1F9D63" style="animation-delay:.6s"/>
+<rect class="sv-b" x="260" y="112" width="4" height="24" rx="2" fill="#1F9D63" style="animation-delay:.7s"/>
+<rect class="sv-b" x="270" y="119" width="4" height="10" rx="2" fill="#1F9D63" style="animation-delay:.8s"/>
+<rect x="170" y="148" width="120" height="42" rx="12" fill="#fff" stroke="#D5DED9"/>
+<text x="230" y="166" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#14302A">Which crop</text>
+<text x="230" y="181" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="500" fill="#14302A">this season?</text>
+<g class="sv-pick"><rect x="170" y="200" width="120" height="24" rx="12" fill="#DCF3E4" stroke="#1F9D63" stroke-width="2"/>
+<text x="230" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0D5236">Mustard ✓</text></g>
+<rect x="170" y="230" width="120" height="22" rx="11" fill="#E7ECE9"/><text x="230" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#3E5A52">Wheat</text>
+<rect x="170" y="256" width="120" height="20" rx="10" fill="#E7ECE9"/><text x="230" y="270" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#3E5A52">Chickpea</text>
+<rect x="24" y="92" width="102" height="34" rx="17" fill="#fff"/><circle cx="43" cy="109" r="5" fill="#E0674F"/><text x="55" y="114" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Marathi</text>
+<rect x="322" y="80" width="122" height="30" rx="15" fill="#fff"/><text x="383" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Crop: mustard</text>
+<rect x="322" y="124" width="122" height="30" rx="15" fill="#fff"/><text x="383" y="143" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Stage: planning</text>
+<rect x="322" y="168" width="122" height="30" rx="15" fill="#fff"/><text x="383" y="187" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Seed: not bought</text>
+</svg></div><div class="ctext"><span class="when">12 Nov · a phone call</span><h2>Gets asked</h2><p class="ln">A short AI call about his season, in Marathi.</p><div class="ui"><div class="sl"><span class="tk"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Crop: mustard</div><div class="sl"><span class="tk"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Stage: planning</div><div class="sl"><span class="tk"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Seed: not bought yet</div></div><div class="go"><small>Screens</small><a href="#intent">Intent survey</a><a href="#campaigns">Campaign builder</a></div></div></section>
+<section class="chap" id="ch5"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="A retailer scans a seed bag and the farmer confirms with a code">
+    <circle cx="420" cy="34" r="30" fill="#F7B731" opacity=".35"/><circle cx="420" cy="34" r="20" fill="#F7B731"/>
+    <path d="M0 262 C140 246 320 276 460 256 L460 300 L0 300 Z" fill="#8CC48F"/>
+    <!-- shop -->
+    <rect x="60" y="124" width="340" height="146" fill="#FFFFFF"/>
+    <rect x="150" y="52" width="160" height="36" rx="8" fill="#14302A"/>
+    <text x="230" y="76" text-anchor="middle" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="19" font-weight="700" fill="#fff">Patil Agro</text>
+    <path d="M50 92 L95 92 L95 122 Q72.5 140 50 122 Z" fill="#E0674F"/>
+    <path d="M95 92 L140 92 L140 122 Q117.5 140 95 122 Z" fill="#FFFFFF"/>
+    <path d="M140 92 L185 92 L185 122 Q162.5 140 140 122 Z" fill="#E0674F"/>
+    <path d="M185 92 L230 92 L230 122 Q207.5 140 185 122 Z" fill="#FFFFFF"/>
+    <path d="M230 92 L275 92 L275 122 Q252.5 140 230 122 Z" fill="#E0674F"/>
+    <path d="M275 92 L320 92 L320 122 Q297.5 140 275 122 Z" fill="#FFFFFF"/>
+    <path d="M320 92 L365 92 L365 122 Q342.5 140 320 122 Z" fill="#E0674F"/>
+    <path d="M365 92 L410 92 L410 122 Q387.5 140 365 122 Z" fill="#FFFFFF"/>
+    <!-- retailer -->
+    <circle cx="360" cy="170" r="9" fill="#C98B5F"/><rect x="349" y="180" width="22" height="34" rx="9" fill="#E0674F"/>
+    <!-- counter -->
+    <rect x="80" y="218" width="300" height="52" fill="#8A6A4A"/>
+    <rect x="74" y="212" width="312" height="10" rx="3" fill="#A8825A"/>
+    <!-- seed bag -->
+    <rect x="196" y="142" width="68" height="70" rx="6" fill="#F2BE2E"/>
+    <rect x="206" y="156" width="48" height="48" rx="4" fill="#fff"/>
+    <rect x="210" y="160" width="12" height="12" fill="#14302A"/><rect x="212" y="162" width="8" height="8" fill="#fff"/><rect x="214" y="164" width="4" height="4" fill="#14302A"/>
+    <rect x="238" y="160" width="12" height="12" fill="#14302A"/><rect x="240" y="162" width="8" height="8" fill="#fff"/><rect x="242" y="164" width="4" height="4" fill="#14302A"/>
+    <rect x="210" y="188" width="12" height="12" fill="#14302A"/><rect x="212" y="190" width="8" height="8" fill="#fff"/><rect x="214" y="192" width="4" height="4" fill="#14302A"/>
+    <rect x="228" y="176" width="5" height="5" fill="#14302A"/><rect x="238" y="188" width="5" height="5" fill="#14302A"/><rect x="246" y="196" width="5" height="5" fill="#14302A"/><rect x="236" y="178" width="5" height="5" fill="#14302A"/>
+    <rect class="s4-scan" x="206" y="157" width="48" height="3" rx="1.5" fill="#E5484D"/>
+    <g class="s4-pop"><circle cx="266" cy="144" r="15" fill="#1F9D63" stroke="#fff" stroke-width="3"/><path d="M259 144 l5 5 l9 -10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <!-- coins -->
+    <g class="s4-coin"><circle cx="304" cy="196" r="12" fill="#F7B731"/><text x="304" y="201" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#5A4200">₹</text></g>
+    <g class="s4-coin" style="animation-delay:1.1s"><circle cx="326" cy="200" r="12" fill="#F7B731"/><text x="326" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#5A4200">₹</text></g>
+    <!-- farmer -->
+    <rect x="89" y="238" width="22" height="34" rx="9" fill="#1F5BD8"/><circle cx="100" cy="228" r="9" fill="#B97A50"/><path d="M88 225 Q100 209 112 225Z" fill="#F2A71B"/>
+    <rect x="112" y="244" width="9" height="15" rx="2.5" fill="#14302A"/>
+    <g class="s4-otp"><rect x="116" y="196" width="66" height="26" rx="13" fill="#fff" stroke="#1F9D63" stroke-width="2"/><text x="149" y="214" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0D5236">OTP ✓</text></g>
+  </svg></div><div class="ctext"><span class="when">14 Nov · Patil Agro</span><h2>Buys</h2><p class="ln">Scan the bag, confirm with a code. About 8 seconds.</p><div class="ui"><div class="sl"><span class="tk"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Bag scanned · batch M26-114</div><div class="sl"><span class="tk"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Farmer confirmed with a code</div><div class="sl y"><span class="tk y">₹</span>Cashback ₹150 queued</div></div><div class="go"><small>Screens</small><a href="#retailer">Retailer capture</a><a href="#chain">Company to farmer</a><a href="#schemes">Schemes</a></div></div></section>
+<section class="chap flip" id="ch6"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="Mustard plants grow row by row with day 20, 35 and 90 markers">
+    <defs>
+      <g id="pl">
+        <line x1="0" y1="0" x2="0" y2="-34" stroke="#3F8F57" stroke-width="3" stroke-linecap="round"/>
+        <path d="M0 -12 Q-14 -16 -16 -28 Q-4 -24 0 -12 Z" fill="#4E9E62"/>
+        <path d="M0 -18 Q14 -22 16 -34 Q4 -30 0 -18 Z" fill="#4E9E62"/>
+        <circle cx="0" cy="-38" r="7" fill="#F7B731"/><circle cx="0" cy="-38" r="2.5" fill="#D98E0A"/>
+      </g>
+    </defs>
+    <!-- progress -->
+    <text x="124" y="34" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Day 20</text>
+    <text x="188" y="34" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Day 35</text>
+    <text x="420" y="34" text-anchor="end" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Day 90</text>
+    <rect x="40" y="44" width="380" height="8" rx="4" fill="#fff" opacity=".85"/>
+    <rect class="s5-bar" x="40" y="44" width="380" height="8" rx="4" fill="#1F9D63"/>
+    <circle cx="124" cy="48" r="7" fill="#fff" stroke="#1F9D63" stroke-width="3"/><circle cx="188" cy="48" r="7" fill="#fff" stroke="#1F9D63" stroke-width="3"/><circle cx="420" cy="48" r="7" fill="#fff" stroke="#1F9D63" stroke-width="3"/>
+    <!-- sky -->
+    <circle cx="380" cy="106" r="34" fill="#F7B731" opacity=".35"/><circle cx="380" cy="106" r="24" fill="#F7B731"/>
+    <rect x="60" y="98" width="84" height="22" rx="11" fill="#fff" opacity=".9"/><rect x="80" y="88" width="44" height="24" rx="12" fill="#fff" opacity=".9"/>
+    <!-- land -->
+    <path d="M0 160 C120 140 260 170 460 150 L460 300 L0 300 Z" fill="#B9DDB0"/>
+    <path d="M0 196 C140 182 320 206 460 190 L460 300 L0 300 Z" fill="#8CC48F"/>
+    <!-- row 1 -->
+    <g transform="translate(56 224) scale(.8)"><use class="s5-plant" href="#pl"/></g>
+    <g transform="translate(125 224) scale(.8)"><use class="s5-plant" href="#pl" style="animation-delay:.12s"/></g>
+    <g transform="translate(194 224) scale(.8)"><use class="s5-plant" href="#pl" style="animation-delay:.24s"/></g>
+    <g transform="translate(263 224) scale(.8)"><use class="s5-plant" href="#pl" style="animation-delay:.36s"/></g>
+    <g transform="translate(332 224) scale(.8)"><use class="s5-plant" href="#pl" style="animation-delay:.48s"/></g>
+    <g transform="translate(401 224) scale(.8)"><use class="s5-plant" href="#pl" style="animation-delay:.6s"/></g>
+    <!-- row 2 -->
+    <g transform="translate(22 254)"><use class="s5-plant" href="#pl" style="animation-delay:.3s"/></g>
+    <g transform="translate(91 254)"><use class="s5-plant" href="#pl" style="animation-delay:.42s"/></g>
+    <g transform="translate(160 254)"><use class="s5-plant" href="#pl" style="animation-delay:.54s"/></g>
+    <g transform="translate(229 254)"><use class="s5-plant" href="#pl" style="animation-delay:.66s"/></g>
+    <g transform="translate(298 254)"><use class="s5-plant" href="#pl" style="animation-delay:.78s"/></g>
+    <g transform="translate(367 254)"><use class="s5-plant" href="#pl" style="animation-delay:.9s"/></g>
+    <g transform="translate(436 254)"><use class="s5-plant" href="#pl" style="animation-delay:1.02s"/></g>
+    <!-- row 3 -->
+    <g transform="translate(56 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:.6s"/></g>
+    <g transform="translate(125 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:.72s"/></g>
+    <g transform="translate(194 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:.84s"/></g>
+    <g transform="translate(263 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:.96s"/></g>
+    <g transform="translate(332 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:1.08s"/></g>
+    <g transform="translate(401 284) scale(1.2)"><use class="s5-plant" href="#pl" style="animation-delay:1.2s"/></g>
+  </svg></div><div class="ctext"><span class="when">Dec to Feb · the season</span><h2>Grows</h2><p class="ln">Reminders arrive at the right growth stage.</p><div class="ui"><div class="bub">Ramesh-ji, your mustard is 20 days old. Best time for the nutrient spray.</div><div class="prow"><span class="pl2 g">Show offer code</span><span class="pl2">Directions</span></div></div><div class="go"><small>Screens</small><a href="#journey">Purchase journey</a></div></div></section>
+<section class="chap" id="ch7"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="Bars rising across three seasons with a cost per buyer tile"><path d="M0 246 C100 232 200 258 300 244 C360 236 420 244 460 240 L460 300 L0 300 Z" fill="#B9DDB0"/><path d="M0 270 C140 256 300 280 460 262 L460 300 L0 300 Z" fill="#8CC48F"/>
+<circle cx="60" cy="48" r="34" fill="#F7B731" opacity=".35"/><circle cx="60" cy="48" r="23" fill="#F7B731"/>
+<rect x="190" y="30" width="84" height="22" rx="11" fill="#fff" opacity=".9"/><rect x="210" y="20" width="44" height="24" rx="12" fill="#fff" opacity=".9"/>
+<rect class="rs-bar" x="62" y="192" width="72" height="70" rx="10" fill="#9FD3B8"/>
+<rect class="rs-bar" x="156" y="162" width="72" height="100" rx="10" fill="#6FB87A" style="animation-delay:.25s"/>
+<rect class="rs-bar" x="250" y="132" width="72" height="130" rx="10" fill="#1F9D63" style="animation-delay:.5s"/>
+<text x="98" y="184" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#14302A">11.8%</text>
+<text x="192" y="154" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#14302A">16.1%</text>
+<text x="286" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#14302A">18.9%</text>
+<text x="98" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Rabi 25</text>
+<text x="192" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Kharif 26</text>
+<text x="286" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Rabi 26</text>
+<g class="rs-tile"><rect x="352" y="76" width="92" height="84" rx="18" fill="#fff"/>
+<text x="398" y="114" text-anchor="middle" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="30" font-weight="700" fill="#0D6B44">₹142</text>
+<text x="398" y="136" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#3E5A52">per buyer</text></g>
+</svg></div><div class="ctext"><span class="when">March · season review</span><h2>The company learns</h2><p class="ln">Which events, channels and agents bring buyers.</p><div class="ui"><div class="kp"><div><b>18.9%</b><span>bought</span></div><div><b>₹142</b><span>per buyer</span></div><div><b>31,742</b><span>farmers</span></div></div></div><div class="go"><small>Screens</small><a href="#analytics">Analytics and ROI</a><a href="#segments">Segments</a></div></div></section>
+<section class="chap flip" id="ch8"><div class="art"><svg viewBox="0 0 460 300" role="img" aria-label="A shield with a check mark surrounded by consent, roles, audit log and fraud checks"><path d="M0 246 C100 232 200 258 300 244 C360 236 420 244 460 240 L460 300 L0 300 Z" fill="#B9DDB0"/><path d="M0 270 C140 256 300 280 460 262 L460 300 L0 300 Z" fill="#8CC48F"/>
+<circle cx="60" cy="48" r="34" fill="#F7B731" opacity=".35"/><circle cx="60" cy="48" r="23" fill="#F7B731"/>
+<rect x="360" y="26" width="70" height="20" rx="10" fill="#fff" opacity=".9"/><rect x="376" y="16" width="38" height="22" rx="11" fill="#fff" opacity=".9"/>
+<path class="ct-flow" d="M126 86 C152 86 152 112 174 112" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<path class="ct-flow" d="M344 86 C318 86 318 112 286 112" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<path class="ct-flow" d="M126 196 C152 196 160 172 178 168" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<path class="ct-flow" d="M334 196 C308 196 300 172 282 168" fill="none" stroke="#1F9D63" stroke-width="2.5" stroke-linecap="round"/>
+<circle class="ct-ring" cx="230" cy="128" r="76" fill="none" stroke="#1F9D63" stroke-width="3"/>
+<path d="M230 40 L292 62 L292 128 C292 172 264 204 230 222 C196 204 168 172 168 128 L168 62 Z" fill="#1F9D63"/>
+<path d="M230 52 L282 70 L282 128 C282 164 258 192 230 208 C202 192 178 164 178 128 L178 70 Z" fill="#26B073"/>
+<path d="M204 128 l19 19 l34 -38" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="24" y="70" width="102" height="32" rx="16" fill="#fff"/><circle cx="42" cy="86" r="5" fill="#1F9D63"/><text x="54" y="91" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Consent</text>
+<rect x="344" y="70" width="92" height="32" rx="16" fill="#fff"/><circle cx="362" cy="86" r="5" fill="#2F6A8F"/><text x="374" y="91" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Roles</text>
+<rect x="24" y="180" width="102" height="32" rx="16" fill="#fff"/><circle cx="42" cy="196" r="5" fill="#F2A71B"/><text x="54" y="201" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Audit log</text>
+<rect x="334" y="180" width="112" height="32" rx="16" fill="#fff"/><circle cx="352" cy="196" r="5" fill="#E0674F"/><text x="364" y="201" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#14302A">Fraud checks</text>
+</svg></div><div class="ctext"><span class="when">Always on</span><h2>Stays safe</h2><p class="ln">Consent, roles and fraud checks behind every step.</p><div class="ui"><div class="prow"><span class="pl2 g">Consent kept</span><span class="pl2">Masked numbers</span><span class="pl2">Fraud checks</span><span class="pl2 y">Audit log</span></div></div><div class="go"><small>Screens</small><a href="#admin">Admin and compliance</a><a href="#questions">Decisions to make</a></div></div></section>
 
-<!-- CH2 -->
-<section class="chap" id="ch2">
-  <div class="ctext"><div class="num">02</div><div class="when">6 Nov · on his phone</div>
-    <h2>The hub recognises him</h2>
-    <p>Three days later Ramesh scrolls past a mustard seed ad and taps it. The hub matches his phone number to the farmer from the meeting, so the ad lead does not create a second record. It adds a touchpoint to the same profile.</p>
-    <ul class="pts"><li>Two raw leads, one unique farmer, with first and latest source kept</li><li>Every field remembers where it came from and how far to trust it</li><li>Old lists from schemes and dealers can be imported the same way, tagged "unverified" until the farmer responds</li></ul>
-    <div class="uses"><span>Screens</span><a href="#social">Social sources</a><a href="#import">Data import</a><a href="#farmer">Farmer 360</a></div></div>
-  <div class="stage">
-    <div class="merge">
-      <div class="srcs">
-        <div class="sc rise" style="--d:0"><span class="pill a">Field event</span> <b>Mohol session</b><small>3 Nov · agent Sachin Patil · mustard seed</small></div>
-        <div class="sc rise" style="--d:1"><span class="pill a">Meta lead ad</span> <b>Mustard seed Rabi</b><small>6 Nov · form: phone, name, district</small></div>
-        <div class="sc rise" style="--d:2"><span class="pill">Scheme list 2025</span> <b>Imported file</b><small>Unverified until he replies</small></div>
-      </div>
-      <div class="arrowbig">→</div>
-      <div class="profile rise" style="--d:3"><h4>Ramesh Kale</h4><small class="muted">+91 98••• ••210 · Mohol 413213 · Marathi</small>
-        <table><tr><td class="muted">Touchpoints</td><td><b>3 sources, 1 farmer</b></td></tr><tr><td class="muted">First source</td><td>Field event</td></tr><tr><td class="muted">Latest</td><td>Meta lead ad</td></tr><tr><td class="muted">Consent</td><td><span class="pill g">Event wording v2</span></td></tr></table></div>
-    </div>
-    <div class="g3"><div class="kpi"><b>2</b><span>Raw leads</span></div><div class="kpi"><b>1</b><span>Unique farmer</span></div><div class="kpi"><b>0</b><span>Duplicate calls to make</span></div></div>
-  </div>
-</section>
-
-<!-- CH3 -->
-<section class="chap" id="ch3">
-  <div class="ctext"><div class="num">03</div><div class="when">9 Nov · WhatsApp</div>
-    <h2>He asks a question, not a favour</h2>
-    <p>Ramesh sends a voice note: which mustard seed suits black soil? The bot answers from approved guidance, then shows nearby shops that have stock. When his wife Sunita sends a photo of a sick onion crop, the bot is unsure and passes it to an agronomist.</p>
-    <ul class="pts"><li>Voice notes, photos and text in Marathi, Hindi or English</li><li>Advice first, product suggestions second, dosage questions go to a person</li><li>Sunita is added as a second person on the same number, so onion advice never lands in his mustard profile</li></ul>
-    <div class="uses"><span>Screens</span><a href="#chatbot">WhatsApp AI chatbot</a><a href="#locator">Stock and where to buy</a><a href="#farmer">Farmer 360</a></div></div>
-  <div class="stage"><div class="duo">
-    <div class="pane"><span class="lbl f">Farmer sees</span>
-      <div class="phone"><div class="scr">
-        <div class="wa-h"><i></i><span>Krishi Mitra<small>online</small></span></div>
-        <div class="msg me">Voice note 0:09 · "Which mustard seed for black soil?"<small>10:14</small></div>
-        <div class="msg rise" style="--d:1">For black soil with borewell water, a hybrid with good oil content and a 110 day cycle works well. Sow in the first fortnight of November.<small>Source: package of practices</small></div>
-        <div class="msg rise" style="--d:2"><b>Shops near Mohol with stock</b><br>Patil Agro · 2 km · in stock<br>Kale Seeds · 5 km · low<small>Stock updated 2 h ago</small></div>
-        <div class="btnrow"><span>Call shop</span><span>Directions</span></div>
-      </div></div></div>
-    <div class="pane"><span class="lbl c">Company sees</span>
-      <div class="box"><h4>Sunita's onion photo</h4>
-        <div class="ph" style="min-height:64px">leaf photo · onion</div>
-        <div class="bars" style="margin-top:8px"><div class="bar-row"><span>Bot confidence</span><div class="t"><i class="grow" style="width:58%"></i></div><b>58%</b></div></div>
-        <p class="small muted" style="margin-top:6px">Below the 70% limit, so it went to the agronomist queue. Reply sent in 12 min.</p></div>
-      <div class="box"><h4>Profile update</h4><div class="diff"><div><span>Person</span><span><b>+ Sunita Kale</b> (spouse)</span></div><div><span>Irrigation</span><span><s>unknown</s> <b>Borewell</b> · inferred from chat</span></div></div></div>
-      <div class="box"><h4>Area signal</h4><p class="small">41 powdery mildew reports near Mohol this week, up 3×. The agronomy team gets an early warning.</p></div>
-    </div></div></div>
-</section>
-
-<!-- CH4 -->
-<section class="chap" id="ch4">
-  <div class="ctext"><div class="num">04</div><div class="when">12 Nov · a phone call</div>
-    <h2>The company asks about his season</h2>
-    <p>An AI voice call in Marathi asks what he will grow, whether he has sown, and whether he has bought seed. Ramesh answers in thirty seconds. The same questions run on WhatsApp for farmers who prefer to type.</p>
-    <ul class="pts"><li>Crop, stage, purchase status and brand captured per season</li><li>Low-confidence answers repeat the question or go to a human</li><li>Totals become a market view: acreage intent and competitor share by district</li></ul>
-    <div class="uses"><span>Screens</span><a href="#intent">Intent survey</a><a href="#campaigns">Campaign builder</a><a href="#segments">Segments</a></div></div>
-  <div class="stage"><div class="duo rev">
-    <div class="pane"><span class="lbl c">Company sees</span>
-      <div class="box"><h4>Live survey · 6,120 reached · 3,980 answered</h4><div class="bars">
-        <div class="bar-row"><span>Mustard</span><div class="t"><i class="grow" style="width:56%"></i></div><b>2,230</b></div>
-        <div class="bar-row"><span>Wheat</span><div class="t"><i class="grow" style="width:31%"></i></div><b>1,240</b></div>
-        <div class="bar-row"><span>Chickpea</span><div class="t"><i class="grow" style="width:9%"></i></div><b>360</b></div></div>
-        <h4 style="margin-top:12px">Seed brand among buyers</h4><div class="bars">
-        <div class="bar-row"><span>Our brand</span><div class="t"><i class="grow" style="width:34%"></i></div><b>34%</b></div>
-        <div class="bar-row"><span>Competitor X</span><div class="t"><i class="grow" style="width:41%"></i></div><b>41%</b></div></div></div>
-      <div class="box"><h4>Ramesh's profile after the call</h4><div class="diff">
-        <div><span>Crop</span><span><s>none</s> <b>Mustard</b> · IVR · high trust</span></div>
-        <div><span>Stage</span><span><s>none</s> <b>Planning</b></span></div>
-        <div><span>Seed</span><span><s>none</s> <b>Not bought yet</b></span></div></div>
-        <p class="small muted" style="margin-top:6px">He now qualifies for "Mustard planners, not yet bought" and gets the offer next.</p></div>
-    </div>
-    <div class="pane"><span class="lbl f">Farmer hears</span>
-      <div class="phone"><div class="scr">
-        <div class="callrow"><span>AI helper · Marathi<br><small class="muted">automated call, announced</small></span><span class="wave"><i style="--i:0;--h:10px"></i><i style="--i:1;--h:20px"></i><i style="--i:2;--h:14px"></i><i style="--i:3;--h:24px"></i><i style="--i:4;--h:12px"></i><i style="--i:5;--h:18px"></i></span></div>
-        <div class="msg">Namaskar. Which crop are you planning this season?</div>
-        <div class="msg me">Mustard. Sowing next week.<small>heard: mustard, planning · 94%</small></div>
-        <div class="msg">Have you bought seed yet?</div>
-        <div class="msg me">Not yet, tomorrow I will go to the shop.<small>heard: not bought · 91%</small></div>
-      </div></div></div>
-  </div></div>
-</section>
-
-<!-- CH5 -->
-<section class="chap" id="ch5">
-  <div class="ctext"><div class="num">05</div><div class="when">14 Nov · Patil Agro, Mohol</div>
-    <h2>The sale becomes a fact</h2>
-    <p>Ramesh buys two kilos of hybrid seed. The retailer scans the bag, types his number, and Ramesh confirms with a one-time code. The sale is now verified, linked to his profile, and his cashback is queued.</p>
-    <ul class="pts"><li>Under ten seconds at the counter, with fix flows for wrong numbers and returns</li><li>Bag QR gives product and batch, so the chain from company to farmer is traceable</li><li>Scheme rules pay once per QR, and unusual volumes are held for review</li></ul>
-    <div class="uses"><span>Screens</span><a href="#retailer">Retailer capture</a><a href="#chain">Company to farmer chain</a><a href="#locator">Stock</a><a href="#schemes">Schemes and cashback</a></div></div>
-  <div class="stage"><div class="duo">
-    <div class="pane"><span class="lbl r">Retailer sees</span>
-      <div class="phone"><div class="scr">
-        <div class="ph-h">Patil Agro · Record sale</div>
-        <div class="callrow"><span>1 · Scan bag QR</span><b style="color:var(--good)">Done</b></div>
-        <div class="msg">Hybrid mustard seed 2 kg<br>Batch M26-114<small>auto-filled</small></div>
-        <div class="callrow"><span>2 · Farmer number</span><b style="color:var(--good)">98••• ••210</b></div>
-        <div class="callrow"><span>3 · Farmer OTP</span><b style="color:var(--good)">Confirmed</b></div>
-        <div class="btns"><span class="btn p">Sale verified · +20 pts</span></div>
-      </div></div></div>
-    <div class="pane"><span class="lbl c">Company sees</span>
-      <div class="chainstrip"><div>Company<small>48,000 bags</small></div><span class="sep">→</span><div>Dealer<small>31,200</small></div><span class="sep">→</span><div>Retailer<small>18,900</small></div><span class="sep">→</span><div>Ramesh<small>verified</small></div></div>
-      <div class="box"><h4>Ramesh's profile</h4><div class="diff">
-        <div><span>Seed</span><span><s>Not bought</s> <b>Bought · our brand</b> · retailer + OTP</span></div>
-        <div><span>Batch</span><span><b>M26-114</b></span></div>
-        <div><span>Cashback</span><span><b>₹ 150 queued</b> · checks passed</span></div></div></div>
-      <div class="box"><h4>Fraud checks on this claim</h4><p class="small"><span class="pill g">QR unused</span> <span class="pill g">Number matches</span> <span class="pill g">Volume normal</span></p></div>
-      <div class="box dash"><h4>Journey started</h4><p class="small">Chapter 6 begins automatically from this sale.</p></div>
-    </div></div></div>
-</section>
-
-<!-- CH6 -->
-<section class="chap" id="ch6">
-  <div class="ctext"><div class="num">06</div><div class="when">15 Nov to 14 Feb · the season</div>
-    <h2>The season follows him</h2>
-    <p>The purchase starts a crop-calendar journey. The company asks when he sowed, then reaches him at the right growth stage with the right advice and the nearest shop for the product he needs.</p>
-    <ul class="pts"><li>Schedule counts from the sowing date he gives, not the purchase date</li><li>Pauses on opt-out, a reversed sale or a crop problem, and sends the problem to an agronomist</li><li>Harvest answers link products to results by region and season</li></ul>
-    <div class="uses"><span>Screens</span><a href="#journey">Purchase journey</a><a href="#campaigns">Campaign builder</a><a href="#farmer">Farmer 360</a></div></div>
-  <div class="stage">
-    <div class="hz">
-      <div><i></i><b>16 Nov</b><small>Sowing date confirmed</small></div>
-      <div class="now"><i></i><b>6 Dec</b><small>D+20 nutrient reminder</small></div>
-      <div><i></i><b>21 Dec</b><small>D+35 pest watch</small></div>
-      <div><i></i><b>14 Feb</b><small>D+90 harvest check-in</small></div>
-      <div><i></i><b>Next Rabi</b><small>Loyalty offer</small></div>
-    </div>
-    <div class="duo">
-      <div class="pane"><span class="lbl f">Farmer sees · 6 Dec</span>
-        <div class="phone"><div class="scr">
-          <div class="wa-h"><i></i><span>Krishi Mitra<small>Company</small></span></div>
-          <div class="msg">Ramesh-ji, your mustard is 20 days old. This is the best time for the nutrient spray. Patil Agro, 2 km away, has it in stock and 10% off this week.<small>09:05</small></div>
-          <div class="btnrow"><span>Show offer code</span><span>Directions</span><span>Ask a question</span></div>
-          <div class="msg me">Thank you, will buy tomorrow<small>09:40</small></div>
-        </div></div></div>
-      <div class="pane"><span class="lbl c">Company sees</span>
-        <div class="box"><h4>Journey: mustard seed buyer</h4><div class="bars">
-          <div class="bar-row"><span>Replied</span><div class="t"><i class="grow" style="width:48%"></i></div><b>48%</b></div>
-          <div class="bar-row"><span>Sowing date</span><div class="t"><i class="grow" style="width:62%"></i></div><b>62%</b></div>
-          <div class="bar-row"><span>Bought nutrient</span><div class="t"><i class="grow" style="width:19%"></i></div><b>19%</b></div></div></div>
-        <div class="box"><h4>Channel used for Ramesh</h4><p class="small">WhatsApp worked, so no voice call is spent. Farmers who ignore WhatsApp for 24 h get an AI voice call, then a call-centre task only if they have more than 3 acres.</p></div>
-      </div>
-    </div></div>
-</section>
-
-<!-- CH7 -->
-<section class="chap" id="ch7">
-  <div class="ctext"><div class="num">07</div><div class="when">March · season review</div>
-    <h2>What the company learns</h2>
-    <p>With purchases verified, the company can finally say which event, channel and agent produced buyers, not just leads. Ramesh answers the harvest check-in and joins the list for next season.</p>
-    <ul class="pts"><li>Cost per verified buyer, the number a client judges the product by</li><li>Agents ranked on unique, converting farmers, not raw calls</li><li>Competitor share and acreage intent by district, ready before the next season</li></ul>
-    <div class="uses"><span>Screens</span><a href="#analytics">Analytics and ROI</a><a href="#segments">Segments</a><a href="#intent">Intent survey</a></div></div>
-  <div class="stage">
-    <div class="g4"><div class="kpi"><b>31,742</b><span>Unique farmers</span></div><div class="kpi"><b>41%</b><span>Gave crop intent</span></div><div class="kpi"><b>18.9%</b><span>Bought, verified</span></div><div class="kpi"><b>₹ 142</b><span>Per verified buyer</span></div></div>
-    <div class="g2">
-      <div class="box"><h4>Funnel</h4><div class="bars">
-        <div class="bar-row"><span>Captured</span><div class="t"><i class="grow" style="width:100%"></i></div><b>31,742</b></div>
-        <div class="bar-row"><span>Consented</span><div class="t"><i class="grow" style="width:88%"></i></div><b>27,904</b></div>
-        <div class="bar-row"><span>Engaged</span><div class="t"><i class="grow" style="width:46%"></i></div><b>14,600</b></div>
-        <div class="bar-row"><span>Gave intent</span><div class="t"><i class="grow" style="width:41%"></i></div><b>13,010</b></div>
-        <div class="bar-row"><span>Bought</span><div class="t"><i class="grow" style="width:19%"></i></div><b>6,000</b></div></div></div>
-      <div class="box"><h4>Agents by quality</h4><div class="tw"><table><tr><th>Agent</th><th>Unique</th><th>Bought</th></tr>
-        <tr><td>S. Patil</td><td>94%</td><td>21% <span class="pill g">High</span></td></tr>
-        <tr><td>A. Jadhav</td><td>88%</td><td>14% <span class="pill a">Good</span></td></tr>
-        <tr><td>V. More</td><td>52%</td><td>3% <span class="pill b">Review</span></td></tr></table></div>
-        <p class="small muted" style="margin-top:8px">Ramesh's harvest reply: "Good crop, will buy again." He moves to the repeat-buyer segment.</p></div>
-    </div></div>
-</section>
-
-<!-- CH8 -->
-<section class="chap" id="ch8">
-  <div class="ctext"><div class="num">08</div><div class="when">Always on · behind every step</div>
-    <h2>Trust, consent and control</h2>
-    <p>Everything above only works if farmers, retailers and clients can trust it. Consent is stored with every record. Roles limit who sees phone numbers. Rules catch fake leads and duplicate payouts before they cost money.</p>
-    <ul class="pts"><li>One opt-out applies on every channel, with do-not-disturb checks before SMS and calls</li><li>Agents see masked numbers, managers see their territory, exports are logged</li><li>Several client companies can share the platform with strict data separation</li></ul>
-    <div class="uses"><span>Screens</span><a href="#admin">Admin and compliance</a><a href="#schemes">Schemes</a><a href="#questions">Decisions to make</a></div></div>
-  <div class="stage"><div class="g3">
-    <div class="box"><h4>Consent log</h4><p class="small"><span class="pill g">3 Nov</span> Missed call, wording v2<br><span class="pill g">15 Nov</span> WhatsApp opt-in, reply "Yes"<br><span class="pill">Not set</span> Promotional SMS</p></div>
-    <div class="box"><h4>Fraud rules</h4><p class="small"><span class="pill b">Held</span> 14 calls from one number in 4 min<br><span class="pill b">Held</span> Same bag QR claimed twice<br><span class="pill w">Review</span> Retailer: 60 sales in 1 h</p></div>
-    <div class="box"><h4>Roles</h4><p class="small"><b>Field agent:</b> masked numbers<br><b>Area manager:</b> own territory<br><b>Admin:</b> all, exports logged<br><b>Retailer:</b> own customers</p></div>
-  </div>
-  <div class="box dash"><h4>Please confirm with legal counsel</h4><p class="small">Consent wording for missed calls, do-not-disturb rules, WhatsApp opt-in and template policy, data protection law, and payout compliance. This walkthrough shows where they apply, not the final legal text.</p></div></div>
-</section>
-
-</div>
-
-<div class="wrap">
-  <div class="sechead"><div class="eyebrow">Outcome</div><h2>Who gains what</h2></div>
+  <div class="sechead"><h2>Who gains what</h2></div>
   <div class="gain">
-    <div><h3>Farmer</h3><ul><li>Timely advice in his language</li><li>Cashback and offers he can trust</li><li>Knows which shop has stock</li></ul></div>
-    <div><h3>Field agent</h3><ul><li>Proof of every session</li><li>Credit for unique, converting farmers</li><li>One number, no paperwork</li></ul></div>
-    <div><h3>Retailer</h3><ul><li>Rewards for each logged sale</li><li>Farmers sent to the shop with stock</li><li>Fewer disputes over schemes</li></ul></div>
-    <div><h3>Company</h3><ul><li>Leads become verified buyers</li><li>Cost per buyer, by event and channel</li><li>Competitor and acreage view by district</li></ul></div>
+    <div><h3>Farmer</h3><p>Advice in his language, fair rewards, and the shop that has stock.</p></div>
+    <div><h3>Field agent</h3><p>Proof of every session and credit for farmers who really buy.</p></div>
+    <div><h3>Retailer</h3><p>Points for each logged sale and farmers sent to the door.</p></div>
+    <div><h3>Company</h3><p>Leads become verified buyers, with the cost of each one visible.</p></div>
   </div>
-
-  <div class="sechead"><div class="eyebrow">Suggested build order</div><h2>Start light, add depth where it pays</h2>
-    <p class="lede">A proposal for sequencing. Change it freely as decisions on the last screen are made.</p></div>
+  <div class="sechead"><h2>Build it in four steps</h2></div>
   <div class="phases">
-    <div><h3>Capture and CRM</h3><p>Prove that field events turn into clean leads.</p><a href="#agents">Agents and numbers</a><a href="#events">Event setup</a><a href="#capture">Live capture</a><a href="#farmer">Farmer 360</a><a href="#import">Data import</a></div>
-    <div><h3>Engage</h3><p>Reach farmers on the right channel.</p><a href="#segments">Segments</a><a href="#campaigns">Campaign builder</a><a href="#intent">Intent survey</a><a href="#chatbot">WhatsApp chatbot</a><a href="#social">Social sources</a></div>
-    <div><h3>Distribution</h3><p>Verify sales and reward the chain.</p><a href="#retailer">Retailer capture</a><a href="#journey">Purchase journey</a><a href="#schemes">Schemes and cashback</a><a href="#locator">Where to buy</a></div>
-    <div><h3>Intelligence</h3><p>Prove ROI and see the market.</p><a href="#chain">Dealer and batch tracing</a><a href="#analytics">Analytics and ROI</a><a href="#admin">Admin and compliance</a><a href="#questions">Decisions to make</a></div>
+    <a href="#agents"><h3>Capture</h3><p>Missed calls into a clean farmer list.</p></a>
+    <a href="#campaigns"><h3>Engage</h3><p>WhatsApp, AI voice and surveys.</p></a>
+    <a href="#retailer"><h3>Verify sales</h3><p>Retailer capture and cashback.</p></a>
+    <a href="#analytics"><h3>Prove ROI</h3><p>Cost per buyer and market view.</p></a>
   </div>
-
-  <div class="cta"><div><h3>Every screen is in the explorer</h3><p>Open any of the 19 screens with its notes and edge cases, and tell me what to change.</p></div><a class="btn big" href="#overview">Open all screens</a></div>
-  <p class="foot">All names, numbers, costs and dates are sample data for illustration. Retailer, agent and brand names are fictional.</p>
+  <div class="cta"><h3>All 19 screens are ready to explore</h3><p>Open any screen. Notes and edge cases are one tap away.</p><a class="btn p big" href="#overview">Open the screens</a></div>
+  <p class="foot">All names, numbers, costs and dates are sample data for illustration.</p>
 </div>
-
 </div>
-
 <div class="shell" id="screensWrap" hidden>
 <nav class="side" id="nav" aria-label="Screens">
   <a href="#story" data-back><small>←</small>Back to the story</a>
@@ -711,9 +935,7 @@ a.btn{text-decoration:none}
 <main>
 <!-- ============ 00 OVERVIEW ============ -->
 <section class="screen" id="overview">
-  <div class="tag">00 · System map</div>
-  <h2>One hub, many doors in, many ways out</h2>
-  <p class="lede">Every channel feeds one farmer profile. Engines on top of the hub decide who to contact, on which channel, and when. Outcomes flow back into the same profile. Click any card to open its screen.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg></div><div class="tag">00 · System map</div><h2>One hub, many doors in, many ways out</h2><p class="lede">Every channel feeds one farmer profile.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / system-map</em></div>
   <div class="app">
     <div class="cols4">
@@ -756,18 +978,16 @@ a.btn{text-decoration:none}
       </div>
     </div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Single identity.</b> Every door resolves to the same profile, so a farmer who attended a meeting, clicked an ad and asked the bot shows up once.</span></li>
     <li><span class="n">2</span><span><b>Consent travels with the record.</b> Each source stamps consent status, so engines only use what they are allowed to use.</span></li>
     <li><span class="n">3</span><span><b>Start light.</b> Missed call, profile, WhatsApp and voice campaigns can ship first. Dealer inventory and batch tracing can follow.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 01 AGENTS ============ -->
 <section class="screen" id="agents">
-  <div class="tag">01 · Agent OS</div>
-  <h2>Agents and missed-call numbers</h2>
-  <p class="lede">Each field agent owns one number and one territory. This screen manages the pool of numbers and their life cycle.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg></div><div class="tag">01 · Agent OS</div><h2>Agents and missed-call numbers</h2><p class="lede">Each field agent owns one number and one territory.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / agents</em></div>
   <div class="app">
     <div class="apphead"><h3>Field agents <span class="pill">86 active</span></h3>
@@ -790,18 +1010,16 @@ a.btn{text-decoration:none}
         <div class="bar-row"><span>Available</span><div class="t"><i style="width:14%"></i></div><b>14</b></div></div></div>
     </div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>One number per agent</b> gives clean attribution. The number alone does not say crop or season, so events add that context (next screen).</span></li>
     <li><span class="n">2</span><span><b>Transfers and exits.</b> When an agent leaves or moves territory, past leads stay with the agent of record, new calls follow the new owner.</span></li>
     <li><span class="n">3</span><span><b>Reuse risk.</b> A farmer may call an old number weeks later. Parking period plus a fallback response avoids attributing the call to the wrong agent.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 02 EVENTS ============ -->
 <section class="screen" id="events">
-  <div class="tag">02 · Agent OS</div>
-  <h2>Event setup</h2>
-  <p class="lede">An event ties an agent's number to a place, crop, season and product for a time window. It also decides what the farmer gets back after the missed call.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><div class="tag">02 · Agent OS</div><h2>Event setup</h2><p class="lede">An event ties an agent's number to a place, crop, season and product for a time window.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / events / new</em></div>
   <div class="app"><div class="g21">
     <div class="box">
@@ -824,25 +1042,23 @@ a.btn{text-decoration:none}
     </div>
     <div class="box">
       <h4>Banner / poster preview</h4>
-      <div class="ph" style="min-height:230px">Poster<br>"Give a missed call<br>1800-xxx-0142"<br><br>[QR code to WhatsApp]<br>Consent line at bottom</div>
+      <div class="figure"><svg class="im poster" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="380" rx="14" fill="#0D6B44"/><rect x="0" y="250" width="300" height="130" rx="14" fill="#F2A71B" opacity=".18"/><circle cx="268" cy="30" r="16" fill="#F7B731"/><circle cx="268" cy="30" r="24" fill="#F7B731" opacity=".25"/><text x="24" y="56" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="13" font-weight="700" fill="#BFEBD3" letter-spacing="1">MUSTARD · RABI 26</text><text x="24" y="104" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="32" font-weight="700" fill="#fff">Give a missed</text><text x="24" y="140" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="32" font-weight="700" fill="#fff">call. Get advice.</text><rect x="24" y="158" width="170" height="40" rx="20" fill="#F7B731"/><text x="109" y="184" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#14302A">1800-xxx-0142</text><path d="M214 168c0-6 4-9 9-9l5 8-4 3c2 5 5 8 9 10l3-4 8 5c0 5-3 9-9 9-12 0-21-10-21-22z" fill="#fff" transform="translate(4 -2) scale(.9)"/><rect x="24" y="222" width="104" height="104" rx="10" fill="#fff"/><g transform="translate(30 228)"><svg width="92" height="92" viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg"><rect width="84" height="84" rx="4" fill="#fff"/><path d="M0 0h4v4h-4zM4 0h4v4h-4zM8 0h4v4h-4zM12 0h4v4h-4zM16 0h4v4h-4zM20 0h4v4h-4zM24 0h4v4h-4zM32 0h4v4h-4zM36 0h4v4h-4zM44 0h4v4h-4zM56 0h4v4h-4zM60 0h4v4h-4zM64 0h4v4h-4zM68 0h4v4h-4zM72 0h4v4h-4zM76 0h4v4h-4zM80 0h4v4h-4zM0 4h4v4h-4zM24 4h4v4h-4zM44 4h4v4h-4zM56 4h4v4h-4zM80 4h4v4h-4zM0 8h4v4h-4zM8 8h4v4h-4zM12 8h4v4h-4zM16 8h4v4h-4zM24 8h4v4h-4zM56 8h4v4h-4zM64 8h4v4h-4zM68 8h4v4h-4zM72 8h4v4h-4zM80 8h4v4h-4zM0 12h4v4h-4zM8 12h4v4h-4zM12 12h4v4h-4zM16 12h4v4h-4zM24 12h4v4h-4zM32 12h4v4h-4zM36 12h4v4h-4zM48 12h4v4h-4zM56 12h4v4h-4zM64 12h4v4h-4zM68 12h4v4h-4zM72 12h4v4h-4zM80 12h4v4h-4zM0 16h4v4h-4zM8 16h4v4h-4zM12 16h4v4h-4zM16 16h4v4h-4zM24 16h4v4h-4zM32 16h4v4h-4zM40 16h4v4h-4zM56 16h4v4h-4zM64 16h4v4h-4zM68 16h4v4h-4zM72 16h4v4h-4zM80 16h4v4h-4zM0 20h4v4h-4zM24 20h4v4h-4zM32 20h4v4h-4zM36 20h4v4h-4zM44 20h4v4h-4zM56 20h4v4h-4zM80 20h4v4h-4zM0 24h4v4h-4zM4 24h4v4h-4zM8 24h4v4h-4zM12 24h4v4h-4zM16 24h4v4h-4zM20 24h4v4h-4zM24 24h4v4h-4zM32 24h4v4h-4zM36 24h4v4h-4zM40 24h4v4h-4zM48 24h4v4h-4zM56 24h4v4h-4zM60 24h4v4h-4zM64 24h4v4h-4zM68 24h4v4h-4zM72 24h4v4h-4zM76 24h4v4h-4zM80 24h4v4h-4zM32 28h4v4h-4zM40 28h4v4h-4zM44 28h4v4h-4zM0 32h4v4h-4zM4 32h4v4h-4zM20 32h4v4h-4zM24 32h4v4h-4zM28 32h4v4h-4zM36 32h4v4h-4zM40 32h4v4h-4zM44 32h4v4h-4zM48 32h4v4h-4zM52 32h4v4h-4zM60 32h4v4h-4zM64 32h4v4h-4zM80 32h4v4h-4zM8 36h4v4h-4zM28 36h4v4h-4zM32 36h4v4h-4zM36 36h4v4h-4zM40 36h4v4h-4zM48 36h4v4h-4zM56 36h4v4h-4zM0 40h4v4h-4zM8 40h4v4h-4zM12 40h4v4h-4zM24 40h4v4h-4zM36 40h4v4h-4zM40 40h4v4h-4zM48 40h4v4h-4zM56 40h4v4h-4zM60 40h4v4h-4zM72 40h4v4h-4zM8 44h4v4h-4zM20 44h4v4h-4zM24 44h4v4h-4zM28 44h4v4h-4zM36 44h4v4h-4zM40 44h4v4h-4zM48 44h4v4h-4zM52 44h4v4h-4zM56 44h4v4h-4zM60 44h4v4h-4zM64 44h4v4h-4zM76 44h4v4h-4zM0 48h4v4h-4zM4 48h4v4h-4zM8 48h4v4h-4zM20 48h4v4h-4zM24 48h4v4h-4zM28 48h4v4h-4zM32 48h4v4h-4zM44 48h4v4h-4zM48 48h4v4h-4zM52 48h4v4h-4zM56 48h4v4h-4zM68 48h4v4h-4zM80 48h4v4h-4zM36 52h4v4h-4zM40 52h4v4h-4zM44 52h4v4h-4zM56 52h4v4h-4zM68 52h4v4h-4zM72 52h4v4h-4zM76 52h4v4h-4zM0 56h4v4h-4zM4 56h4v4h-4zM8 56h4v4h-4zM12 56h4v4h-4zM16 56h4v4h-4zM20 56h4v4h-4zM24 56h4v4h-4zM32 56h4v4h-4zM36 56h4v4h-4zM44 56h4v4h-4zM48 56h4v4h-4zM52 56h4v4h-4zM60 56h4v4h-4zM64 56h4v4h-4zM72 56h4v4h-4zM0 60h4v4h-4zM24 60h4v4h-4zM32 60h4v4h-4zM44 60h4v4h-4zM48 60h4v4h-4zM60 60h4v4h-4zM64 60h4v4h-4zM68 60h4v4h-4zM80 60h4v4h-4zM0 64h4v4h-4zM8 64h4v4h-4zM12 64h4v4h-4zM16 64h4v4h-4zM24 64h4v4h-4zM36 64h4v4h-4zM68 64h4v4h-4zM72 64h4v4h-4zM0 68h4v4h-4zM8 68h4v4h-4zM12 68h4v4h-4zM16 68h4v4h-4zM24 68h4v4h-4zM32 68h4v4h-4zM44 68h4v4h-4zM52 68h4v4h-4zM64 68h4v4h-4zM68 68h4v4h-4zM72 68h4v4h-4zM76 68h4v4h-4zM80 68h4v4h-4zM0 72h4v4h-4zM8 72h4v4h-4zM12 72h4v4h-4zM16 72h4v4h-4zM24 72h4v4h-4zM32 72h4v4h-4zM60 72h4v4h-4zM72 72h4v4h-4zM76 72h4v4h-4zM80 72h4v4h-4zM0 76h4v4h-4zM24 76h4v4h-4zM44 76h4v4h-4zM52 76h4v4h-4zM56 76h4v4h-4zM64 76h4v4h-4zM68 76h4v4h-4zM76 76h4v4h-4zM80 76h4v4h-4zM0 80h4v4h-4zM4 80h4v4h-4zM8 80h4v4h-4zM12 80h4v4h-4zM16 80h4v4h-4zM20 80h4v4h-4zM24 80h4v4h-4zM36 80h4v4h-4zM44 80h4v4h-4zM48 80h4v4h-4zM56 80h4v4h-4zM68 80h4v4h-4zM76 80h4v4h-4z" fill="#14302A"/></svg></g><text x="144" y="250" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff">Scan to chat</text><text x="144" y="268" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#fff">on WhatsApp</text><path d="M0 340 C70 322 140 350 300 328 V380 H0Z" fill="#8CC48F"/><text x="150" y="366" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#0D3D2A">A missed call means you agree to updates by call, SMS, WhatsApp.</text></svg></div>
       <h4 style="margin-top:12px">Farmer's phone after the call</h4>
       <div class="msg">Namaskar! Thank you for joining the mustard session...<small>SMS · 2 s after call</small></div>
       <p class="small muted" style="margin-top:8px">Estimated reach this event: 400 farmers</p>
     </div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 4</summary><ol>
     <li><span class="n">1</span><span><b>Territory versus real village.</b> Farmers often travel to a nearby meeting. Capture the event village now and confirm the farmer's own village later through IVR or WhatsApp.</span></li>
     <li><span class="n">2</span><span><b>Calls after the window.</b> Late calls attach to the most recent event for that number, flagged "late" so they are not counted as event-day leads.</span></li>
     <li><span class="n">3</span><span><b>Per-client configuration.</b> The same screen supports silent capture or instant messaging, depending on the client.</span></li>
     <li><span class="n">4</span><span><b>Consent at the source.</b> The wording shown at the meeting is stored with the event, so every lead inherits a consent record with a timestamp.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 03 CAPTURE ============ -->
 <section class="screen" id="capture">
-  <div class="tag">03 · Agent OS</div>
-  <h2>Live capture dashboard</h2>
-  <p class="lede">What the company sees while events are running: raw missed calls, unique farmers, duplicates and suspicious patterns.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M4 12h4l3-8 3 16 3-8h3"/></svg></div><div class="tag">03 · Agent OS</div><h2>Live capture dashboard</h2><p class="lede">What the company sees while events are running: raw missed calls, unique farmers, duplicates and suspicious patterns.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>agent-os / live</em></div>
   <div class="app">
     <div class="apphead"><h3>Today · Rabi 2026 mustard</h3><div class="btns"><span class="btn s">Territory: Maharashtra</span><span class="btn s">Agent: All</span><span class="btn s">Export</span></div></div>
@@ -861,7 +1077,7 @@ a.btn{text-decoration:none}
         <tr><td>11:41:40</td><td>99••• ••317</td><td>S. Patil</td><td>Mohol</td><td><span class="pill g">New</span></td></tr>
         <tr><td>11:41:22</td><td>+44 ••• ••91</td><td>V. More</td><td>Georai</td><td><span class="pill w">Invalid region</span></td></tr>
       </table></div></div>
-      <div class="box"><h4>By village (map)</h4><div class="ph" style="min-height:150px">Map of villages<br>with lead density</div>
+      <div class="box"><h4>By village (map)</h4><svg class="im map" viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="170" fill="#E4F0E6"/><path d="M-10 120 C60 90 100 140 170 110 S280 80 340 100 V180 H-10Z" fill="#CFE6CC"/><path d="M-10 30 C50 50 110 10 190 36 S290 20 340 40 V0 H-10Z" fill="#D6ECF3"/><path d="M0 90 C70 80 120 100 180 84 S270 70 320 76" stroke="#fff" stroke-width="7" fill="none"/><path d="M110 0 C120 50 100 100 130 170" stroke="#fff" stroke-width="5" fill="none"/><path d="M0 90 C70 80 120 100 180 84 S270 70 320 76" stroke="#E9D9A8" stroke-width="2" stroke-dasharray="6 5" fill="none"/><g><circle cx="90" cy="70" r="26" fill="#E5675A" opacity=".28"/><circle cx="90" cy="70" r="5" fill="#E5675A" stroke="#fff" stroke-width="2"/></g><g><circle cx="190" cy="100" r="20" fill="#F2A71B" opacity=".28"/><circle cx="190" cy="100" r="5" fill="#F2A71B" stroke="#fff" stroke-width="2"/></g><g><circle cx="250" cy="50" r="16" fill="#2F6A8F" opacity=".28"/><circle cx="250" cy="50" r="5" fill="#2F6A8F" stroke="#fff" stroke-width="2"/></g><g><circle cx="60" cy="120" r="12" fill="#1F9D63" opacity=".28"/><circle cx="60" cy="120" r="5" fill="#1F9D63" stroke="#fff" stroke-width="2"/></g><rect x="8" y="8" width="160" height="22" rx="11" fill="rgba(255,255,255,.92)"/><text x="18" y="23" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#14302A">Lead density by village</text></svg>
         <div class="bars" style="margin-top:8px">
           <div class="bar-row"><span>Mohol</span><div class="t"><i style="width:80%"></i></div><b>412</b></div>
           <div class="bar-row"><span>Pandharpur</span><div class="t"><i style="width:55%"></i></div><b>288</b></div>
@@ -872,18 +1088,16 @@ a.btn{text-decoration:none}
       <div class="rule"><b>If</b><span>agent adds more than 100 new numbers in an hour</span><b>Then</b><span>hold for review</span></div>
       <div class="rule"><b>If</b><span>number not Indian mobile format</span><b>Then</b><span>mark invalid</span></div></div></div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Raw versus unique.</b> Always show both. Clients decide which number they pay for or incentivize agents on.</span></li>
     <li><span class="n">2</span><span><b>Fraud signals.</b> Agent-inflated leads, prank callers and bulk patterns surface here before they distort reports.</span></li>
     <li><span class="n">3</span><span><b>Spike handling.</b> At the end of a meeting calls arrive in bursts. Telephony capacity and a queue for processing must handle several hundred calls in a minute.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 04 SOCIAL ============ -->
 <section class="screen" id="social">
-  <div class="tag">04 · Capture</div>
-  <h2>Social ads and other sources</h2>
-  <p class="lede">Meta lead ads and click-to-WhatsApp ads, plus web forms, IVR and call centre inbound, all land in the same hub with their source attached.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/></svg></div><div class="tag">04 · Capture</div><h2>Social ads and other sources</h2><p class="lede">Meta lead ads and click-to-WhatsApp ads, plus web forms, IVR and call centre inbound, all land in the same hub with their source attached.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / sources</em></div>
   <div class="app">
     <div class="g3">
@@ -907,18 +1121,16 @@ a.btn{text-decoration:none}
       <tr><td>11:31</td><td><span class="pill a">IVR inbound</span></td><td>Helpline</td><td>70••• ••260</td><td>Unknown</td><td><span class="pill w"><i class="mk" style="margin:0">2</i> Needs location</span></td></tr>
     </table></div></div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Cross-channel merge.</b> An ad lead that matches a farmer from a field event becomes a new touchpoint, not a new lead. Reports show first source and latest source.</span></li>
     <li><span class="n">2</span><span><b>Missing data.</b> Inbound sources often have only a phone number. Use progressive profiling to ask for crop and village later.</span></li>
     <li><span class="n">3</span><span><b>Ad quality.</b> Social leads can include fake or non-farmer numbers. A verification step (OTP or a simple WhatsApp question) can precede heavy outreach.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 05 IMPORT ============ -->
 <section class="screen" id="import">
-  <div class="tag">05 · Capture</div>
-  <h2>Data import and quality</h2>
-  <p class="lede">Bring in the company's existing farmer data (past customers, schemes, dealer lists) safely: clean it, match it to existing profiles, and mark how far it can be trusted and used.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg></div><div class="tag">05 · Capture</div><h2>Data import and quality</h2><p class="lede">Bring in the company's existing farmer data (past customers, schemes, dealer lists) safely: clean it, match it to existing profiles, and mark how far it can be trusted and used.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / import / farmers_scheme_2025.xlsx</em></div>
   <div class="app">
     <div class="steps"><span class="done">1 Upload</span><span class="done">2 Map columns</span><span class="on">3 Validate and match</span><span>4 Consent and trust</span><span>5 Import</span></div>
@@ -945,21 +1157,19 @@ a.btn{text-decoration:none}
       <div class="field"><label>Trust level</label><div class="in sel">Unverified until farmer replies</div></div></div></div>
     <div class="btns"><span class="btn s">Back</span><span class="btn p">Continue to consent and trust</span></div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Matching.</b> Match on normalized phone first, then fuzzy name plus village for numbers that changed. Never auto-merge on name alone.</span></li>
     <li><span class="n">2</span><span><b>Conflict rules.</b> Every field stores source and date, so newer or self-declared values can win automatically.</span></li>
     <li><span class="n">3</span><span><b>Consent on old lists.</b> Data collected for one purpose may not allow promotions. Each file records allowed use, and campaigns filter on it. Check current legal requirements with your counsel.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 06 FARMER 360 ============ -->
 <section class="screen" id="farmer">
-  <div class="tag">06 · Relationship Hub</div>
-  <h2>Farmer 360 profile</h2>
-  <p class="lede">The single record for a farmer across every channel, season and purchase. Used by agents, call centre and automated campaigns.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></div><div class="tag">06 · Relationship Hub</div><h2>Farmer 360 profile</h2><p class="lede">The single record for a farmer across every channel, season and purchase.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / farmers / F-0048213</em></div>
   <div class="app">
-    <div class="apphead"><div><h3>Ramesh Kale <span class="pill g">WhatsApp opted-in</span> <span class="pill g">Voice OK</span> <span class="pill a">Mustard · Rabi 26</span></h3>
+    <div class="apphead"><div><h3 class="named"><svg class="av" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="32" fill="#D6ECF3"/><circle cx="32" cy="26" r="11" fill="#E8B58A"/><path d="M18 22 Q32 6 46 22 L48 24 H16Z" fill="#F2A71B"/><rect x="14" y="22" width="36" height="4" rx="2" fill="#D98E0C"/><path d="M10 64 C12 46 22 40 32 40 S52 46 54 64Z" fill="#2F6A8F"/></svg>Ramesh Kale <span class="pill g">WhatsApp opted-in</span> <span class="pill g">Voice OK</span> <span class="pill a">Mustard · Rabi 26</span></h3>
       <span class="muted small">+91 98••• ••210 · Mohol, Solapur, Maharashtra 413213 · Marathi · first seen 3 Nov via field event</span></div>
       <div class="btns"><span class="btn s">Call</span><span class="btn s">Send WhatsApp</span><span class="btn s"><i class="mk" style="margin:0 4px 0 0">1</i>Merge or split</span></div></div>
     <div data-tabs>
@@ -1002,18 +1212,16 @@ a.btn{text-decoration:none}
         <div class="btns"><span class="btn s">Record opt-out</span><span class="btn s">Export data</span><span class="btn s">Delete on request</span></div></div></div>
     </div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Merge and split.</b> Two numbers for one farmer should merge, and one shared number should split into people. Both actions are logged and reversible.</span></li>
     <li><span class="n">2</span><span><b>Field-level trust.</b> Self-declared, inferred and verified values are shown differently, so users know how much to rely on each.</span></li>
     <li><span class="n">3</span><span><b>Person under the number.</b> Families share phones. Advice about onions should not reach a mustard grower as if it were his.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 07 SEGMENTS ============ -->
 <section class="screen" id="segments">
-  <div class="tag">07 · Relationship Hub</div>
-  <h2>Segments and audiences</h2>
-  <p class="lede">Build audiences from any attribute. The count shows who exists, who has consent, and who is reachable on each channel.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></div><div class="tag">07 · Relationship Hub</div><h2>Segments and audiences</h2><p class="lede">Build audiences from any attribute.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / segments / new</em></div>
   <div class="app"><div class="g21">
     <div class="box"><h4>Filters</h4>
@@ -1033,17 +1241,15 @@ a.btn{text-decoration:none}
       <div class="bar-row"><span>Voice reachable</span><div class="t"><i style="width:70%"></i></div><b>5,890</b></div></div>
       <div class="btns" style="margin-top:12px"><span class="btn p">Use in campaign</span><span class="btn s">Save</span></div></div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 2</summary><ol>
     <li><span class="n">1</span><span><b>Reachable, not just total.</b> A big list can hide a small reachable audience. The funnel shows consent, DND, opt-outs and channel eligibility before anyone sends.</span></li>
     <li><span class="n">2</span><span><b>Cross-company overlap.</b> If the platform serves several companies, each sees only its own farmers. Frequency caps are applied per company unless the platform decides otherwise.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 08 CAMPAIGNS ============ -->
 <section class="screen" id="campaigns">
-  <div class="tag">08 · Engagement</div>
-  <h2>Campaign builder</h2>
-  <p class="lede">One campaign, several channels in sequence, with rules that stop over-contacting. The system tries cheaper channels first and escalates only when needed.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M4 13V9l12-5v16L4 15z"/><path d="M8 15l1 5h3"/></svg></div><div class="tag">08 · Engagement</div><h2>Campaign builder</h2><p class="lede">One campaign, several channels in sequence, with rules that stop over-contacting.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / campaigns / Mustard nutrient offer</em></div>
   <div class="app">
     <div class="steps"><span class="done">1 Goal</span><span class="done">2 Audience</span><span class="on">3 Channels</span><span>4 Content</span><span>5 Rules</span><span>6 Review</span></div>
@@ -1064,18 +1270,16 @@ a.btn{text-decoration:none}
     </div>
     <div class="btns"><span class="btn s">Back</span><span class="btn p">Next: content</span><span class="btn s">A/B test this step</span></div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Fallback logic.</b> Not every farmer uses WhatsApp, and many do not read promotional messages. Voice and call centre catch the rest, in order of cost.</span></li>
     <li><span class="n">2</span><span><b>Global limits.</b> Quiet hours, frequency caps and opt-outs apply across campaigns, not just inside one.</span></li>
     <li><span class="n">3</span><span><b>Cost shown before sending.</b> WhatsApp templates and voice minutes cost money, so the estimate appears before launch. Figures here are examples.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 09 INTENT ============ -->
 <section class="screen" id="intent">
-  <div class="tag">09 · Engagement</div>
-  <h2>Season intent survey</h2>
-  <p class="lede">Ask farmers what they plan to grow and buy this season, over AI voice or WhatsApp. Answers update the profile and feed market-share views.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M5 4h14v12H9l-4 4z"/><path d="M9 9h6M9 12h4"/></svg></div><div class="tag">09 · Engagement</div><h2>Season intent survey</h2><p class="lede">Ask farmers what they plan to grow and buy this season, over AI voice or WhatsApp.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / surveys / Rabi 2026 intent</em></div>
   <div class="app"><div class="g2">
     <div class="box"><h4>Question flow (same for voice and WhatsApp)</h4>
@@ -1098,26 +1302,24 @@ a.btn{text-decoration:none}
       <div class="msg">Namaskar, this is [Company]'s farming helper. Which crop are you planning this season?</div>
       <div class="msg me">Mustard. Sowing next week. <small>Heard: mustard, planning · confidence 94%</small></div></div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Self-reported brand.</b> Farmers may not remember or may name the shop's brand. Treat as medium trust until a retailer sale confirms it.</span></li>
     <li><span class="n">2</span><span><b>Voice reliability.</b> Dialects, noise and "call me later" need handling. Low-confidence answers repeat the question or go to a human instead of writing bad data.</span></li>
     <li><span class="n">3</span><span><b>Market view.</b> Aggregated answers show acreage intent and competitor share by district before the season peaks. This is data many companies rarely get.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 10 CHATBOT ============ -->
 <section class="screen" id="chatbot">
-  <div class="tag">10 · Engagement</div>
-  <h2>WhatsApp AI chatbot</h2>
-  <p class="lede">Farmers send a leaf photo, a voice note or a question. The bot gives advice, recommends products when relevant, and hands off to an agronomist when unsure.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="4"/><path d="M12 3v4M9 13h.01M15 13h.01"/></svg></div><div class="tag">10 · Engagement</div><h2>WhatsApp AI chatbot</h2><p class="lede">Farmers send a leaf photo, a voice note or a question.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / chatbot</em></div>
   <div class="app"><div class="g12">
     <div class="phone"><div class="scr">
       <div class="ph-h">Company Krishi Mitra · WhatsApp</div>
-      <div class="msg me">[photo of mustard leaf with white patches]<small>11:02</small></div>
-      <div class="msg me">🎤 Voice note, 8 s · "My leaves have white powder"<small>11:02 · transcribed: Marathi</small></div>
+      <div class="msg me media"><svg class="im" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7DB86A"/><stop offset="1" stop-color="#3E8650"/></linearGradient></defs><rect width="220" height="150" fill="#9CC98A"/><circle cx="190" cy="20" r="24" fill="#F7D66A" opacity=".55"/><path d="M-10 150 C40 110 90 120 130 100 S210 90 240 110 V150Z" fill="#5E9C5A"/><path d="M40 128 C30 70 90 22 176 30 C178 92 128 140 40 128Z" fill="url(#lg1)"/><path d="M44 124 C80 92 120 62 170 34" stroke="#D9EDC9" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M82 98 L98 72M106 80 L134 76M118 66 L136 46" stroke="#C6E3B3" stroke-width="1.8" fill="none"/><g fill="#F6F7F2" opacity=".92"><circle cx="92" cy="86" r="9"/><circle cx="112" cy="94" r="6"/><circle cx="128" cy="70" r="10"/><circle cx="104" cy="66" r="6"/><circle cx="144" cy="56" r="7"/><circle cx="70" cy="104" r="5"/><circle cx="150" cy="82" r="5"/><circle cx="120" cy="54" r="4"/></g><rect x="8" y="8" width="64" height="20" rx="10" fill="rgba(20,48,42,.7)"/><text x="40" y="22" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#fff">Mustard leaf</text></svg><small>11:02 · photo</small></div>
+      <div class="msg me"><span class="vn"><svg viewBox="0 0 24 24" width="30" height="30"><circle cx="12" cy="12" r="12" fill="#1F9D63"/><path d="M9 7.5v9l7.5-4.5z" fill="#fff"/></svg><svg viewBox="0 0 160 32" width="160" height="32" fill="#1F9D63"><rect x="34" y="13" width="3" height="6" rx="1.5"/><rect x="40" y="9" width="3" height="14" rx="1.5"/><rect x="46" y="11" width="3" height="9" rx="1.5"/><rect x="52" y="6" width="3" height="20" rx="1.5"/><rect x="58" y="10" width="3" height="12" rx="1.5"/><rect x="64" y="4" width="3" height="24" rx="1.5"/><rect x="70" y="12" width="3" height="8" rx="1.5"/><rect x="76" y="7" width="3" height="18" rx="1.5"/><rect x="82" y="3" width="3" height="26" rx="1.5"/><rect x="88" y="11" width="3" height="10" rx="1.5"/><rect x="94" y="8" width="3" height="16" rx="1.5"/><rect x="100" y="12" width="3" height="7" rx="1.5"/><rect x="106" y="5" width="3" height="22" rx="1.5"/><rect x="112" y="10" width="3" height="12" rx="1.5"/><rect x="118" y="7" width="3" height="18" rx="1.5"/><rect x="124" y="11" width="3" height="9" rx="1.5"/><rect x="130" y="9" width="3" height="14" rx="1.5"/><rect x="136" y="13" width="3" height="6" rx="1.5"/><rect x="142" y="10" width="3" height="11" rx="1.5"/><rect x="148" y="13" width="3" height="5" rx="1.5"/></svg><b>0:08</b></span><span class="tr">"My leaves have white powder"</span><small>11:02 · transcribed: Marathi</small></div>
       <div class="msg"><i class="mk">1</i>Looks like powdery mildew (confidence 82%). Spray at the first signs, in the evening. Avoid overhead irrigation.<small>Source: approved package of practices</small></div>
-      <div class="msg">Products that match this problem near Mohol:<div class="btnrow" style="margin-top:5px"><span>Fungicide A</span><span>Where to buy</span><span>Talk to expert</span></div></div>
+      <div class="msg">Products that match this problem near Mohol:<div class="prod"><svg class="im bottle" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="2" width="16" height="10" rx="2" fill="#14302A"/><path d="M20 12h20l6 14v54a6 6 0 01-6 6H20a6 6 0 01-6-6V26z" fill="#2F6A8F"/><rect x="16" y="36" width="28" height="30" rx="3" fill="#fff"/><text x="30" y="49" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" font-weight="700" fill="#14302A">FUNGI-</text><text x="30" y="57" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" font-weight="700" fill="#14302A">CIDE A</text><rect x="21" y="60" width="18" height="3" rx="1.5" fill="#1F9D63"/></svg><span><b>Fungicide A</b><em>250 ml · ₹420</em></span></div><div class="btnrow" style="margin-top:5px"><span>Fungicide A</span><span>Where to buy</span><span>Talk to expert</span></div></div>
       <div class="msg me">Where to buy<small>11:03</small></div>
     </div></div>
     <div style="display:grid;gap:12px">
@@ -1137,22 +1339,20 @@ a.btn{text-decoration:none}
         <tr><th>Farmer</th><th>Issue</th><th>Bot confidence</th><th>Waiting</th><th>Action</th></tr>
         <tr><td>Sunita Kale</td><td>Onion leaf spots</td><td><span class="pill w">58%</span></td><td>12 min</td><td><span class="btn s">Reply</span></td></tr>
         <tr><td>Ganesh Bhosale</td><td>Wheat yellowing</td><td><span class="pill w">64%</span></td><td>31 min</td><td><span class="btn s">Reply</span></td></tr></table></div></div>
-      <div class="box"><h4><i class="mk">4</i>Problem clusters this week</h4><div class="ph" style="min-height:70px">Map of Solapur district: 41 powdery mildew reports near Mohol (up 3×)</div></div>
+      <div class="box"><h4><i class="mk">4</i>Problem clusters this week</h4><svg class="im map" viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg"><rect width="320" height="170" fill="#E4F0E6"/><path d="M-10 120 C60 90 100 140 170 110 S280 80 340 100 V180 H-10Z" fill="#CFE6CC"/><path d="M-10 30 C50 50 110 10 190 36 S290 20 340 40 V0 H-10Z" fill="#D6ECF3"/><path d="M0 90 C70 80 120 100 180 84 S270 70 320 76" stroke="#fff" stroke-width="7" fill="none"/><path d="M110 0 C120 50 100 100 130 170" stroke="#fff" stroke-width="5" fill="none"/><path d="M0 90 C70 80 120 100 180 84 S270 70 320 76" stroke="#E9D9A8" stroke-width="2" stroke-dasharray="6 5" fill="none"/><g><circle cx="120" cy="80" r="34" fill="#E5675A" opacity=".28"/><circle cx="120" cy="80" r="5" fill="#E5675A" stroke="#fff" stroke-width="2"/></g><g><circle cx="200" cy="110" r="14" fill="#F2A71B" opacity=".28"/><circle cx="200" cy="110" r="5" fill="#F2A71B" stroke="#fff" stroke-width="2"/></g><g><circle cx="240" cy="50" r="10" fill="#F2A71B" opacity=".28"/><circle cx="240" cy="50" r="5" fill="#F2A71B" stroke="#fff" stroke-width="2"/></g><g><circle cx="60" cy="60" r="10" fill="#1F9D63" opacity=".28"/><circle cx="60" cy="60" r="5" fill="#1F9D63" stroke="#fff" stroke-width="2"/></g><rect x="8" y="8" width="232" height="22" rx="11" fill="rgba(255,255,255,.92)"/><text x="18" y="23" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#14302A">41 mildew reports near Mohol, up 3x</text></svg></div>
     </div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 4</summary><ol>
     <li><span class="n">1</span><span><b>Show confidence and source.</b> Advice comes from approved material, not free-form guesses.</span></li>
     <li><span class="n">2</span><span><b>Safe limits.</b> Dosage, banned products and anything risky go to a human. Wrong advice has real cost to the farmer's crop and the company's reputation.</span></li>
     <li><span class="n">3</span><span><b>Advisory first, sales second.</b> If every answer ends in a product push, farmers stop trusting the bot.</span></li>
     <li><span class="n">4</span><span><b>Data value.</b> Questions and photos reveal outbreaks early. They also update the profile (crop, problem, stage) for later campaigns.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 11 JOURNEY ============ -->
 <section class="screen" id="journey">
-  <div class="tag">11 · Engagement</div>
-  <h2>Purchase-triggered journey</h2>
-  <p class="lede">A recorded sale starts a timed set of follow-ups based on the crop calendar: confirm sowing, then nutrition, pest watch, harvest advice, and next season.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c0-4 3-6 7-6 0 4-3 6-7 6zM12 16c0-3-2-5-6-5 0 3 2 5 6 5z"/></svg></div><div class="tag">11 · Engagement</div><h2>Purchase-triggered journey</h2><p class="lede">A recorded sale starts a timed set of follow-ups based on the crop calendar: confirm sowing, then nutrition, pest watch, harvest advice, and next season.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / journeys / Mustard seed buyer</em></div>
   <div class="app"><div class="g21">
     <div class="box">
@@ -1178,24 +1378,22 @@ a.btn{text-decoration:none}
         <div class="bar-row"><span>Bought nutrient</span><div class="t"><i style="width:19%"></i></div><b>19%</b></div></div></div>
     </div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Purchase date is not sowing date.</b> Ask the farmer and schedule from the answer. Mark estimates clearly.</span></li>
     <li><span class="n">2</span><span><b>Close the loop.</b> Outcome questions let the company link products to results by region and season.</span></li>
     <li><span class="n">3</span><span><b>Reversals.</b> A returned or wrongly entered sale must stop or undo the journey and any cashback.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 12 RETAILER ============ -->
 <section class="screen" id="retailer">
-  <div class="tag">12 · Distribution</div>
-  <h2>Retailer sale capture</h2>
-  <p class="lede">The retailer records each sale in a few seconds. This is what verifies the farmer's purchase and starts the follow-up journey. Shown here as a phone view with a few input options.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M10 20v-6h4v6"/></svg></div><div class="tag">12 · Distribution</div><h2>Retailer sale capture</h2><p class="lede">The retailer records each sale in a few seconds.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>retailer app / record sale</em></div>
   <div class="app"><div class="g3">
     <div class="phone"><div class="scr">
       <div class="ph-h">Patil Agro, Mohol · Record sale</div>
-      <div class="ph" style="min-height:70px"><i class="mk">1</i>Scan QR on seed bag</div>
-      <div class="field" style="margin:0"><label>Product (auto-filled)</label><div class="in">Hybrid mustard seed 2 kg · batch M26-114</div></div>
+      <div class="scanwrap"><i class="mk">1</i><div class="scanbox"><svg viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="120" rx="12" fill="#1c2923"/><g transform="translate(70 12)"><rect width="80" height="96" rx="8" fill="#F2A71B"/><rect x="12" y="10" width="56" height="20" rx="4" fill="#fff"/><g transform="translate(18 40)"><svg width="44" height="44"><rect width="42" height="42" rx="4" fill="#fff"/><path d="M0 0h2v2h-2zM2 0h2v2h-2zM4 0h2v2h-2zM6 0h2v2h-2zM8 0h2v2h-2zM10 0h2v2h-2zM12 0h2v2h-2zM22 0h2v2h-2zM24 0h2v2h-2zM28 0h2v2h-2zM30 0h2v2h-2zM32 0h2v2h-2zM34 0h2v2h-2zM36 0h2v2h-2zM38 0h2v2h-2zM40 0h2v2h-2zM0 2h2v2h-2zM12 2h2v2h-2zM16 2h2v2h-2zM22 2h2v2h-2zM28 2h2v2h-2zM40 2h2v2h-2zM0 4h2v2h-2zM4 4h2v2h-2zM6 4h2v2h-2zM8 4h2v2h-2zM12 4h2v2h-2zM16 4h2v2h-2zM18 4h2v2h-2zM24 4h2v2h-2zM28 4h2v2h-2zM32 4h2v2h-2zM34 4h2v2h-2zM36 4h2v2h-2zM40 4h2v2h-2zM0 6h2v2h-2zM4 6h2v2h-2zM6 6h2v2h-2zM8 6h2v2h-2zM12 6h2v2h-2zM22 6h2v2h-2zM24 6h2v2h-2zM28 6h2v2h-2zM32 6h2v2h-2zM34 6h2v2h-2zM36 6h2v2h-2zM40 6h2v2h-2zM0 8h2v2h-2zM4 8h2v2h-2zM6 8h2v2h-2zM8 8h2v2h-2zM12 8h2v2h-2zM16 8h2v2h-2zM18 8h2v2h-2zM20 8h2v2h-2zM22 8h2v2h-2zM28 8h2v2h-2zM32 8h2v2h-2zM34 8h2v2h-2zM36 8h2v2h-2zM40 8h2v2h-2zM0 10h2v2h-2zM12 10h2v2h-2zM16 10h2v2h-2zM28 10h2v2h-2zM40 10h2v2h-2zM0 12h2v2h-2zM2 12h2v2h-2zM4 12h2v2h-2zM6 12h2v2h-2zM8 12h2v2h-2zM10 12h2v2h-2zM12 12h2v2h-2zM16 12h2v2h-2zM28 12h2v2h-2zM30 12h2v2h-2zM32 12h2v2h-2zM34 12h2v2h-2zM36 12h2v2h-2zM38 12h2v2h-2zM40 12h2v2h-2zM18 14h2v2h-2zM0 16h2v2h-2zM8 16h2v2h-2zM24 16h2v2h-2zM30 16h2v2h-2zM38 16h2v2h-2zM4 18h2v2h-2zM14 18h2v2h-2zM16 18h2v2h-2zM18 18h2v2h-2zM22 18h2v2h-2zM28 18h2v2h-2zM30 18h2v2h-2zM32 18h2v2h-2zM34 18h2v2h-2zM36 18h2v2h-2zM38 18h2v2h-2zM40 18h2v2h-2zM0 20h2v2h-2zM2 20h2v2h-2zM4 20h2v2h-2zM6 20h2v2h-2zM12 20h2v2h-2zM16 20h2v2h-2zM18 20h2v2h-2zM20 20h2v2h-2zM22 20h2v2h-2zM24 20h2v2h-2zM28 20h2v2h-2zM30 20h2v2h-2zM34 20h2v2h-2zM38 20h2v2h-2zM4 22h2v2h-2zM10 22h2v2h-2zM12 22h2v2h-2zM24 22h2v2h-2zM28 22h2v2h-2zM30 22h2v2h-2zM36 22h2v2h-2zM0 24h2v2h-2zM2 24h2v2h-2zM4 24h2v2h-2zM6 24h2v2h-2zM10 24h2v2h-2zM18 24h2v2h-2zM24 24h2v2h-2zM26 24h2v2h-2zM32 24h2v2h-2zM34 24h2v2h-2zM36 24h2v2h-2zM40 24h2v2h-2zM16 26h2v2h-2zM18 26h2v2h-2zM20 26h2v2h-2zM24 26h2v2h-2zM28 26h2v2h-2zM36 26h2v2h-2zM40 26h2v2h-2zM0 28h2v2h-2zM2 28h2v2h-2zM4 28h2v2h-2zM6 28h2v2h-2zM8 28h2v2h-2zM10 28h2v2h-2zM12 28h2v2h-2zM16 28h2v2h-2zM18 28h2v2h-2zM20 28h2v2h-2zM28 28h2v2h-2zM32 28h2v2h-2zM0 30h2v2h-2zM12 30h2v2h-2zM20 30h2v2h-2zM22 30h2v2h-2zM28 30h2v2h-2zM30 30h2v2h-2zM36 30h2v2h-2zM38 30h2v2h-2zM0 32h2v2h-2zM4 32h2v2h-2zM6 32h2v2h-2zM8 32h2v2h-2zM12 32h2v2h-2zM22 32h2v2h-2zM26 32h2v2h-2zM34 32h2v2h-2zM36 32h2v2h-2zM40 32h2v2h-2zM0 34h2v2h-2zM4 34h2v2h-2zM6 34h2v2h-2zM8 34h2v2h-2zM12 34h2v2h-2zM16 34h2v2h-2zM24 34h2v2h-2zM26 34h2v2h-2zM28 34h2v2h-2zM36 34h2v2h-2zM38 34h2v2h-2zM0 36h2v2h-2zM4 36h2v2h-2zM6 36h2v2h-2zM8 36h2v2h-2zM12 36h2v2h-2zM16 36h2v2h-2zM22 36h2v2h-2zM24 36h2v2h-2zM26 36h2v2h-2zM30 36h2v2h-2zM36 36h2v2h-2zM40 36h2v2h-2zM0 38h2v2h-2zM12 38h2v2h-2zM18 38h2v2h-2zM20 38h2v2h-2zM26 38h2v2h-2zM28 38h2v2h-2zM36 38h2v2h-2zM40 38h2v2h-2zM0 40h2v2h-2zM2 40h2v2h-2zM4 40h2v2h-2zM6 40h2v2h-2zM8 40h2v2h-2zM10 40h2v2h-2zM12 40h2v2h-2zM18 40h2v2h-2zM30 40h2v2h-2zM32 40h2v2h-2zM34 40h2v2h-2zM36 40h2v2h-2zM38 40h2v2h-2z" fill="#14302A"/></svg></g></g><g fill="none" stroke="#5AD39A" stroke-width="3" stroke-linecap="round"><path d="M52 30V18h12M168 18h12v12M52 90v12h12M168 102h12V90"/></g><rect class="scanline" x="56" y="58" width="108" height="2.5" rx="1" fill="#5AD39A"/></svg></div><div class="scanhint">Point at the QR on the seed bag</div></div>
+      <div class="field" style="margin:0"><label>Product (auto-filled)</label><div class="in"><span class="prodrow"><svg class="im bag sm" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg"><path d="M22 20 L98 20 L108 44 L108 140 Q60 150 12 140 L12 44Z" fill="#F2A71B"/><path d="M22 20 L98 20 L102 30 L18 30Z" fill="#D98E0C"/><rect x="22" y="50" width="76" height="32" rx="6" fill="#fff"/><text x="60" y="64" text-anchor="middle" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="11" font-weight="700" fill="#0D6B44">HYBRID</text><text x="60" y="77" text-anchor="middle" font-family="Bricolage Grotesque,Inter,sans-serif" font-size="11" font-weight="700" fill="#0D6B44">MUSTARD</text><g transform="translate(40 90)"><rect width="40" height="40" rx="4" fill="#fff"/><g transform="translate(2 2) scale(.88)"><svg width="40" height="40" viewBox="0 0 33 33" xmlns="http://www.w3.org/2000/svg"><rect width="33" height="33" rx="4" fill="#fff"/><path d="M0 0h1v1h-1zM1 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM19 0h1v1h-1zM22 0h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM27 0h1v1h-1zM28 0h1v1h-1zM30 0h1v1h-1zM32 0h1v1h-1zM0 1h1v1h-1zM9 1h1v1h-1zM22 1h1v1h-1zM32 1h1v1h-1zM0 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM14 3h1v1h-1zM17 3h1v1h-1zM22 3h1v1h-1zM25 3h1v1h-1zM27 3h1v1h-1zM28 3h1v1h-1zM32 3h1v1h-1zM0 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM17 4h1v1h-1zM22 4h1v1h-1zM25 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM32 4h1v1h-1zM0 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM9 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM22 6h1v1h-1zM25 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM32 6h1v1h-1zM0 8h1v1h-1zM9 8h1v1h-1zM14 8h1v1h-1zM22 8h1v1h-1zM32 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM6 9h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM14 9h1v1h-1zM17 9h1v1h-1zM19 9h1v1h-1zM22 9h1v1h-1zM24 9h1v1h-1zM25 9h1v1h-1zM27 9h1v1h-1zM28 9h1v1h-1zM30 9h1v1h-1zM32 9h1v1h-1zM17 11h1v1h-1zM6 12h1v1h-1zM12 12h1v1h-1zM20 12h1v1h-1zM25 12h1v1h-1zM0 14h1v1h-1zM4 14h1v1h-1zM8 14h1v1h-1zM11 14h1v1h-1zM16 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM27 14h1v1h-1zM30 14h1v1h-1zM32 14h1v1h-1zM3 16h1v1h-1zM6 16h1v1h-1zM9 16h1v1h-1zM11 16h1v1h-1zM17 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM32 16h1v1h-1zM0 17h1v1h-1zM1 17h1v1h-1zM3 17h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM11 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM22 17h1v1h-1zM27 17h1v1h-1zM30 17h1v1h-1zM32 17h1v1h-1zM0 19h1v1h-1zM1 19h1v1h-1zM4 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM11 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM24 19h1v1h-1zM25 19h1v1h-1zM27 19h1v1h-1zM30 19h1v1h-1zM32 19h1v1h-1zM12 20h1v1h-1zM17 20h1v1h-1zM19 20h1v1h-1zM24 20h1v1h-1zM32 20h1v1h-1zM0 22h1v1h-1zM1 22h1v1h-1zM3 22h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM8 22h1v1h-1zM9 22h1v1h-1zM19 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM0 24h1v1h-1zM9 24h1v1h-1zM12 24h1v1h-1zM25 24h1v1h-1zM27 24h1v1h-1zM30 24h1v1h-1zM0 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM6 25h1v1h-1zM9 25h1v1h-1zM12 25h1v1h-1zM20 25h1v1h-1zM27 25h1v1h-1zM32 25h1v1h-1zM0 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM14 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM19 27h1v1h-1zM24 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM32 27h1v1h-1zM0 28h1v1h-1zM3 28h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM9 28h1v1h-1zM12 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM27 28h1v1h-1zM30 28h1v1h-1zM32 28h1v1h-1zM0 30h1v1h-1zM9 30h1v1h-1zM16 30h1v1h-1zM17 30h1v1h-1zM20 30h1v1h-1zM25 30h1v1h-1zM27 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM0 32h1v1h-1zM1 32h1v1h-1zM3 32h1v1h-1zM4 32h1v1h-1zM6 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM17 32h1v1h-1zM25 32h1v1h-1zM27 32h1v1h-1zM28 32h1v1h-1zM30 32h1v1h-1z" fill="#14302A"/></svg></g></g><text x="60" y="26" text-anchor="middle" font-size="7" fill="#7A4D00" font-family="Inter,sans-serif" font-weight="700">2 KG</text></svg><span>Hybrid mustard seed 2 kg<em>batch M26-114</em></span></span></div></div>
       <div class="field" style="margin:0"><label>Quantity</label><div class="in">1</div></div>
       <div class="field" style="margin:0"><label><i class="mk">2</i>Farmer mobile number</label><div class="in">98••• ••210</div></div>
       <div class="msg">OTP sent to farmer. Farmer confirms purchase and agrees to updates.<small>Farmer enters or replies "YES"</small></div>
@@ -1215,19 +1413,17 @@ a.btn{text-decoration:none}
       <div class="bar-row"><span>Farmers added</span><div class="t"><i style="width:52%"></i></div><b>26</b></div></div>
       <p class="small muted" style="margin-top:10px">Also shows: scheme details, farmers likely to visit (from campaigns), stock to reorder.</p></div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 4</summary><ol>
     <li><span class="n">1</span><span><b>Bag-level QR</b> is the best way to know exactly what was sold and which batch. It needs packaging changes, so it may start with selected products.</span></li>
     <li><span class="n">2</span><span><b>Farmer confirmation by OTP</b> verifies the number and gives consent at the counter, and stops retailers entering fake sales.</span></li>
     <li><span class="n">3</span><span><b>Hard cases</b> are common in practice, so corrections are built in, with a log.</span></li>
     <li><span class="n">4</span><span><b>Why retailers do this:</b> points or cashback and visible benefits. Without them, capture will be patchy.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 13 CHAIN ============ -->
 <section class="screen" id="chain">
-  <div class="tag">13 · Distribution</div>
-  <h2>Company to farmer chain</h2>
-  <p class="lede">Primary, secondary and tertiary sales in one view, so the company sees what actually reached farmers, not only what was shipped to dealers.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="5" height="6" rx="1.5"/><rect x="16" y="9" width="5" height="6" rx="1.5"/><path d="M8 12h8"/></svg></div><div class="tag">13 · Distribution</div><h2>Company to farmer chain</h2><p class="lede">Primary, secondary and tertiary sales in one view, so the company sees what actually reached farmers, not only what was shipped to dealers.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / distribution / chain</em></div>
   <div class="app">
     <div class="flowrow">
@@ -1249,24 +1445,22 @@ a.btn{text-decoration:none}
         <p class="small muted"><i class="mk">3</i>Used for recalls and counterfeit checks</p></div>
     </div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Different capture per level.</b> Company to dealer can sync from ERP. Dealer to retailer often needs invoice upload or billing integration. Retailer to farmer uses the QR flow.</span></li>
     <li><span class="n">2</span><span><b>Reverse flow.</b> Returns, damaged goods and expiry must adjust stock, sales and cashback.</span></li>
     <li><span class="n">3</span><span><b>Depth is a choice.</b> Sales-only is lighter. Batch tracing across all levels is heavier and costs more to run in the field.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 14 LOCATOR ============ -->
 <section class="screen" id="locator">
-  <div class="tag">14 · Distribution</div>
-  <h2>Stock and where to buy</h2>
-  <p class="lede">A farmer in Solapur is shown nearby shops that have the product and the current offer. Retailers and dealers keep stock levels fresh.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div class="tag">14 · Distribution</div><h2>Stock and where to buy</h2><p class="lede">A farmer in Solapur is shown nearby shops that have the product and the current offer.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>farmer view (WhatsApp) + admin stock view</em></div>
   <div class="app"><div class="g2">
     <div class="phone"><div class="scr">
       <div class="ph-h">Krishi Mitra</div>
       <div class="msg me">Where can I buy Fungicide A? Pin 413213<small>11:03</small></div>
-      <div class="msg">Nearest shops with stock:<br><b>1. Patil Agro, Mohol</b> · 2 km · <span class="pill g">In stock</span> · 10% off this week<br><b>2. Kale Seeds, Mohol Rd</b> · 5 km · <span class="pill w">Low stock</span><br><b>3. Shree Agro, Pandharpur</b> · 31 km<small><i class="mk">1</i>Stock updated 2 h ago</small></div>
+      <div class="msg media"><svg class="im shop" viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="110" fill="#D6ECF3"/><rect y="88" width="220" height="22" fill="#B9DDB0"/><rect x="30" y="34" width="160" height="56" fill="#fff"/><path d="M24 34 L34 14 H186 L196 34Z" fill="#E0674F"/><path d="M34 34 l6 -20 M62 34 l-2 -20 M90 34 l-6 -20 M118 34 l-2 -20 M146 34 l2 -20 M174 34 l-4 -20" stroke="#fff" stroke-width="4"/><rect x="48" y="50" width="42" height="40" fill="#D6ECF3"/><rect x="100" y="46" width="58" height="44" rx="3" fill="#14302A"/><text x="129" y="73" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#fff">PATIL AGRO</text><rect x="166" y="54" width="14" height="36" fill="#F2A71B"/><rect x="40" y="82" width="20" height="8" fill="#F2A71B"/></svg></div><div class="msg">Nearest shops with stock:<br><b>1. Patil Agro, Mohol</b> · 2 km · <span class="pill g">In stock</span> · 10% off this week<br><b>2. Kale Seeds, Mohol Rd</b> · 5 km · <span class="pill w">Low stock</span><br><b>3. Shree Agro, Pandharpur</b> · 31 km<small><i class="mk">1</i>Stock updated 2 h ago</small></div>
       <div class="btnrow"><span>Call shop</span><span>Directions</span><span>Show offer code</span></div>
     </div></div>
     <div class="box"><h4>Retailer stock · Solapur district</h4><div class="tw"><table>
@@ -1277,18 +1471,16 @@ a.btn{text-decoration:none}
       <h4 style="margin-top:12px"><i class="mk">3</i>Ranking rules</h4>
       <p class="small">Distance · stock confirmed · scheme participation · service rating. Rules are visible to retailers.</p></div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Fresh or hidden.</b> Showing "in stock" for a shop that ran out damages trust fast. Show how old the data is, and consider checking with the shop before sending a farmer.</span></li>
     <li><span class="n">2</span><span><b>Stale stock.</b> After a set time, drop the stock claim and just show the shop as a seller.</span></li>
     <li><span class="n">3</span><span><b>Fairness.</b> Retailers will ask why they are ranked lower. Transparent rules avoid channel conflict.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 15 SCHEMES ============ -->
 <section class="screen" id="schemes">
-  <div class="tag">15 · Distribution</div>
-  <h2>Schemes and cashback</h2>
-  <p class="lede">Define who earns what, check each claim, and pay out. Applies to farmers, retailers and dealers.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M3 12l9-9h9v9l-9 9z"/><circle cx="16" cy="8" r="1.5"/></svg></div><div class="tag">15 · Distribution</div><h2>Schemes and cashback</h2><p class="lede">Define who earns what, check each claim, and pay out.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / schemes / Rabi mustard cashback</em></div>
   <div class="app"><div class="g2">
     <div class="box"><h4>Rule builder</h4>
@@ -1307,18 +1499,16 @@ a.btn{text-decoration:none}
       <tr><td>Shree Agro</td><td>60 sales in 1 h</td><td>₹1,200</td><td><span class="pill b"><i class="mk" style="margin:0">2</i> Volume spike</span></td><td><span class="btn s">Review</span></td></tr></table></div>
       <p class="small muted" style="margin-top:8px"><i class="mk">3</i>Payout rails: UPI, wallet, or credit note for retailers.</p></div>
   </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Duplicate claims.</b> Each QR pays out once. Same-device and same-number loops are flagged.</span></li>
     <li><span class="n">2</span><span><b>Self-dealing.</b> Retailers rewarded per sale may fake entries. Compare volumes against stock received and farmer confirmations.</span></li>
     <li><span class="n">3</span><span><b>Audit trail.</b> Every rule change, approval and payout is logged. Tax and payout compliance should be reviewed with the client's finance team.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 16 ANALYTICS ============ -->
 <section class="screen" id="analytics">
-  <div class="tag">16 · Insight</div>
-  <h2>Analytics and ROI</h2>
-  <p class="lede">From a missed call to a sale: which events, channels and agents bring farmers who actually buy.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div><div class="tag">16 · Insight</div><h2>Analytics and ROI</h2><p class="lede">From a missed call to a sale: which events, channels and agents bring farmers who actually buy.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / analytics / Rabi 2026</em></div>
   <div class="app">
     <div class="apphead"><h3>Season overview</h3><div class="btns"><span class="btn s">Season: Rabi 2026</span><span class="btn s">Region: Maharashtra</span><span class="btn s">Crop: All</span></div></div>
@@ -1355,18 +1545,16 @@ a.btn{text-decoration:none}
         <p class="small muted" style="margin-top:8px">Also: acreage intent map, competitor share, repeat buyers.</p></div>
     </div>
   </div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Cost per verified buyer</b> is the number clients will judge the product by. It needs purchase data from retailers to be real.</span></li>
     <li><span class="n">2</span><span><b>Channel comparison.</b> Use per-response cost, not only reach, so cheap but silent channels do not look better than they are.</span></li>
     <li><span class="n">3</span><span><b>Attribution rule.</b> When a farmer touches several agents or channels, decide whether credit goes to first touch, last touch or is split. Numbers in this wireframe are sample data only.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 17 ADMIN ============ -->
 <section class="screen" id="admin">
-  <div class="tag">17 · Control</div>
-  <h2>Admin and compliance</h2>
-  <p class="lede">Who can see what, how consent is stored, and how the platform connects to the client's other systems.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5L16 9.5"/></svg></div><div class="tag">17 · Control</div><h2>Admin and compliance</h2><p class="lede">Who can see what, how consent is stored, and how the platform connects to the client's other systems.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>hub / admin</em></div>
   <div class="app"><div data-tabs>
     <div class="tabs"><button class="on" data-tab="a1">Roles</button><button data-tab="a2">Consent and opt-outs</button><button data-tab="a3">Integrations</button><button data-tab="a4">Audit log</button></div>
@@ -1395,19 +1583,18 @@ a.btn{text-decoration:none}
       <div><b>Export of 4,710 farmers by admin R. Deshmukh</b><small>18 Nov 11:20 · segment "Mustard planners, Solapur"</small></div>
       <div><b>Scheme "Rabi mustard cashback" published</b><small>17 Nov 16:05 · admin A. Rao</small></div>
       <div><b>Farmers F-0048213 and F-0051109 merged</b><small>16 Nov 12:44 · call centre, reason "same person"</small></div></div></div></div>
-  </div></div></div>
-  <aside class="notes"><h3>Notes and edge cases</h3><ol>
+  </div></div>
+  </div>
+  <details class="notes"><summary>Notes and edge cases · 3</summary><ol>
     <li><span class="n">1</span><span><b>Data separation</b> between companies, and masked numbers for roles that do not need them, limit misuse.</span></li>
     <li><span class="n">2</span><span><b>Legal checks.</b> This wireframe lists likely areas (consent, do-not-disturb, WhatsApp policy, data protection law). Confirm exact requirements with counsel.</span></li>
     <li><span class="n">3</span><span><b>Resilience.</b> A telephony outage during a field event loses leads for good, so a backup route matters.</span></li>
-  </ol></aside>
+  </ol></details>
 </section>
 
 <!-- ============ 18 QUESTIONS ============ -->
 <section class="screen" id="questions">
-  <div class="tag">18 · Decisions</div>
-  <h2>Decisions to make</h2>
-  <p class="lede">Open questions that came out of the discussion. Each one changes what gets built or how.</p>
+  <header class="shead"><div class="emb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4M12 17h.01"/></svg></div><div class="tag">18 · Decisions</div><h2>Decisions to make</h2><p class="lede">Open questions that came out of the discussion.</p></header>
   <div class="frame"><div class="bar"><i></i><i></i><i></i><em>decisions</em></div>
   <div class="app"><div class="tw"><table>
     <tr><th>#</th><th>Question</th><th>Why it matters</th><th>Leaning</th></tr>
@@ -1422,13 +1609,14 @@ a.btn{text-decoration:none}
     <tr><td>9</td><td>How is stock kept fresh enough to show "in stock"?</td><td>Farmer trust</td><td>Show age of data, drop claim when stale</td></tr>
     <tr><td>10</td><td>Which metric proves success to a client: cost per verified buyer, repeat rate, or acreage share?</td><td>Pricing, reporting design</td><td>Cost per verified buyer</td></tr>
   </table></div></div></div>
-  <aside class="notes"><h3>Notes</h3><div class="q">Tell me which of these you have already decided, and which screens need more detail or different flows. I will update the wireframe.</div></aside>
+  <details class="notes"><summary>Notes</summary><div class="q">Tell me which of these you have already decided, and which screens need more detail or different flows. I will update the wireframe.</div></details>
 </section>
 
 
 <div class="pager" id="pager"></div>
 </main>
 </div>
+
 <script>
 (function(){
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1437,6 +1625,9 @@ a.btn{text-decoration:none}
   var links=[].slice.call(document.querySelectorAll('#nav a')).filter(function(a){return !a.hasAttribute('data-back')});
   var order=links.map(function(a){return a.getAttribute('href').slice(1)});
   var mS=document.getElementById('mStory'),mA=document.getElementById('mScreens');
+  var hs=document.getElementById('hs'),hsin=document.getElementById('hsin');
+  function fit(){var w=hs.clientWidth||1280;hsin.style.transform='scale('+(w/1280)+')'}
+  if(window.ResizeObserver){new ResizeObserver(fit).observe(hs)}else{window.addEventListener('resize',fit)}
   function route(){
     var id=(location.hash||'').slice(1),i=order.indexOf(id);
     if(i>=0){
@@ -1447,50 +1638,25 @@ a.btn{text-decoration:none}
       h+= i>0 ? '<a href="#'+order[i-1]+'">← '+links[i-1].textContent.replace(/^\d+/,'')+'</a>' : '<a href="#story">← Back to the story</a>';
       if(i<order.length-1) h+='<a href="#'+order[i+1]+'">'+links[i+1].textContent.replace(/^\d+/,'')+' →</a>';
       document.getElementById('pager').innerHTML=h;
-      mS.classList.remove('on');mA.classList.add('on');
+      mS.classList.remove('on');mA.classList.add('on');setTimeout(function(){window.scrollTo(0,0)},0);
       window.scrollTo(0,0);
     }else{
       var wasHidden=storyWrap.hidden;
-      storyWrap.hidden=false;screensWrap.hidden=true;
+      storyWrap.hidden=false;screensWrap.hidden=true;fit();
       mS.classList.add('on');mA.classList.remove('on');
       var el=id&&document.getElementById(id);
-      if(el&&storyWrap.contains(el)){ if(id==='story'){window.scrollTo(0,0)} else {el.scrollIntoView({behavior:(reduce||wasHidden)?'auto':'smooth',block:'start'})} }
-      else if(wasHidden||!id){window.scrollTo(0,0)}
+      if(el&&storyWrap.contains(el)&&id!=='story'){el.scrollIntoView({behavior:(reduce||wasHidden)?'auto':'smooth',block:'start'})}
+      else if(wasHidden||!id||id==='story'){window.scrollTo(0,0)}
     }
   }
   window.addEventListener('hashchange',route);
   route();
-
-  /* chapter rail + entrance animations */
-  var chaps=[].slice.call(document.querySelectorAll('.chap'));
-  var rail=[].slice.call(document.querySelectorAll('#rail a'));
-  function setActive(id){
-    var seen=true;
-    rail.forEach(function(a){
-      var me=a.getAttribute('data-ch')===id;
-      a.classList.toggle('on',me);
-      if(me) seen=false;
-      a.classList.toggle('done',seen&&!me);
-    });
-  }
+  var chaps=[].slice.call(document.querySelectorAll('.chap')),rail=[].slice.call(document.querySelectorAll('#rail a'));
+  function setActive(id){var seen=true;rail.forEach(function(a){var me=a.getAttribute('data-ch')===id;a.classList.toggle('on',me);if(me)seen=false;a.classList.toggle('done',seen&&!me)})}
   if('IntersectionObserver' in window){
-    var playIO=new IntersectionObserver(function(es){es.forEach(function(e){
-      if(e.isIntersecting&&!e.target.classList.contains('play')){e.target.classList.add('play');countUp(e.target)}
-    })},{threshold:0.25});
-    var actIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting) setActive(e.target.id)})},{rootMargin:'-40% 0px -50% 0px'});
-    chaps.forEach(function(c){playIO.observe(c);actIO.observe(c)});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setActive(e.target.id)})},{rootMargin:'-40% 0px -50% 0px'});
+    chaps.forEach(function(c){io.observe(c)});
   }
-  function countUp(root){
-    if(reduce) return;
-    [].forEach.call(root.querySelectorAll('.cnt'),function(n){
-      var to=+n.getAttribute('data-to'),t0=null;
-      function step(t){ if(!t0)t0=t; var p=Math.min(1,(t-t0)/900),v=Math.round(to*(1-Math.pow(1-p,3)));
-        n.textContent=v.toLocaleString('en-IN'); if(p<1)requestAnimationFrame(step); else n.textContent=to.toLocaleString('en-IN'); }
-      requestAnimationFrame(step);
-    });
-  }
-
-  /* tabs and chips inside screens */
   [].forEach.call(document.querySelectorAll('[data-tabs]'),function(w){
     var btns=[].slice.call(w.querySelectorAll('[data-tab]')),panes=[].slice.call(w.querySelectorAll('[data-pane]'));
     btns.forEach(function(b){b.addEventListener('click',function(){
@@ -1499,6 +1665,9 @@ a.btn{text-decoration:none}
     })});
   });
   [].forEach.call(document.querySelectorAll('.chips .chip'),function(c){c.addEventListener('click',function(){c.classList.toggle('on')})});
+  [].forEach.call(document.querySelectorAll('details.notes'),function(d){
+    d.addEventListener('toggle',function(){var s=d.closest('.screen');if(s)s.classList.toggle('shownotes',d.open)});
+  });
 })();
 </script>
 </body>
